@@ -17,6 +17,7 @@
     - SPD - how fast unit travels.(Local) || lowest units speed(World)  
     
     Utility
+    - AGE - how long they have lived (stats decrease after a certain age by % when % reaches 0 they die)
     - HUN - how hungry they are(stat decrease for every % below 30%).
     - MOOD - how comfortable they are(stat decrease) will breakdown at 0%! 
 
@@ -69,6 +70,12 @@
     - Summon Area
     - World Map Grid
     - Local Area Grid
+
+### Tech Tree
+  Rank E - Wood Structures(Wood walls/floors/chests/campfire)
+         - Cloth(Cloth Mat)
+         - Magic(Transmutation Circle)
+         - Ore(Refinery)
 
 ## Indepth Lists 
 
@@ -195,6 +202,43 @@
 
 ### Enemies 
 
+#### Meat Bearing enemies
+
+    Rat - Rank E
+    Base HP: 10;; Base Def: 5;; Base Will 0;; Base Spd: 15;;
+    Base Str: 1;;
+    ---------------------------------------------------------
+    Deer - Rank C
+    Base HP: 25;; Base Def: 10;; Base Will 0;; Base Spd: 7;;
+    Base Str: 5;;
+    ---------------------------------------------------------
+    Chimera - Rank A
+    Base HP: 250;; Base Def: 50;; Base Will 50;; Base Spd: 5;;
+    Base Str: 50;;
+    ---------------------------------------------------------
+
+#### Raiders
+
+    Human Bandit - Rank E
+    Base HP: 10;; Base Def: 5;; Base Will 0;; Base Spd: 10;;
+    Base Str: 1;;
+    ---------------------------------------------------------
+    Human Knight - Rank C
+    Base HP: 50;; Base Def: 50;; Base Will 0;; Base Spd: 3;;
+    Base Str: 15;;
+    ---------------------------------------------------------
+    Human Mage - Rank B
+    Base HP: 30;; Base Def: 10;; Base Will 50;; Base Spd: 7;;
+    Base Str: 3;;
+    ---------------------------------------------------------
+
+#### Other
+
+    Bomb Slime - Rank C
+    Base Hp: 100;; Base Def: 0;; Base Will 0;; Base Spd: 3;;
+    Base Str: 0;;
+    ---------------------------------------------------------
+
 ### Resources
 
 #### Food
@@ -214,18 +258,25 @@
 
 ##### Meat
 
-  - TBA
+  - Rat Meat     - Rank E
+  - Deer Meat    - Rank C
+  - Chimera Meat - Rank A
 
-### Medicinal
+### Plants
 
-  - Herb     - Rank E
+  - Flax     - Rank E
+  - Herb     - Rank D
+  - Cotton   - Rank C
   - LifeLily - Rank A
 
-#### Logs
+#### Wood
 
   - Logs - Rank E
+  - Planks - Rank D
   - HardWood Logs - Rank C
+  - HardWood Planks - Rank B
   - LifeLarch Logs - Rank A
+  - LifeLarch Planks - Rank S
 
 #### Ores
 
@@ -255,8 +306,8 @@ each ore required is 10 to refine
 #### Summon Stones
 
 can only some ranks as high as the core & high level only from superior cores
-  - Weak Slime  Core      - Rank E -- Earth Crystal + Water
-  - Weak Goblin Core      - Rank E -- Earth Crystal + Logs
+  - Weak Slime  Core      - Rank E -- Earth Crystal + CrayFish(10)
+  - Weak Goblin Core      - Rank E -- Earth Crystal + Logs(10)
   - Weak Harpy  Core      - Rank D -- Earth Crystal + (TBA)
   - Weak Core             - Rank D -- Earth Crystal + Weak Slime Core + Weak Goblin Core
   - Slime Core            - Rank C -- Steam Capsule + Weak Slime Core 
@@ -274,10 +325,16 @@ can only some ranks as high as the core & high level only from superior cores
 
 Rank E structures are considered Weak and will  break in storms/blizzards  
     
-    Campfire - Rank E -- (TBA)
+    Wood Wall - Rank E -- Logs
+    Wood Floor - Rank E -- Logs
+
+    Slime Pool - Rank E -- Slime(10) + Earth Crystal(10)
+    Stores 10 slimes in a mode where they do not age or change
+
+    Campfire - Rank E -- Logs(10) Light(1 Fire ore)
     Allows Cooking and Resting around
 
-    Cloth Mat - Rank E -- (TBA)
+    Cloth Mat - Rank E -- Flax(10)
     Rudimentary Sleeping Place 
 
     Crafting Area - Rank E -- Logs(10)
@@ -288,17 +345,163 @@ Rank E structures are considered Weak and will  break in storms/blizzards
 
     Wood Chest(4 Slots) - Rank E -- Logs(10)
 
+    Weak Transmutation Circle - Rank E - Earth Ore(10) + Mushrooms(10)
+    can perform Transmutations to craft weak cores
 
+    Rudimentary Ore Refinery -- Logs(10) + Earth Ore(10) + Fire Ore(20)
+    Recipes
+    -------
+    Earth Crystal - Rank E - Earth Ore(10) + fire stone
+    -------
   
 ##### D Rank
 
+    Plank Wall - Rank D -- Plank
+    Plank Floor - Rank D -- Plank
+
+    Linen Mat - Rank D -- Linen(10)
+    Linen Bed - Rank D -- Linen(10) + Plank(10)
+
+    Goblin Hut - Rank D -- Plank(100) + linen(100) + Crayfish(100) + Mushroom(100)
+    Stores 10 goblins where they do not age or change
+
+    Stove - Rank D -- Planks(10) + Steam Capsule
+    
+    Rudimentary Sewing Machine - Rank D -- Planks(10)
+    Allows crafting with flax
+    Recipes
+    -------
+    Linen - Rank D - Flax(10) + thread
+    -------
+
+    Rudimentary Plank Maker - Rank D -- Logs(10)
+    Allow making of Basic planks
+    Recipes
+    -------
+    Plank - Rank D - Logs(10)
+    ------- 
+
+    Rudimentary Medicine Table - Rank D -- Planks(10)
+    allow making of basic medicine
+    Recipes
+    -------
+    Healing Potion - Rank D - Herbs(10) + Mushrooms(10)
+    Cold Potion    - Rank B - Herbs(10) + Ice(10)
+    -------
+
+    Steam Plant - Rank D -- Planks(100) + Earth Crystal(100) + Water Ore(100)
+    Recipes
+    ------
+    Steam Capsule - Rank D - Water Ore(10) + Fire Ore(10)
+    ------
+
+    Cooler - Rank D -- Plank(10) + Wind Ore(10)  + Steam Capsule
+    Heater - Rank D -- Plank(10) + Earth Crystal + Steam Capsule
+
 ##### C Rank
 
-    Transmutation Circle - Rank C -- (TBA)
+    HardWood Wall - Rank C - HardWood Plank
+    HardWood Floor - Rank C - HardWood Plank
+
+    Harpy TreeHouse - Rank C - HardWood Plank(100) + Linen(100) + Trout(100)
+
+    Sonic Saw Plank Maker - Rank C -- HardWood Logs(10) + Vibration Stone(10)
+    Allows making of hardwood planks
+    Recipes
+    -------
+    Plank           - Logs(10)
+    HardWood Plank  - HardWood Logs(10) + Vibration Stone
+    ------- 
+
+    Transmutation Circle - Rank C -- Vibration Stone(10) + Mushrooms(100) + Meat(100)
     Allows Transmutations
 
+    Sonic Power Refinery - Rank C -- HardWood Logs(100) + Steam Capsule(100) + Wind Ore(100) + linen(100)
+    Recipes
+    --------
+    Vibration Stone - Rank C - Sonic Ore(10) + Wind ore(10) + Steam Capsule
+    --------
+
 ##### B Rank
+    LifeLarch Walls - LifeLarch Plank
+    LifeLarch Floor - LifeLarch Plank
+
+    Demon Rift - Vibration Stone(100) + Space Ore(10) ?>>?
+    Stores 10 demonoids cannot age or change
+
+    Cotton Mat - Cotton Fabric(10)
+    Cotton Bed - Cotton Fabric(10) + HardWood Plank(10)
+
+    Electric Powered Stove - Rank B -- LifeLarch Logs(10) + Lightning Shard
+
+    Electric Powered Plank Maker - Rank B -- LifeLarch Logs(10) + Lightning Shard + Vibration Stone(10)
+    Allows making advanced planks
+    Recipes
+    ------- 
+    Plank           - Logs(10)
+    HardWood Plank  - HardWood Logs + Vibration Stone
+    LifeLarch Plank - LifeLarch Logs + Vibration Stone(10)
+    -------
+
+    Electric Powered Sewing Machine - Rank B -- LifeLarch Logs(10) + Lightning Shard + linen(100)
+    Allows Advanced Sewing
+    Recipes
+    -------
+    Cotton Fabric - Cotton(10) + infused thread
+    -------
+
+    Medicine Mixer - Rank B -- LifeLarch Logs(10) + Lightning Shard + linen(100)
+    Recipes
+    -------
+    Strong Healing Potion - Rank B - Herbs(10) + Berries(10) + Flax(10)
+    Heat Potion           - Rank B - Herbs(10) + Steam Capsule(10)
+    -------
+
+    Lightning Rod Refinery - Rank B -- HardWood Plank(100) + Vibration Stone(100) + linen(100)
+    Recipes
+    -------
+    Lightning Shard - Rank B - Earth ore(10) + Fire ore(10) + Wind Ore(10) + Water Ore(10) + Vibration Stone
+    -------
+
 
 ##### A Rank
+    Coated LifeLarch Walls - Rank A -- Lightning Infused LifeLarch Plank
+    Coated LifeLarch Floors - Rank A -- Lightning Infused LifeLarch Plank
+
+    Dragon Den - Rank A -- LifeBlood Jewel(10) + Tuna(100) + Meat(100)
+    Stores a Dragon where they cannot age or change
+
+    Superior Transmutation Circle - Rank A -- (TBA)
+
+    Alchemy Lab - Rank A -- LifeBlood Jewel + LifeLarch Plank(10)
+    Allows advanced medicine mixing
+    Recipes
+    -------
+    Superior Healing potion - LifeLily(10) + Coconut(10)
+    Trait Potion - Randomly Removes Or Adds a Trait - Rank A - LifeBlood Jewel + Thread of Fate 
+    -------
+
+    LifeBlood Jewel Refinery - Rank A -- LifeLarch Planks(100) + Lightning Shard(100) + Cotton Fabric(100)
+    Recipes
+    -------
+    LifeBlood Jewels - Rank A - Life Ore(10) + meat(100)
+    ------- 
 
 ##### S Rank
+
+    Transportal - Rank S -- SpaceTime Prism(10)
+
+    SpaceTime Prism Refinery - Rank S -- (TBA)
+    Recipes
+    -------
+    SpaceTime Prism - Rank S - Space Ore(10) + Time Ore(10) + LifeBlood Jewel(10)
+    -------
+
+#### Transmutations
+
+  - Crayfish + Fire ore               => Slime
+  - Water ore(10)                     => ice(1)
+  - Wind ore + flax                   => thread
+  - Sonic ore + thread                => infused thread 
+  - Lightning Shard + LifeBlood Jewel + LifeLarch Plank => lightning infused lifelarch plank 
+  - Cotton Fabric(10) + Coconut(10) + Time Ore => Thread Of Fate

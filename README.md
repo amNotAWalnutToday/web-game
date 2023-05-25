@@ -36,9 +36,9 @@
 
     - grid made from array and overflow: scroll Both;
     - seperated into 3 sizes.
-        - large  (NaN)  * (NaN);
-        - medium (NaN)  * (NaN);
-        - small  (NaN)  * (NaN);
+        - large  (NaN)  * (NaN) 10000 tiles;
+        - medium (NaN)  * (NaN) 7500 tiles;
+        - small  (NaN)  * (NaN) 5000 tiles;
 
 ### Weather System
 

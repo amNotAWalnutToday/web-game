@@ -7,3 +7,52 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
+*, 
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.page {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #111;
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+.game_view {
+  width: 800px;
+  height: 800px;
+  overflow: scroll;
+  resize: both;
+}
+
+.world_view {
+  display: grid;
+  width: 800px;
+  height: 800px;
+  grid-template-columns: repeat(200, 75px);
+  grid-template-rows: repeat(50, 75px);;
+}
+
+.tiny {
+  grid-template-columns: repeat(100, 75px);
+  grid-template-rows: repeat(100, 75px);;
+}
+
+.tile {
+  border: 2px solid white;
+}
+
+.plains {
+  background-color: springgreen;
+}
+
+.water {
+  background-color: #19f;
+}

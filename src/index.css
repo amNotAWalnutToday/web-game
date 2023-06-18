@@ -87,3 +87,11 @@ button:hover {
   display: flex;
   flex-direction: column;
 }
+
+canvas {
+  position: absolute;
+  top: 20%;
+  left: 30%;
+  box-shadow: 0px 4px 4px black;
+  border-radius: 3px;
+}

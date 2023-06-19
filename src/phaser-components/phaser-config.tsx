@@ -1,5 +1,8 @@
 import Phaser from 'phaser';
 
+export const height = 480;
+export const width = 600;
+
 const config = {
     type: Phaser.AUTO,
     backgroundColor: '#333',

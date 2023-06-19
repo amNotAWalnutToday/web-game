@@ -1,0 +1,20 @@
+{
+    "units": [
+        {
+            "race": "slime",
+            "localLocation": [100, 100] 
+        },
+        {
+            "race": "harpy",
+            "localLocation": [200, 200]
+        },
+        {
+            "race": "goblin_mage",
+            "localLocation": [300, 300]
+        },
+        {
+            "race": "harpy",
+            "localLocation": [400, 400]
+        }
+    ]
+}

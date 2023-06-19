@@ -1,11 +1,19 @@
 import Phaser from "phaser";
 
 export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Physics.Arcade.Sprite {
-    constructor(scene: Phaser.Scene, x: number, y: number, texture: Phaser.Textures.Texture, frame: any) {
+    constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame: number) {
         super(scene, x, y, texture, frame);
+
+        const yourCharacters = this.scene.registry.get("yourCharacters");
+        yourCharacters.push(this);
+        this.cid = yourCharacters.length - 1;
+        this.scene.registry.set("yourCharacters", yourCharacters);
 
         this.scene.add.existing(this);
     }
+
+    race: string; 
+    cid: number;
 
     currentAction: any = null;
     actionQueue: string[] = [];
@@ -13,25 +21,14 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
 
     path: any;
     curve: any;
-    graphics: any;
+    graphics: any = this.scene.add.graphics();
 
     create() {
-        this.graphics = this.scene.add.graphics();
-
-        this.path = { t: 0, vec: new Phaser.Math.Vector2() };
-        this.curve = new Phaser.Curves.Line(new Phaser.Math.Vector2(100, 100), new Phaser.Math.Vector2(600, 400));
-        this.scene.tweens.add({
-            targets: this.path,
-            t: 1,
-            ease: 'Sine.easeInOut',
-            duration: 2000,
-            yoyo: false,
-            repeat: -1
-        })
+        this.setCollideWorldBounds(true);
     }
 
     moveTowardsPoint(tarX: number, tarY: number) {
-        const distance = Math.abs(this.x - tarX) + Math.abs(this.y - tarY);
+        const distance = Math.abs(this.x - tarX) > Math.abs(this.y - tarY) ? Math.abs(this.x - tarX) : Math.abs(this.y - tarY);
 
         this.path = { t: 0, vec: new Phaser.Math.Vector2() };
         this.graphics.clear();
@@ -40,9 +37,9 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         this.scene.tweens.add({
             targets: this.path,
             t: 1,
-            duration: 1 * distance,
+            duration: 10 * distance,
             repeat: 0
-        })
+        });
     }
 
     update() {
@@ -56,6 +53,11 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         && this.currentAction === 'MOVE') {
             this.currentAction = null;
             this.graphics.clear();
+            const yourCharacters = this.scene.registry.get("yourCharacters");
+            for(const char of yourCharacters) {
+                if(this.cid === char.cid) yourCharacters[this.cid] = this;
+            }
+            this.scene.registry.set("yourCharacters", yourCharacters);
         }
 
         if(this.currentAction === 'MOVE') {

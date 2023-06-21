@@ -52,10 +52,16 @@ export default class Ui extends Phaser.Scene {
             hitAreaCallback: Phaser.Geom.Rectangle.Contains,
         });
         newBox.on("pointerdown", () => {
-            this.registry.set('selectedCharacter', character);
+            let newCurrent;
+            if(this.currentCharacter?.cid === character?.cid) newCurrent = null
+            else newCurrent = character; 
+            console.log(current, character?.cid);
+            this.registry.set('selectedCharacter', newCurrent);
         });
 
-        const slot = { cid: character.cid,  box: newBox, sprite: newSprite, text };
+        const spdText = this.add.text(0 + (character.cid * 60), 60, `${character.speed}`); 
+
+        const slot = { cid: character.cid, box: newBox, sprite: newSprite, text };
         this.characterSlots.push(slot);
     }
 

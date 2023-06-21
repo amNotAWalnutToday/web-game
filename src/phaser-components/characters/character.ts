@@ -7,15 +7,17 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         const yourCharacters = this.scene.registry.get("yourCharacters");
         yourCharacters.push(this);
         this.cid = yourCharacters.length - 1;
+        this.speed = 1;
         this.scene.registry.set("yourCharacters", yourCharacters);
 
         this.scene.add.existing(this);
     }
 
-    race: string; 
+    race = "slime"; 
     cid: number;
+    speed: number;
 
-    currentAction: any = null;
+    currentAction: string | null = null;
     actionQueue: string[] = [];
     targetCoords: [number, number] = [0, 0];
 
@@ -37,7 +39,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         this.scene.tweens.add({
             targets: this.path,
             t: 1,
-            duration: 10 * distance,
+            duration: (60 - (this.speed * 2.5)) * distance,
             repeat: 0
         });
     }
@@ -46,7 +48,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         if(!this.actionQueue.length && !this.currentAction) return;
         if(!this.currentAction && this.actionQueue.length) {
             const nextAction = this.actionQueue.pop();
-            this.currentAction = nextAction;
+            this.currentAction = nextAction ?? null;
         }
         if(this.x === this.targetCoords[0]
         && this.y === this.targetCoords[1]

@@ -5,6 +5,7 @@ import Harpy from "../characters/harpy";
 import Goblin from "../characters/goblin";
 import user from '../data/user.json';
 import findPath from "../utils/pathfind";
+import Tree from "../nodes/tree";
 
 export function setupTeam(scene: Phaser.Scene, yourCharacters: Character[] = []) {
     yourCharacters.forEach(unit => unit.destroy());
@@ -47,7 +48,6 @@ export function setupTeam(scene: Phaser.Scene, yourCharacters: Character[] = [])
         }
         if(!thisUnit) return;
     });
-    scene.registry.set("shouldSetupTeam", false);
     return yourCharacters;
 }
 
@@ -59,6 +59,7 @@ export default class Game extends Phaser.Scene {
     map: any;
     sourceMarker: any;
     selectedCharacter: Character | null = null;
+    selectedCommand = "CHOP";
     yourCharacters: Character[] = [];
 
     create() {
@@ -87,6 +88,25 @@ export default class Game extends Phaser.Scene {
         this.map.full.addTilesetImage('forest_tileset', 'forest_tileset');
         this.map.full.addTilesetImage('water_tiles', 'water_tiles');
         const fullMap = this.map.full.createLayer('ground', ['forest_tileset', 'water_tiles'], 0, 0);
+        const trees = this.physics.add.group();
+        for(let i = 10; i > 0; i--) {
+            trees.add(new Tree(
+                this,
+                Phaser.Math.Between(64, 1900),
+                Phaser.Math.Between(100, 1900),
+                'tree',
+                Phaser.Math.Between(0, 5)
+            ));
+        }
+        trees.children.iterate(tree => {
+            tree.setInteractive();
+            tree.on("pointerdown", (e) => {
+                if(this.selectedCommand === 'CHOP') {
+                    this.selectedCharacter?.actionQueue.unshift('CHOP');
+                    this.selectedCharacter?.chopTree(tree);
+                }
+            })
+        })
         
         setupTeam(this, this.yourCharacters);
         
@@ -98,8 +118,8 @@ export default class Game extends Phaser.Scene {
             } else {
                 //if(this.map.chunk2.getTileAt(Math.floor(e.worldX / 16) - 30, Math.floor(e.worldY / 16), true).properties.terrain === 'water') return;
                 const { worldX, worldY } = e;
-                const startVec = this.map.chunk1.worldToTileXY(this.selectedCharacter.x, this.selectedCharacter.y);
-                const targetVec = this.map.chunk1.worldToTileXY(worldX, worldY);
+                const startVec = this.map.full.worldToTileXY(this.selectedCharacter.x, this.selectedCharacter.y);
+                const targetVec = this.map.full.worldToTileXY(worldX, worldY);
                 const path = findPath(startVec, targetVec, fullMap, null, {race: this.selectedCharacter.race});
                 // this.selectedCharacter.moveAlong(path);
                 this.selectedCharacter?.moveTowardsPoint(e.worldX, e.worldY, path);

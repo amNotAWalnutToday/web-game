@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import Tree from "../nodes/tree";
 
 export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Physics.Arcade.Sprite {
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame: number) {
@@ -21,6 +22,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     actionQueue: string[] = [];
     targetCoords: [number, number] = [0, 0];
     isMoving = false;
+    target: Tree | null = null;
 
     path: any;
     curve: any;
@@ -69,11 +71,32 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         }
     }
 
+    chopTree(tree: Tree) {
+        this.target = tree;
+        if(this.currentAction !== 'CHOP') return;
+        this.scene.time.addEvent({
+            delay: 200,
+            callback: this.chopTreeToEnd,
+            callbackScope: this,
+            repeat: tree.durability + 1,
+        });
+    }
+
+    chopTreeToEnd() {
+        if(!this.target) return;
+        this.target.loseDurability();
+        console.log(this.target.durability);
+        if(this.target.durability - 1 < 0) {
+            this.target = null;
+            this.currentAction = null;
+            this.updateCharacters();
+        } 
+    }
+
     moveTowardsPoint(tarX: number, tarY: number, path: Phaser.Math.Vector2[]) {
         const distance = Math.abs(this.x - tarX) > Math.abs(this.y - tarY) ? Math.abs(this.x - tarX) : Math.abs(this.y - tarY);
-        if(!path.length) return this.currentAction = null;
+        if(!path.length) return;
         this.movePath = path;
-
 
         this.path = { t: 0, vec: new Phaser.Math.Vector2() };
         this.graphics.clear();
@@ -88,26 +111,29 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         });
     }
 
+    updateCharacters() {
+        const yourCharacters = this.scene.registry.get("yourCharacters");
+        for(const char of yourCharacters) {
+            if(this.cid === char.cid) yourCharacters[this.cid] = this;
+        }
+        this.scene.registry.set("yourCharacters", yourCharacters);
+    }
+
     update() {
         if(!this.actionQueue.length && !this.currentAction) return;
         if(!this.currentAction && this.actionQueue.length) {
             const nextAction = this.actionQueue.pop();
             this.currentAction = nextAction ?? null;
+            this.updateCharacters();
         }
-        if(this.currentAction === 'MOVE') {
-            //this.move();
-        }
+
         if(this.movePath.length) {
             if(Math.ceil(this.x) === this.movePath[this.movePath.length - 1].x 
             && Math.ceil(this.y) === this.movePath[this.movePath.length - 1].y 
             && this.currentAction === 'MOVE') {
                 this.currentAction = null;
                 this.graphics.clear();
-                const yourCharacters = this.scene.registry.get("yourCharacters");
-                for(const char of yourCharacters) {
-                    if(this.cid === char.cid) yourCharacters[this.cid] = this;
-                }
-                this.scene.registry.set("yourCharacters", yourCharacters);
+                this.updateCharacters();
             }
 
             if(this.currentAction === 'MOVE') {
@@ -122,6 +148,12 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
                 this.x = this.path.vec.x;
                 this.y = this.path.vec.y;
             }
+        }
+
+        if(this.currentAction === 'CHOP'
+        && this.target) {
+            this.chopTree(this.target);
+            this.currentAction = null;
         }
     }
 } 

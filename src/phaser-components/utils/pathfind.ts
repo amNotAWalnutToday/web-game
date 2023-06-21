@@ -5,17 +5,24 @@ interface TilePosition {
     y: number,
 }
 
+interface PathOptions {
+    race: string | null,
+}
+
 const toKey = (x: number, y: number) => `${x}x${y}`;
 
 const findPath = (
         start: Phaser.Math.Vector2, 
         target: Phaser.Math.Vector2, 
         groundLayer: Phaser.Tilemaps.TilemapLayer, 
-        wallsLayer: Phaser.Tilemaps.TilemapLayer
+        wallsLayer: Phaser.Tilemaps.TilemapLayer | null,
+        options: PathOptions = {race: null}
     ) => {
-        if(!groundLayer.getTileAt(target.x, target.y)) return [];
-        if(wallsLayer.getTileAt(target.x, target.y)) return [];
-
+        if(!groundLayer.getTileAtWorldXY(target.x, target.y)) return [];
+        if(wallsLayer?.getTileAtWorldXY(target.x, target.y)) return [];
+        if(groundLayer.getTileAt(target.x, target.y).properties.terrain === 'water'
+        && options.race !== 'harpy') return [];
+        
         const queue: TilePosition[] = [];
         const parentForKey: { [key: string]: {key: string, position: TilePosition } } = {};
 
@@ -43,13 +50,20 @@ const findPath = (
                 {x: x - 1, y,},
                 {x, y: y + 1,},
                 {x: x + 1, y,},
+                {x: x - 1, y: y - 1,},
+                {x: x + 1, y: y + 1,},
+                {x: x - 1, y: y + 1,},
+                {x: x + 1, y: y - 1,},
             ];
 
             for(let i = 0; i < neighbours.length; i++) {
                 const neighbour = neighbours[i];
-                const tile = groundLayer.getTileAt(neighbour.x, neighbour.y);
-                if(!tile) continue;
-                if(wallsLayer.getTileAt(neighbour.x, neighbour.y)) continue;
+                const tile = groundLayer.getTileAtWorldXY(neighbour.x, neighbour.y);
+                const tileAt = groundLayer.getTileAt(neighbour.x, neighbour.y);
+                if(!tile || !tileAt) continue;
+                if(wallsLayer?.getTileAtWorldXY(neighbour.x, neighbour.y)) continue;
+                if(tileAt.properties.terrain === 'water'
+                && options.race !== 'harpy') continue;
                 const key = toKey(neighbour.x, neighbour.y);
                 if(key in parentForKey) continue;
 

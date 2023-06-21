@@ -69,13 +69,17 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         }
     }
 
-    moveTowardsPoint(tarX: number, tarY: number) {
+    moveTowardsPoint(tarX: number, tarY: number, path: Phaser.Math.Vector2[]) {
         const distance = Math.abs(this.x - tarX) > Math.abs(this.y - tarY) ? Math.abs(this.x - tarX) : Math.abs(this.y - tarY);
+        if(!path.length) return this.currentAction = null;
+        this.movePath = path;
+
 
         this.path = { t: 0, vec: new Phaser.Math.Vector2() };
         this.graphics.clear();
         this.graphics = this.scene.add.graphics();
-        this.curve = new Phaser.Curves.Line(new Phaser.Math.Vector2(this.x, this.y), new Phaser.Math.Vector2(tarX, tarY));
+        //this.curve = new Phaser.Curves.Line(new Phaser.Math.Vector2(this.x, this.y), new Phaser.Math.Vector2(tarX, tarY));
+        this.curve = new Phaser.Curves.Spline([...path]);
         this.scene.tweens.add({
             targets: this.path,
             t: 1,
@@ -90,33 +94,34 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             const nextAction = this.actionQueue.pop();
             this.currentAction = nextAction ?? null;
         }
-        if(this.currentAction === 'MOVE'
-        && !this.isMoving) {
+        if(this.currentAction === 'MOVE') {
             //this.move();
         }
-        // if(Math.floor(this.x / 16) === this.targetCoords[0]
-        // && Math.floor(this.y / 16) === this.targetCoords[1]
-        // && this.currentAction === 'MOVE') {
-        //     this.currentAction = null;
-        //     this.graphics.clear();
-        //     const yourCharacters = this.scene.registry.get("yourCharacters");
-        //     for(const char of yourCharacters) {
-        //         if(this.cid === char.cid) yourCharacters[this.cid] = this;
-        //     }
-        //     this.scene.registry.set("yourCharacters", yourCharacters);
-        // }
+        if(this.movePath.length) {
+            if(Math.ceil(this.x) === this.movePath[this.movePath.length - 1].x 
+            && Math.ceil(this.y) === this.movePath[this.movePath.length - 1].y 
+            && this.currentAction === 'MOVE') {
+                this.currentAction = null;
+                this.graphics.clear();
+                const yourCharacters = this.scene.registry.get("yourCharacters");
+                for(const char of yourCharacters) {
+                    if(this.cid === char.cid) yourCharacters[this.cid] = this;
+                }
+                this.scene.registry.set("yourCharacters", yourCharacters);
+            }
 
-        // if(this.currentAction === 'MOVE') {
-        //     this.graphics.clear();
-        //     // this.graphics.lineStyle(1, 0xffffff, 1);
-        //     // this.graphics.lineTo(100, 100);
-    
-        //     this.curve.draw(this.graphics);  
-        //     this.curve.updateArcLengths();
-        //     this.curve.getPoint(this.path.t, this.path.vec);
-    
-        //     this.x = this.path.vec.x;
-        //     this.y = this.path.vec.y;
-        // }
+            if(this.currentAction === 'MOVE') {
+                this.graphics.clear();
+                // this.graphics.lineStyle(1, 0xffffff, 1);
+                // this.graphics.lineTo(100, 100);
+        
+                this.curve.draw(this.graphics);  
+                this.curve.updateArcLengths();
+                this.curve.getPoint(this.path.t, this.path.vec);
+        
+                this.x = this.path.vec.x;
+                this.y = this.path.vec.y;
+            }
+        }
     }
 } 

@@ -62,9 +62,9 @@ export default class Game extends Phaser.Scene {
     yourCharacters: Character[] = [];
 
     create() {
-        this.cameras.main.setBounds(-1000, -1000, 1000 * 2, 1000 * 2);
+        this.cameras.main.setBounds(0, 0, 1000 * 2, 1000 * 2);
         this.cameras.main.setZoom(0.75);
-        this.physics.world.setBounds(-1000, -1000, 1000 * 2, 1000 * 2);
+        this.physics.world.setBounds(0, 0, 1000 * 2, 1000 * 2);
         const camera = this.physics.add.sprite(0, 0, '', 0).setVisible(false);
         this.cameras.main.startFollow(camera);
         // this.map = this.make.tilemap({ tileHeight: 16, tileWidth: 16, width: 600, height: 480 });
@@ -75,15 +75,18 @@ export default class Game extends Phaser.Scene {
         this.map = {
             chunk1: this.make.tilemap( {key: 'forest_chunk_1'} ),
             chunk2: this.make.tilemap( {key: 'forest_chunk_2'} ),
+            full: this.make.tilemap({ key: 'full_forest_1' }),
         };
-        const forestCliffs = this.map.chunk1.addTilesetImage('forest_cliffs', 'forest_cliffs');
-        const waterTiles =  this.map.chunk1.addTilesetImage('water_tiles', 'water_tiles');
-        const forestchunk = this.map.chunk1.createLayer('forest', forestCliffs, 0, 0 );
-        const chunk1 = this.map.chunk1.createLayer('shallow_water', waterTiles, 0, 0);
+        // const forestCliffs = this.map.chunk1.addTilesetImage('forest_cliffs', 'forest_cliffs');
+        // const waterTiles =  this.map.chunk1.addTilesetImage('water_tiles', 'water_tiles');
+        // const forestchunk = this.map.chunk1.createLayer('forest', forestCliffs, 0, 0 );
+        // const chunk1 = this.map.chunk1.createLayer('shallow_water', waterTiles, 0, 0);
         // const terrain = this.map.chunk2.addTilesetImage('forest_cliffs', 'forest_cliffs');
         // const water = this.map.chunk2.addTilesetImage('water_tiles', 'water_tiles');
         // const chunk2 = this.map.chunk2.createLayer('terrain', [terrain, water], 480, 0);
-        // chunk2.setCollisionByProperty({terrain: 'water'});
+        this.map.full.addTilesetImage('forest_tileset', 'forest_tileset');
+        this.map.full.addTilesetImage('water_tiles', 'water_tiles');
+        const fullMap = this.map.full.createLayer('ground', ['forest_tileset', 'water_tiles'], 0, 0);
         
         setupTeam(this, this.yourCharacters);
         
@@ -95,11 +98,11 @@ export default class Game extends Phaser.Scene {
             } else {
                 //if(this.map.chunk2.getTileAt(Math.floor(e.worldX / 16) - 30, Math.floor(e.worldY / 16), true).properties.terrain === 'water') return;
                 const { worldX, worldY } = e;
-                const startVec = this.map.chunk2.worldToTileXY(this.selectedCharacter.x, this.selectedCharacter.y);
-                const targetVec = this.map.chunk2.worldToTileXY(worldX, worldY);
-                const path = findPath(startVec, targetVec, forestchunk, chunk1);
-                this.selectedCharacter.moveAlong(path);
-                // this.selectedCharacter?.moveTowardsPoint(e.worldX, e.worldY);
+                const startVec = this.map.chunk1.worldToTileXY(this.selectedCharacter.x, this.selectedCharacter.y);
+                const targetVec = this.map.chunk1.worldToTileXY(worldX, worldY);
+                const path = findPath(startVec, targetVec, fullMap, null, {race: this.selectedCharacter.race});
+                // this.selectedCharacter.moveAlong(path);
+                this.selectedCharacter?.moveTowardsPoint(e.worldX, e.worldY, path);
                 this.selectedCharacter.targetCoords = [targetVec.x, targetVec.y];
                 this.selectedCharacter?.actionQueue.push('MOVE');
 

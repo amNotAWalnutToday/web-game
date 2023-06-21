@@ -20,13 +20,53 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     currentAction: string | null = null;
     actionQueue: string[] = [];
     targetCoords: [number, number] = [0, 0];
+    isMoving = false;
 
     path: any;
     curve: any;
     graphics: any = this.scene.add.graphics();
 
+    private movePath: Phaser.Math.Vector2[] = [];
+    private moveToTarget?: Phaser.Math.Vector2;
+
     create() {
         this.setCollideWorldBounds(true);
+    }
+
+    moveAlong(pathA: Phaser.Math.Vector2[]) {
+        this.movePath = pathA;
+        this.moveTo(this.movePath.shift()!);
+    }
+
+    moveTo(target: Phaser.Math.Vector2) {
+        this.moveToTarget = target;
+        this.scene.time.addEvent({
+            delay: 200,
+            callback: this.move,
+            callbackScope: this,
+            loop: false,
+        })
+    }
+
+    move() {
+        if(this.moveToTarget) {
+            if(this.movePath.length > 0) {
+                this.isMoving = true;
+                this.x = this.moveToTarget.x;
+                this.y = this.moveToTarget.y;
+                this.moveTo(this.movePath.shift()!);
+                return;
+            } else {
+                this.moveToTarget = undefined;
+            }
+        } else {
+            this.currentAction = null;
+            const yourCharacters = this.scene.registry.get("yourCharacters");
+            for(const char of yourCharacters) {
+                if(this.cid === char.cid) yourCharacters[this.cid] = this;
+            }
+            this.scene.registry.set("yourCharacters", yourCharacters);
+        }
     }
 
     moveTowardsPoint(tarX: number, tarY: number) {
@@ -50,29 +90,33 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             const nextAction = this.actionQueue.pop();
             this.currentAction = nextAction ?? null;
         }
-        if(this.x === this.targetCoords[0]
-        && this.y === this.targetCoords[1]
-        && this.currentAction === 'MOVE') {
-            this.currentAction = null;
-            this.graphics.clear();
-            const yourCharacters = this.scene.registry.get("yourCharacters");
-            for(const char of yourCharacters) {
-                if(this.cid === char.cid) yourCharacters[this.cid] = this;
-            }
-            this.scene.registry.set("yourCharacters", yourCharacters);
+        if(this.currentAction === 'MOVE'
+        && !this.isMoving) {
+            //this.move();
         }
+        // if(Math.floor(this.x / 16) === this.targetCoords[0]
+        // && Math.floor(this.y / 16) === this.targetCoords[1]
+        // && this.currentAction === 'MOVE') {
+        //     this.currentAction = null;
+        //     this.graphics.clear();
+        //     const yourCharacters = this.scene.registry.get("yourCharacters");
+        //     for(const char of yourCharacters) {
+        //         if(this.cid === char.cid) yourCharacters[this.cid] = this;
+        //     }
+        //     this.scene.registry.set("yourCharacters", yourCharacters);
+        // }
 
-        if(this.currentAction === 'MOVE') {
-            this.graphics.clear();
-            // this.graphics.lineStyle(1, 0xffffff, 1);
-            // this.graphics.lineTo(100, 100);
+        // if(this.currentAction === 'MOVE') {
+        //     this.graphics.clear();
+        //     // this.graphics.lineStyle(1, 0xffffff, 1);
+        //     // this.graphics.lineTo(100, 100);
     
-            this.curve.draw(this.graphics);  
-            this.curve.updateArcLengths();
-            this.curve.getPoint(this.path.t, this.path.vec);
+        //     this.curve.draw(this.graphics);  
+        //     this.curve.updateArcLengths();
+        //     this.curve.getPoint(this.path.t, this.path.vec);
     
-            this.x = this.path.vec.x;
-            this.y = this.path.vec.y;
-        }
+        //     this.x = this.path.vec.x;
+        //     this.y = this.path.vec.y;
+        // }
     }
 } 

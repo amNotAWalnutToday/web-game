@@ -14,7 +14,7 @@ const findPath = (
         wallsLayer: Phaser.Tilemaps.TilemapLayer
     ) => {
         if(!groundLayer.getTileAt(target.x, target.y)) return [];
-        if(!wallsLayer.getTileAt(target.x, target.y)) return [];
+        if(wallsLayer.getTileAt(target.x, target.y)) return [];
 
         const queue: TilePosition[] = [];
         const parentForKey: { [key: string]: {key: string, position: TilePosition } } = {};
@@ -48,7 +48,6 @@ const findPath = (
             for(let i = 0; i < neighbours.length; i++) {
                 const neighbour = neighbours[i];
                 const tile = groundLayer.getTileAt(neighbour.x, neighbour.y);
-
                 if(!tile) continue;
                 if(wallsLayer.getTileAt(neighbour.x, neighbour.y)) continue;
                 const key = toKey(neighbour.x, neighbour.y);
@@ -79,7 +78,7 @@ const findPath = (
             currentKey = key;
             currentPos = position;
         }
-
+        
         return path.reverse();
 }
 

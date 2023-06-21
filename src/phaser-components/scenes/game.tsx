@@ -4,6 +4,7 @@ import Slime from "../characters/slime";
 import Harpy from "../characters/harpy";
 import Goblin from "../characters/goblin";
 import user from '../data/user.json';
+import findPath from "../utils/pathfind";
 
 export function setupTeam(scene: Phaser.Scene, yourCharacters: Character[] = []) {
     yourCharacters.forEach(unit => unit.destroy());
@@ -77,12 +78,12 @@ export default class Game extends Phaser.Scene {
         };
         const forestCliffs = this.map.chunk1.addTilesetImage('forest_cliffs', 'forest_cliffs');
         const waterTiles =  this.map.chunk1.addTilesetImage('water_tiles', 'water_tiles');
-        this.map.chunk1.createLayer('forest', forestCliffs, 0, 0 );
+        const forestchunk = this.map.chunk1.createLayer('forest', forestCliffs, 0, 0 );
         const chunk1 = this.map.chunk1.createLayer('shallow_water', waterTiles, 0, 0);
-        const terrain = this.map.chunk2.addTilesetImage('forest_cliffs', 'forest_cliffs');
-        const water = this.map.chunk2.addTilesetImage('water_tiles', 'water_tiles');
-        const chunk2 = this.map.chunk2.createLayer('terrain', [terrain, water], 480, 0);
-        chunk2.setCollisionByProperty({terrain: 'water'});
+        // const terrain = this.map.chunk2.addTilesetImage('forest_cliffs', 'forest_cliffs');
+        // const water = this.map.chunk2.addTilesetImage('water_tiles', 'water_tiles');
+        // const chunk2 = this.map.chunk2.createLayer('terrain', [terrain, water], 480, 0);
+        // chunk2.setCollisionByProperty({terrain: 'water'});
         
         setupTeam(this, this.yourCharacters);
         
@@ -93,10 +94,14 @@ export default class Game extends Phaser.Scene {
                 return;
             } else {
                 //if(this.map.chunk2.getTileAt(Math.floor(e.worldX / 16) - 30, Math.floor(e.worldY / 16), true).properties.terrain === 'water') return;
-                this.selectedCharacter?.moveTowardsPoint(e.worldX, e.worldY);
-                this.selectedCharacter.targetCoords = [e.worldX, e.worldY];
+                const { worldX, worldY } = e;
+                const startVec = this.map.chunk2.worldToTileXY(this.selectedCharacter.x, this.selectedCharacter.y);
+                const targetVec = this.map.chunk2.worldToTileXY(worldX, worldY);
+                const path = findPath(startVec, targetVec, forestchunk, chunk1);
+                this.selectedCharacter.moveAlong(path);
+                // this.selectedCharacter?.moveTowardsPoint(e.worldX, e.worldY);
+                this.selectedCharacter.targetCoords = [targetVec.x, targetVec.y];
                 this.selectedCharacter?.actionQueue.push('MOVE');
-                console.log(this.selectedCharacter.curve.getPoint(e.worldX, e.WorldY));
 
                 this.time.addEvent({
                     delay: 50,
@@ -128,7 +133,6 @@ export default class Game extends Phaser.Scene {
         })
         this.yourCharacters.forEach(char => {
             char.setCollideWorldBounds(true);
-            this.physics.add.collider(char, chunk2);
             this.registry.set('yourCharacters', this.yourCharacters);
         });
     }

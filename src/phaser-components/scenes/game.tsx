@@ -59,7 +59,7 @@ export default class Game extends Phaser.Scene {
     map: any;
     sourceMarker: any;
     selectedCharacter: Character | null = null;
-    selectedCommand = "CHOP";
+    selectedCommand = 'MOVE';
     yourCharacters: Character[] = [];
 
     create() {
@@ -144,16 +144,18 @@ export default class Game extends Phaser.Scene {
 
         this.registry.set('selectedCharacter', this.selectedCharacter);
         this.yourCharacters = this.registry.get('yourCharacters');
-        this.registry.events.on('changedata', (a: any, key: string) => {
+        this.registry.events.on('changedata', (a: any, key: string, payload: any) => {
             switch(key) {
                 case "selectedCharacter":
                     camera.x = this.selectedCharacter?.x ?? 0; 
                     camera.y = this.selectedCharacter?.y ?? 0;
-                    this.selectedCharacter = this.registry.get('selectedCharacter');
+                    this.selectedCharacter = payload;
                     this.selectedCharacter ? this.cameras.main.startFollow(this.selectedCharacter) : this.cameras.main.startFollow(camera);
                     break;
+                case "selectedCommand":
+                    this.selectedCommand = payload;
             }
-        })
+        });
         this.yourCharacters.forEach(char => {
             char.setCollideWorldBounds(true);
             this.registry.set('yourCharacters', this.yourCharacters);

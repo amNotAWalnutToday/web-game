@@ -22,6 +22,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     actionQueue: string[] = [];
     targetCoords: [number, number] = [0, 0];
     isMoving = false;
+    isDoing = false;
     target: Tree | null = null;
 
     path: any;
@@ -74,8 +75,10 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     chopTree(tree: Tree) {
         this.target = tree;
         if(this.currentAction !== 'CHOP') return;
+        this.isDoing = true;
+
         this.scene.time.addEvent({
-            delay: 200,
+            delay: 2000,
             callback: this.chopTreeToEnd,
             callbackScope: this,
             repeat: tree.durability + 1,
@@ -84,13 +87,15 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
 
     chopTreeToEnd() {
         if(!this.target) return;
-        this.target.loseDurability();
-        console.log(this.target.durability);
         if(this.target.durability - 1 < 0) {
             this.target = null;
             this.currentAction = null;
+            this.isDoing = false;
             this.updateCharacters();
-        } 
+        } else {
+            this.target.loseDurability();
+            console.log(this.target.durability);
+        }
     }
 
     moveTowardsPoint(tarX: number, tarY: number, path: Phaser.Math.Vector2[]) {
@@ -151,9 +156,10 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         }
 
         if(this.currentAction === 'CHOP'
-        && this.target) {
+        && this.target
+        && !this.isDoing) {
+            console.log(this.isDoing);
             this.chopTree(this.target);
-            this.currentAction = null;
         }
     }
 } 

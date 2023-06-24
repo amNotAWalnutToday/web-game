@@ -28,7 +28,7 @@ export default class Loading extends Phaser.Scene {
     create() {
         this.registry.set("selectedCharacter", null);
         this.registry.set("yourCharacters", []);
-        this.registry.set("shouldSetupTeam", false);
+        this.registry.set("selectedCommand", 'MOVE');
         this.scene.add('game', Game, true, { x: 400, y: 300 });
         this.scene.add('ui', Ui, true, { x: 400, y: 300 });
         this.scene.add('summon_ui', Summon, false, { x: 400, y: 300 });

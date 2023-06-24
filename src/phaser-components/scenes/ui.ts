@@ -1,26 +1,85 @@
 import Phaser from "phaser";
+import createButton, { Button, Container } from "../utils/createButton";
+import { Character } from "../characters/character";
+
+interface Menu {
+    isOpen: boolean,
+    container: Container,
+    toggleBtn?: Button,
+    buttons: Button[], 
+}
 
 export default class Ui extends Phaser.Scene {
     constructor() {
         super('ui');
     }
 
-    currentCharacter: any;
-    characters:any = [];
+    screenWidth = 600;
+    screenHeight = 480;
+
+    currentCharacter?: Character | null;
+    characters: Character[] = [];
     characterSlots: any = [];
 
+    commandMenu: Menu = {
+        isOpen: false,
+        container: {
+            screenX: 0,
+            screenY: this.screenHeight - 100,
+            width: 80,
+            height: 50,
+        },
+        toggleBtn: undefined,
+        buttons: [],
+    };
+
+    actionMenu: Menu = {
+        isOpen: false,
+        container: {
+            screenX: 0,
+            screenY: this.screenHeight - 40,
+            width: 80,
+            height: 50,
+        },
+        toggleBtn: undefined,
+        buttons: [],
+    };
+
+    buildMenu: Menu = {
+        isOpen: false,
+        container: {
+            screenX: 81,
+            screenY: this.screenHeight - 100,
+            width: 80,
+            height: 50,
+        },
+        toggleBtn: undefined,
+        buttons: [],
+    };
+
     create() {
+        this.screenWidth = this.scene.systems.canvas.width;
+        this.screenHeight = this.scene.systems.canvas.height;
         this.characters = this.registry.get('yourCharacters');
         this.currentCharacter = this.registry.get('selectedCharacter');
         if(!this.characters.length) return;
 
-        this.characters.forEach((character: any)=> {
+        this.characters.forEach((character: Character)=> {
             this.addSlot(character);
         });
 
-        this.registry.events.on('changedata', (a: any, key: string) => {
-            this.currentCharacter = this.registry.get('selectedCharacter');
-            this.changeSelectedCharacterBoxs();
+        this.registry.events.on('changedata', (a: any, key: string, payload: any) => {
+            switch(key) {
+                case 'yourCharacters':
+                case 'selectedCharacter':
+                    this.currentCharacter = payload;
+                    this.changeSelectedCharacterBoxs();
+                    break;
+                case 'selectedCommand':
+                    if(!this.commandMenu.toggleBtn) break;
+                    this.commandMenu.toggleBtn.text.text = `Commands \n ${payload}`
+                    break; 
+            }
         });
 
         const menuBtn = this.add.graphics();
@@ -34,9 +93,71 @@ export default class Ui extends Phaser.Scene {
         menuBtn.on("pointerdown", () => {
             this.scene.launch("summon_ui");
         });
+
+        this.commandMenu.toggleBtn = createButton(
+            this, 
+            0,
+            0, 
+            'Commands \n MOVE', 
+            this.actionMenu.container, 
+            () => this.toggleMenu(this.commandMenu, this.addCommandMenuItem)
+        );
+        const buildBtn = createButton(
+            this,
+            85,
+            0,
+            'Build',
+            this.actionMenu.container,
+            () => this.toggleMenu(this.buildMenu, this.addBuildMenuItem),
+            { color: 0x11af33 },
+        )
+        const stopCommandBtn = createButton(
+            this, 
+            170, 
+            0, 
+            'Cancel', 
+            this.actionMenu.container, 
+            () => this.cancelActions(),
+            { color: 0xff0000 },
+        );
+        this.actionMenu.buttons.push(buildBtn, stopCommandBtn);
     }
 
-    addSlot(character) {
+    addBuildMenuItem = () => {
+        const buildsomething = () => {return};
+        const items: string[] = ['Chest', 'Crafting \n Area'];
+        items.forEach((item: string, ind: number) => {
+            const button = createButton(this, ind * 85, 0, item, this.buildMenu.container, buildsomething);
+            this.buildMenu.buttons.push(button);
+        });
+    }
+
+    addCommandMenuItem = () => {
+        const setCommand = (command: string) => {
+            let thisCommand = this.registry.get("selectedCommand");
+            thisCommand = command;
+            this.registry.set("selectedCommand", thisCommand);
+            return;
+        }
+
+        const items: string[] = ['MOVE', 'BUILD', 'CHOP'];
+        items.forEach((item: string, ind: number) => {
+            const button = createButton(this, 0, ind * -55, item, this.commandMenu.container, () => setCommand(item));
+            this.commandMenu.buttons.push(button);
+        });
+    }
+
+    toggleMenu = (menu: Menu, openCommand: () => void) => {
+        if(menu.isOpen) {
+            menu.buttons.forEach((button: Button)=> button.hide());
+        } else {
+            openCommand();
+        }
+
+        menu.isOpen = !menu.isOpen;
+    }
+
+    addSlot(character: Character) {
         const current = this.currentCharacter ? this.currentCharacter.cid : -1
         const newBox = this.add.graphics();
         if(character.cid === current) {
@@ -55,14 +176,24 @@ export default class Ui extends Phaser.Scene {
             let newCurrent;
             if(this.currentCharacter?.cid === character?.cid) newCurrent = null
             else newCurrent = character; 
-            console.log(current, character?.cid);
             this.registry.set('selectedCharacter', newCurrent);
         });
 
-        const spdText = this.add.text(0 + (character.cid * 60), 60, `${character.speed}`); 
+        this.add.text(0 + (character.cid * 60), 60, `${character.speed}`); 
 
         const slot = { cid: character.cid, box: newBox, sprite: newSprite, text };
         this.characterSlots.push(slot);
+    }
+
+    cancelActions() {
+        this.currentCharacter = this.registry.get("selectedCharacter");
+        if(!this.currentCharacter) return;
+        this.currentCharacter.currentAction = null;
+        this.currentCharacter.actionQueue = [];
+        this.currentCharacter.graphics.clear();
+        this.currentCharacter.target = null;
+        this.currentCharacter.isDoing = false;
+        this.registry.set('selectedCharacter', this.currentCharacter);
     }
 
     changeSelectedCharacterBoxs() {

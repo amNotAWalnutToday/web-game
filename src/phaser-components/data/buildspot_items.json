@@ -1,0 +1,13 @@
+{
+    "items": [
+        {
+            "type": "chest",
+            "resources": [
+                {
+                    "type": "logs",
+                    "amount": 2
+                }
+            ]
+        }
+    ]
+}

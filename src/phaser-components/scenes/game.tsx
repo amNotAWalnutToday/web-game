@@ -6,6 +6,10 @@ import Goblin from "../characters/goblin";
 import user from '../data/user.json';
 import findPath from "../utils/pathfind";
 import Tree from "../nodes/tree";
+import BuildSpot from "../nodes/buildspot";
+import Logs from "../nodes/logs";
+
+type Commands = 'MOVE' | 'BUILD' | 'CHOP' | 'CARRY'; 
 
 export function setupTeam(scene: Phaser.Scene, yourCharacters: Character[] = []) {
     yourCharacters.forEach(unit => unit.destroy());
@@ -60,6 +64,7 @@ export default class Game extends Phaser.Scene {
     sourceMarker: any;
     selectedCharacter: Character | null = null;
     selectedCommand = 'MOVE';
+    selectedBuildItem: string | null = null;
     yourCharacters: Character[] = [];
 
     create() {
@@ -88,19 +93,30 @@ export default class Game extends Phaser.Scene {
         this.map.full.addTilesetImage('forest_tileset', 'forest_tileset');
         this.map.full.addTilesetImage('water_tiles', 'water_tiles');
         const fullMap = this.map.full.createLayer('ground', ['forest_tileset', 'water_tiles'], 0, 0);
+        const storage = this.physics.add.group();
+        const groundItems = this.physics.add.group();
+        this.registry.set('groundItems', groundItems);
         const trees = this.physics.add.group();
         for(let i = 10; i > 0; i--) {
             trees.add(new Tree(
                 this,
-                Phaser.Math.Between(64, 1900),
-                Phaser.Math.Between(100, 1900),
+                Phaser.Math.Between(64, 400),
+                Phaser.Math.Between(100, 400),
                 'tree',
                 Phaser.Math.Between(0, 5)
             ));
+            this.physics.add.existing(new Logs(
+                    this,
+                    Phaser.Math.Between(64, 400),
+                    Phaser.Math.Between(100, 400),
+                    'logs',
+                    0
+            ));
         }
-        trees.children.iterate(tree => {
+        trees.children.iterate((tree: Tree) => {
             tree.setInteractive();
-            tree.on("pointerdown", (e) => {
+            tree.on("pointerdown", () => {
+                console.log(this.selectedCommand);
                 if(this.selectedCommand === 'CHOP') {
                     this.selectedCharacter?.actionQueue.unshift('CHOP');
                     this.selectedCharacter?.chopTree(tree);
@@ -115,22 +131,16 @@ export default class Game extends Phaser.Scene {
         this.input.on('pointerdown', (e) => {
             if(!this.selectedCharacter) {
                 return;
+            } else if(this.selectedBuildItem) {
+                if(this.selectedCharacter.target instanceof BuildSpot) {
+                    return this.selectedCharacter.buildQueue.push(
+                        this.physics.add.existing(new BuildSpot(this, e.worldX, e.worldY, this.selectedBuildItem.toLowerCase(), 0))
+                    );
+                } else {
+                    this.physics.add.existing(new BuildSpot(this, e.worldX, e.worldY, this.selectedBuildItem.toLowerCase(), 0));
+                }
             } else {
-                //if(this.map.chunk2.getTileAt(Math.floor(e.worldX / 16) - 30, Math.floor(e.worldY / 16), true).properties.terrain === 'water') return;
-                const { worldX, worldY } = e;
-                const startVec = this.map.full.worldToTileXY(this.selectedCharacter.x, this.selectedCharacter.y);
-                const targetVec = this.map.full.worldToTileXY(worldX, worldY);
-                const path = findPath(startVec, targetVec, fullMap, null, {race: this.selectedCharacter.race});
-                // this.selectedCharacter.moveAlong(path);
-                this.selectedCharacter?.moveTowardsPoint(e.worldX, e.worldY, path);
-                this.selectedCharacter.targetCoords = [targetVec.x, targetVec.y];
-                this.selectedCharacter?.actionQueue.push('MOVE');
-
-                this.time.addEvent({
-                    delay: 50,
-                    callback: () => this.registry.set("selectedCharacter", this.selectedCharacter),
-                    callbackScope: this,
-                })   
+                this.selectedCharacter.getPath(e);
             }
         });
         this.input.keyboard?.on("keydown-W", () => camera.setVelocityY(-200));
@@ -141,8 +151,12 @@ export default class Game extends Phaser.Scene {
         this.input.keyboard?.on("keyup-S", () => camera.setVelocityY(0));
         this.input.keyboard?.on("keyup-A", () => camera.setVelocityX(0));
         this.input.keyboard?.on("keyup-D", () => camera.setVelocityX(0));
+        this.input.keyboard?.on("keydown-Q", () => console.log(this.selectedCharacter?.inventory));
 
+        this.registry.set('map', {map: this.map.full, layers: [fullMap]});
         this.registry.set('selectedCharacter', this.selectedCharacter);
+        this.registry.set('groundItems', groundItems);
+        this.registry.set('storage', storage);
         this.yourCharacters = this.registry.get('yourCharacters');
         this.registry.events.on('changedata', (a: any, key: string, payload: any) => {
             switch(key) {
@@ -154,6 +168,12 @@ export default class Game extends Phaser.Scene {
                     break;
                 case "selectedCommand":
                     this.selectedCommand = payload;
+                    this.selectedBuildItem = null;
+                    this.registry.set("selectedBuildItem", this.selectedBuildItem);
+                    break;
+                case "selectedBuildItem":
+                    this.selectedBuildItem = payload;
+                    break;
             }
         });
         this.yourCharacters.forEach(char => {

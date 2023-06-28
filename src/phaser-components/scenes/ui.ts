@@ -71,6 +71,8 @@ export default class Ui extends Phaser.Scene {
         this.registry.events.on('changedata', (a: any, key: string, payload: any) => {
             switch(key) {
                 case 'yourCharacters':
+                    this.changeSelectedCharacterBoxs();
+                    break;
                 case 'selectedCharacter':
                     this.currentCharacter = payload;
                     this.changeSelectedCharacterBoxs();
@@ -78,7 +80,11 @@ export default class Ui extends Phaser.Scene {
                 case 'selectedCommand':
                     if(!this.commandMenu.toggleBtn) break;
                     this.commandMenu.toggleBtn.text.text = `Commands \n ${payload}`
-                    break; 
+                    break;
+                case 'selectedBuildItem':
+                    if(payload && this.commandMenu.toggleBtn) this.commandMenu.toggleBtn.text.text = `Commands \n Build`; 
+                    this.actionMenu.buttons[0].text.text = `Build \n ${payload ?? 'N/A'}`;
+                    break;
             }
         });
 
@@ -124,23 +130,30 @@ export default class Ui extends Phaser.Scene {
     }
 
     addBuildMenuItem = () => {
-        const buildsomething = () => {return};
+        const buildsomething = (item: string) => {
+            this.registry.set("selectedBuildItem", item.toUpperCase());
+        };
         const items: string[] = ['Chest', 'Crafting \n Area'];
         items.forEach((item: string, ind: number) => {
-            const button = createButton(this, ind * 85, 0, item, this.buildMenu.container, buildsomething);
+            const button = createButton(this, ind * 85, 0, item, this.buildMenu.container, () => buildsomething(item));
             this.buildMenu.buttons.push(button);
         });
     }
 
     addCommandMenuItem = () => {
         const setCommand = (command: string) => {
-            let thisCommand = this.registry.get("selectedCommand");
-            thisCommand = command;
-            this.registry.set("selectedCommand", thisCommand);
+            if(command === 'CARRY') {
+                const currentCharacter = this.registry.get("selectedCharacter");
+                if(!currentCharacter) return;
+                currentCharacter.actionQueue.unshift("CARRY");
+                this.registry.set("selectedCharacter", currentCharacter);
+                return;
+            }
+            this.registry.set("selectedCommand", command);
             return;
         }
 
-        const items: string[] = ['MOVE', 'BUILD', 'CHOP'];
+        const items: string[] = ['MOVE', 'CHOP', 'CARRY'];
         items.forEach((item: string, ind: number) => {
             const button = createButton(this, 0, ind * -55, item, this.commandMenu.container, () => setCommand(item));
             this.commandMenu.buttons.push(button);
@@ -149,7 +162,7 @@ export default class Ui extends Phaser.Scene {
 
     toggleMenu = (menu: Menu, openCommand: () => void) => {
         if(menu.isOpen) {
-            menu.buttons.forEach((button: Button)=> button.hide());
+            menu.buttons.forEach((button: Button) => button.hide());
         } else {
             openCommand();
         }
@@ -191,6 +204,7 @@ export default class Ui extends Phaser.Scene {
         this.currentCharacter.currentAction = null;
         this.currentCharacter.actionQueue = [];
         this.currentCharacter.graphics.clear();
+        this.currentCharacter.cancelBuild();
         this.currentCharacter.target = null;
         this.currentCharacter.isDoing = false;
         this.registry.set('selectedCharacter', this.currentCharacter);

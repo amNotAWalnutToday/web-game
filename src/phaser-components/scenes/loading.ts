@@ -13,6 +13,7 @@ export default class Loading extends Phaser.Scene {
         this.load.image('harpy', '/sprites/harpy.png');
         this.load.image('goblin_mage', '/sprites/goblin_mage.png');
         this.load.image('logs', '/sprites/logs.png');
+        this.load.image('chest', '/sprites/wood-chest.png');
         this.load.image('forest_tileset', '/tilesets/forest_tileset.png');
         this.load.image('water_tiles', '/tilesets/water_tiles.png');
         this.load.image('forest_cliffs', '/tilesets/forest_cliffs.png');
@@ -29,6 +30,9 @@ export default class Loading extends Phaser.Scene {
         this.registry.set("selectedCharacter", null);
         this.registry.set("yourCharacters", []);
         this.registry.set("selectedCommand", 'MOVE');
+        this.registry.set("selectedBuildItem", null);
+        this.registry.set("groundItems", []);
+        this.registry.set("map", null);
         this.scene.add('game', Game, true, { x: 400, y: 300 });
         this.scene.add('ui', Ui, true, { x: 400, y: 300 });
         this.scene.add('summon_ui', Summon, false, { x: 400, y: 300 });

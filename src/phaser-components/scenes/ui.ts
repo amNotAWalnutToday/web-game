@@ -142,10 +142,15 @@ export default class Ui extends Phaser.Scene {
 
     addCommandMenuItem = () => {
         const setCommand = (command: string) => {
+            const currentCharacter = this.registry.get("selectedCharacter");
             if(command === 'CARRY') {
-                const currentCharacter = this.registry.get("selectedCharacter");
                 if(!currentCharacter) return;
                 currentCharacter.actionQueue.unshift("CARRY");
+                this.registry.set("selectedCharacter", currentCharacter);
+                return;
+            } else if(command === 'CHOP') {
+                if(!currentCharacter) return;
+                currentCharacter.actionQueue.unshift("CHOP");
                 this.registry.set("selectedCharacter", currentCharacter);
                 return;
             }

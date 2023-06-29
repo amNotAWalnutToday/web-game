@@ -1,6 +1,7 @@
 import buildspot_items from '../data/buildspot_items.json';
 import WoodChest from './buildables/wood_chest';
 import dropItems from '../utils/dropitems';
+import drawProgress from '../utils/drawprogress';
 
 interface Resource {
     type: string,
@@ -13,8 +14,6 @@ export default class BuildSpot extends Phaser.Physics.Arcade.Sprite {
         super(scene, x, y, texture, frame);
         const map = this.scene.registry.get("map");
         this.builder = this.scene.registry.get("selectedCharacter");
-        this.x = map.map.worldToTileX((this.x * 16) - 8);
-        this.y = map.map.worldToTileY((this.y * 16) - 8);
         this.setAlpha(0.25);
         this.scene.add.existing(this);
         this.addToBuildersQueue();
@@ -74,7 +73,7 @@ export default class BuildSpot extends Phaser.Physics.Arcade.Sprite {
     }
 
     buildMe() {
-        this.builtPercentage += 0.1;
+        this.builtPercentage += 1;
         this.drawProgress();
         if(Math.ceil(this.builtPercentage) === 99
         && !this.built) {
@@ -87,13 +86,14 @@ export default class BuildSpot extends Phaser.Physics.Arcade.Sprite {
     }
 
     drawProgress() {
-        this.progressBar.backdrop.clear();
-        this.progressBar.bar.clear();
-        if(this.builtPercentage > 98) return;
-        this.progressBar.backdrop.fillStyle(0xff0000);
-        this.progressBar.backdrop.fillRect(this.x - 8, this.y + 16, 18, 2);
-        this.progressBar.bar.fillStyle(0x00ff00);
-        this.progressBar.bar.fillRect(this.x - 8, this.y + 16, Math.ceil(this.builtPercentage / (this.width / 3)), 2);
+        // this.progressBar.backdrop.clear();
+        // this.progressBar.bar.clear();
+        // if(this.builtPercentage > 98) return;
+        // this.progressBar.backdrop.fillStyle(0xff0000);
+        // this.progressBar.backdrop.fillRect(this.x - 8, this.y + 16, 18, 2);
+        // this.progressBar.bar.fillStyle(0x00ff00);
+        // this.progressBar.bar.fillRect(this.x - 8, this.y + 16, Math.ceil(this.builtPercentage / (this.width / 3)), 2);
+        drawProgress(this.progressBar, this, this.builtPercentage);
     }
 
     addToBuildersQueue() {

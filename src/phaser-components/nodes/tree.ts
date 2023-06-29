@@ -1,3 +1,4 @@
+import drawProgress from "../utils/drawprogress";
 import Logs from "./logs";
 
 export default class Tree extends Phaser.Physics.Arcade.Sprite {
@@ -9,19 +10,27 @@ export default class Tree extends Phaser.Physics.Arcade.Sprite {
     }
 
     durability: number;
+    chopped = false;
+    chopPercentage = 0;
+
+    private progressBar = {
+        backdrop: this.scene.add.graphics(),
+        bar: this.scene.add.graphics(),
+    }
 
     loseDurability(): void {
-        this.durability--;
-        if(this.durability <= 0) { 
+        this.chopPercentage += 0.1;
+        drawProgress(this.progressBar, this, this.chopPercentage);
+        if(Math.ceil(this.chopPercentage) === 99
+        && this.chopped === false) { 
             this.scene.physics.add.existing(
                 new Logs(
                     this.scene,
                     this.x,
                     this.y,
-                    'logs',
-                    0
                 )
             );
+            this.chopped = true;
             return this.destroy();
         }
     }

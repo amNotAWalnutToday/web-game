@@ -97,6 +97,7 @@ export default class Game extends Phaser.Scene {
         const groundItems = this.physics.add.group();
         this.registry.set('groundItems', groundItems);
         const trees = this.physics.add.group();
+        this.registry.set("trees", trees);
         for(let i = 10; i > 0; i--) {
             trees.add(new Tree(
                 this,
@@ -132,13 +133,17 @@ export default class Game extends Phaser.Scene {
             if(!this.selectedCharacter) {
                 return;
             } else if(this.selectedBuildItem) {
+                const { x, y } = this.map.full.worldToTileXY(e.worldX, e.worldY);
+                const tileProps = this.map.full.getTileAt(x, y).properties;
+                if(tileProps.buildingHere || tileProps.terrain === 'water') return;
                 if(this.selectedCharacter.target instanceof BuildSpot) {
-                    return this.selectedCharacter.buildQueue.push(
-                        this.physics.add.existing(new BuildSpot(this, e.worldX, e.worldY, this.selectedBuildItem.toLowerCase(), 0))
+                    this.selectedCharacter.buildQueue.push(
+                        this.physics.add.existing(new BuildSpot(this, (x * 16) + 8, (y * 16) + 8, this.selectedBuildItem.toLowerCase(), 0))
                     );
                 } else {
-                    this.physics.add.existing(new BuildSpot(this, e.worldX, e.worldY, this.selectedBuildItem.toLowerCase(), 0));
+                    this.physics.add.existing(new BuildSpot(this, (x * 16) + 8, (y * 16) + 8, this.selectedBuildItem.toLowerCase(), 0));
                 }
+                tileProps.buildingHere = true;
             } else {
                 this.selectedCharacter.getPath(e);
             }
@@ -157,6 +162,7 @@ export default class Game extends Phaser.Scene {
         this.registry.set('selectedCharacter', this.selectedCharacter);
         this.registry.set('groundItems', groundItems);
         this.registry.set('storage', storage);
+        this.registry.set('trees', trees);
         this.yourCharacters = this.registry.get('yourCharacters');
         this.registry.events.on('changedata', (a: any, key: string, payload: any) => {
             switch(key) {

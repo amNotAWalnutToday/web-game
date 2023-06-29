@@ -24,12 +24,31 @@ export default class WoodChest extends Buildable {
         this.storage.push(<StorageItem>{type: item, amount: 1});
     }
 
+    removeItem(item: string | null) {
+        let indexOfStorageItem = -1;
+        this.storage.forEach((storageItem, ind) => {
+            if(item === storageItem.type) { 
+                storageItem.amount--;
+                if(storageItem.amount < 1) indexOfStorageItem = ind;
+            }
+        });
+        if(indexOfStorageItem < 0) return;
+        this.storage.splice(indexOfStorageItem, 1);
+    }
+
+    getItem(searchItem: string | null) {
+        for(const item of this.storage) {
+            if(item.type === searchItem) return item;
+        }
+        return null;
+    } 
+
     checkStorageIfFull() {
         const amount = this.storage.reduce((prev, current) => {
             const total = current.amount + prev;
             return total; 
         }, 0);
         if(amount >= this.size) return true;
-        else false;
+        else return false;
     } 
 } 

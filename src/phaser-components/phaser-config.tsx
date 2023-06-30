@@ -1,13 +1,21 @@
 import Phaser from 'phaser';
 
-export const height = 480;
-export const width = 600;
+const dpr = window.devicePixelRatio;
+const height = window.innerHeight * dpr;
+const width = window.innerWidth * dpr;
+
+function getScreen() {
+    return { width, height };
+}
+
+getScreen();
 
 const config = {
     type: Phaser.AUTO,
     backgroundColor: '#333',
-    width: 600,
-    height: 480,
+    mode: Phaser.Scale.NONE,
+    width: getScreen().width,
+    height: getScreen().height,
     antialias: true,
     physics: {
         default: 'arcade',
@@ -17,6 +25,12 @@ const config = {
             debug: false,
         }
     },
+    zoom: 1,
+    scale: {
+        mode: Phaser.Scale.NONE,
+        width,
+        height,
+    }
 };
 
 export default config;

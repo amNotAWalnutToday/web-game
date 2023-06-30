@@ -36,6 +36,11 @@ export default class Loading extends Phaser.Scene {
         this.registry.set("selectedBuildItem", null);
         this.registry.set("groundItems", []);
         this.registry.set("map", null);
+        this.registry.set("gameSize", { 
+            height: this.sys.game.scale.height, 
+            width: this.sys.game.scale.width
+        });
+
         this.scene.add('game', Game, true, { x: 400, y: 300 });
         this.scene.add('ui', Ui, true, { x: 400, y: 300 });
         this.scene.add('summon_ui', Summon, false, { x: 400, y: 300 });

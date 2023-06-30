@@ -86,7 +86,7 @@ export default class Game extends Phaser.Scene {
 
     create() {
         this.cameras.main.setBounds(0, 0, 1000 * 2, 1000 * 2);
-        this.cameras.main.setZoom(0.75);
+        this.cameras.main.setZoom(1);
         this.physics.world.setBounds(0, 0, 1000 * 2, 1000 * 2);
         const camera = this.physics.add.sprite(0, 0, '', 0).setVisible(false);
         this.cameras.main.startFollow(camera);
@@ -203,6 +203,7 @@ export default class Game extends Phaser.Scene {
             char.setCollideWorldBounds(true);
             this.registry.set('yourCharacters', this.yourCharacters);
         });
+        window.addEventListener('resize', () => this.resize());
     }
 
     update() {
@@ -213,5 +214,24 @@ export default class Game extends Phaser.Scene {
         const sourceTileY = this.map.chunk1.worldToTileY(worldPoint.y);
         this.sourceMarker.x = this.map.chunk1.tileToWorldX(sourceTileX);
         this.sourceMarker.y = this.map.chunk1.tileToWorldY(sourceTileY);
+    }
+    
+    resize() {
+        const dpr = window.devicePixelRatio;
+        const widthDPR = Math.round(window.innerWidth * dpr);
+        const heightDPR = Math.round(window.innerHeight * dpr);
+    
+        this.sys.game.scale.parent.width = Math.round(window.innerWidth);
+        this.sys.game.scale.parent.height = Math.round(window.innerHeight);
+    
+        this.sys.game.scale.resize(widthDPR, heightDPR);
+    
+        this.sys.game.scale.canvas.style.width = Math.round(window.innerWidth) + 'px';
+        this.sys.game.scale.canvas.style.height = Math.round(window.innerHeight) + 'px';
+    
+        this.sys.game.scale.setGameSize(widthDPR, heightDPR);
+        this.sys.game.scale.setParentSize(window.innerWidth, window.innerHeight);
+    
+        this.registry.set("gameSize", {width: widthDPR, height: heightDPR});
     }
 }

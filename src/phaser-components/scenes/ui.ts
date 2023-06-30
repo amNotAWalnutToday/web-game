@@ -23,8 +23,8 @@ export default class Ui extends Phaser.Scene {
         super('ui');
     }
 
-    screenWidth = 600;
-    screenHeight = 480;
+    screenWidth = 0;
+    screenHeight = 0;
 
     currentCharacter?: Character | null;
     characters: Character[] = [];
@@ -79,9 +79,21 @@ export default class Ui extends Phaser.Scene {
         buttons: []
     }
 
+    setContainers = () => {
+        const { width, height } = this.registry.get("gameSize");
+        console.log(height, width);
+        this.screenHeight = height;
+        this.screenWidth = width;
+
+        this.commandMenu.container.screenY       = height - 100;
+        this.actionMenu.container.screenY        = height - 40;
+        this.buildMenu.container.screenY         = height - 100;
+        this.buildCategoryMenu.container.screenY = height - 126; 
+        this.addActionMenu();
+    }
+
     create() {
-        this.screenWidth = this.scene.systems.canvas.width;
-        this.screenHeight = this.scene.systems.canvas.height;
+        this.setContainers();
         this.characters = this.registry.get('yourCharacters');
         this.currentCharacter = this.registry.get('selectedCharacter');
         if(!this.characters.length) return;
@@ -107,6 +119,9 @@ export default class Ui extends Phaser.Scene {
                     if(payload && this.commandMenu.toggleBtn) this.commandMenu.toggleBtn.text.text = `Commands \n Build`; 
                     this.actionMenu.buttons[0].text.text = `Build \n ${payload ?? 'N/A'}`;
                     break;
+                case 'gameSize':
+                    this.setContainers();
+                    break;
                 case 'dunnowhattodowiththisaargbutcantcompileso':
                     console.log(a);
                     break;
@@ -114,17 +129,22 @@ export default class Ui extends Phaser.Scene {
         });
 
         const menuBtn = this.add.graphics();
-        this.add.text(570, 465, 'Menu', {fontSize: "11px"});
+        this.add.text(this.screenWidth - 65, this.screenHeight - 60, 'Menu', {fontSize: "11px"});
         menuBtn.fillStyle(0x1199ff, 0.75);
-        menuBtn.fillCircle(590, 475, 25);
+        menuBtn.fillCircle(this.screenWidth - 50, this.screenHeight - 50, 25);
         menuBtn.setInteractive({
-            hitArea: new Phaser.Geom.Circle(590, 475, 25),
+            hitArea: new Phaser.Geom.Circle(this.screenWidth - 50, this.screenHeight - 50, 25),
             hitAreaCallback: Phaser.Geom.Circle.Contains,
         });
         menuBtn.on("pointerdown", () => {
             this.scene.launch("summon_ui");
         });
+        this.addActionMenu();
+    }
 
+    addActionMenu = () => {
+        this.actionMenu.buttons.forEach(button => button.hide());
+        this.commandMenu.toggleBtn?.hide();
         this.commandMenu.toggleBtn = createButton(
             this, 
             0,

@@ -68,8 +68,10 @@ button:hover {
 
 canvas {
   position: absolute;
-  top: 20%;
-  left: 30%;
+  /*top: 20%;
+  left: 30%;*/
+  top: 0%;
+  left: 0%;
   box-shadow: 0px 4px 4px black;
   border-radius: 3px;
 }

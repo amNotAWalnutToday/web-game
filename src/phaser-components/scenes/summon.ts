@@ -1,5 +1,4 @@
 import Phaser from "phaser";
-import { height, width } from '../phaser-config';
 import Slime from "../characters/slime";
 import Harpy from "../characters/harpy";
 import Goblin from "../characters/goblin";
@@ -10,15 +9,16 @@ export default class Summon extends Phaser.Scene {
     }
 
     create() {
+        const { width, height } = this.registry.get("gameSize");
         const overlay = this.add.graphics();
         overlay.fillStyle(0x111111, 0.8);
-        overlay.fillRect(0, 0, 640, 480);
+        overlay.fillRect(0, 0, width, height);
         const closeBtn = this.add.graphics();
         closeBtn.fillStyle(0xff0000);
-        closeBtn.fillRoundedRect(575, 0, 25, 25, 5);
-        this.add.text(583.5, 4 , 'X');
+        closeBtn.fillRoundedRect(width - 26, 0, 25, 25, 5);
+        this.add.text(width - 17.5, 4 , 'X');
         closeBtn.setInteractive({
-            hitArea: new Phaser.Geom.Rectangle(575, 0, 25, 25),
+            hitArea: new Phaser.Geom.Rectangle(width - 26, 0, 25, 25),
             hitAreaCallback: Phaser.Geom.Rectangle.Contains,
         });
         closeBtn.on("pointerdown", () => this.scene.stop());

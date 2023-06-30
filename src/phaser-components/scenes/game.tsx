@@ -141,7 +141,7 @@ export default class Game extends Phaser.Scene {
         //             this.selectedCharacter?.chopTree(tree);
         //         }
         //     })
-        // })
+        // //})
         
         setupTeam(this, this.yourCharacters);
         

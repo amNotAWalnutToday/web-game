@@ -4,7 +4,6 @@ import Slime from "../characters/slime";
 import Harpy from "../characters/harpy";
 import Goblin from "../characters/goblin";
 import user from '../data/user.json';
-import findPath from "../utils/pathfind";
 import Tree from "../nodes/tree";
 import BuildSpot from "../nodes/buildspot";
 import Logs from "../nodes/logs";
@@ -13,7 +12,7 @@ type Commands = 'MOVE' | 'BUILD' | 'CHOP' | 'CARRY';
 
 export function setupTeam(scene: Phaser.Scene, yourCharacters: Character[] = []) {
     yourCharacters.forEach(unit => unit.destroy());
-    user.units.forEach((unit, i: number) => {
+    user.units.forEach((unit) => {
         let thisUnit;
         switch(unit.race) {
             case "goblin_mage":  
@@ -64,7 +63,7 @@ export default class Game extends Phaser.Scene {
     map: any;
     sourceMarker: any;
     selectedCharacter: Character | null = null;
-    selectedCommand = 'MOVE';
+    selectedCommand: Commands = 'MOVE';
     selectedBuildItem: string | null = null;
     yourCharacters: Character[] = [];
     pointerDown = false;
@@ -133,22 +132,22 @@ export default class Game extends Phaser.Scene {
                     0
             ));
         }
-        trees.children.iterate((tree: Tree) => {
-            tree.setInteractive();
-            tree.on("pointerdown", () => {
-                console.log(this.selectedCommand);
-                if(this.selectedCommand === 'CHOP') {
-                    this.selectedCharacter?.actionQueue.unshift('CHOP');
-                    this.selectedCharacter?.chopTree(tree);
-                }
-            })
-        })
+        // trees.children.iterate((tree: Tree) => {
+        //     tree.setInteractive();
+        //     tree.on("pointerdown", () => {
+        //         console.log(this.selectedCommand);
+        //         if(this.selectedCommand === 'CHOP') {
+        //             this.selectedCharacter?.actionQueue.unshift('CHOP');
+        //             this.selectedCharacter?.chopTree(tree);
+        //         }
+        //     })
+        // })
         
         setupTeam(this, this.yourCharacters);
         
         this.sourceMarker = this.add.graphics({ lineStyle: { width: 2, color: 0xffffff, alpha: 1 } });
         this.sourceMarker.strokeRect(0, 0, 1 * this.map.chunk1.tileWidth, 1 * this.map.chunk1.tileHeight);
-        this.input.on('pointerdown', (e) => {
+        this.input.on('pointerdown', (e: Phaser.Input.Pointer) => {
             if(!this.selectedCharacter) {
                 return;
             } else if(this.selectedBuildItem) {
@@ -158,11 +157,11 @@ export default class Game extends Phaser.Scene {
                 this.selectedCharacter.getPath(e);
             }
         });
-        this.input.on('pointerup', (e) => {
+        this.input.on('pointerup', () => {
             if(!this.selectedCharacter || !this.selectedBuildItem) return;
             this.pointerDown = false;
         })
-        this.input.on('pointermove', (e) => this.placeBuildItem(e));
+        this.input.on('pointermove', (e: Phaser.Input.Pointer) => this.placeBuildItem(e));
         this.input.keyboard?.on("keydown-W", () => camera.setVelocityY(-200));
         this.input.keyboard?.on("keydown-S", () => camera.setVelocityY(200));
         this.input.keyboard?.on("keydown-D", () => camera.setVelocityX(200));
@@ -179,7 +178,7 @@ export default class Game extends Phaser.Scene {
         this.registry.set('storage', storage);
         this.registry.set('trees', trees);
         this.yourCharacters = this.registry.get('yourCharacters');
-        this.registry.events.on('changedata', (a: any, key: string, payload: any) => {
+        this.registry.events.on('changedata', (a: unknown, key: string, payload: any) => {
             switch(key) {
                 case "selectedCharacter":
                     camera.x = this.selectedCharacter?.x ?? 0; 
@@ -204,11 +203,12 @@ export default class Game extends Phaser.Scene {
     }
 
     update() {
+        this.yourCharacters.forEach(char => char.update());
         const worldPoint = this.input.activePointer.positionToCamera(this.cameras.main);
+        if(!(worldPoint instanceof Phaser.Math.Vector2)) return;
         const sourceTileX = this.map.chunk1.worldToTileX(worldPoint.x);
         const sourceTileY = this.map.chunk1.worldToTileY(worldPoint.y);
         this.sourceMarker.x = this.map.chunk1.tileToWorldX(sourceTileX);
         this.sourceMarker.y = this.map.chunk1.tileToWorldY(sourceTileY);
-        this.yourCharacters.forEach(char => char.update());
     }
 }

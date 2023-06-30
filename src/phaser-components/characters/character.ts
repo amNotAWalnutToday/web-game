@@ -119,8 +119,8 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         this.inventory.push({type: item.type, amount: 1});
     }
 
-    placeItem(item: string | null, place: any) {
-        if(!item) return;
+    placeItem(item: string | null, place: WoodChest | Item) {
+        if(!item || !(place instanceof WoodChest)) return;
         place.addResource(item);
         let shouldRemove = false;
         for(const inventoryItem of this.inventory) {
@@ -273,6 +273,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             }
         }
         if(this.currentAction === 'PICKUP') {
+            /*eslint-disable-next-line*/
             if(!this.checkIfArrived(this, this.pickupTarget!)) {
                 this.currentAction = null;
                 this.actionQueue.unshift('PICKUP');
@@ -301,7 +302,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
                 const groundItems = this.scene.registry.get("groundItems");
                 const neededResource = this.target.getNeededResources();
                 let storageContains = false;
-                storage.children.iterate((store, ind) => {
+                storage.children.iterate((store: WoodChest) => {
                     if(store.getItem(neededResource)) return storageContains = true;
                 });
                 this.getResources(neededResource, storageContains);

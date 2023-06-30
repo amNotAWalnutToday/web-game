@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef } from "react"
-import { Link } from "react-router-dom"
+import { useState, useEffect, useRef } from "react";
 import Phaser from "phaser";
 import config from "../phaser-components/phaser-config";
 import Loading from "../phaser-components/scenes/loading";
@@ -17,7 +16,6 @@ export default function Homepage() {
         if(showGame) addGame();
     }, [showGame]);
     useEffect(() => {
-        console.log(window.location.href);
         if(window.location.href === data.location) setShowGame(true);
     }, []);
     const usernameref = useRef<HTMLInputElement>(null);
@@ -37,12 +35,24 @@ export default function Homepage() {
         }
     }
 
+    const clickHandle = () => {
+        if(!usernameref && !passwordref) return;
+        if(usernameref.current && passwordref.current) {
+            checkPass(
+                usernameref.current.value.toLowerCase(), 
+                passwordref.current.value.toLowerCase()
+            );
+        }
+    }
+
     return(
         <>
             <main className="page" >
                 {!showGame
                 && 
-                <form method='GET'  className="flex-col">
+                <form method='GET'  className="flex-col" onKeyDown={(e) => {
+                    if(e.key === 'Enter') clickHandle();
+                }}>
                     <legend>Login</legend>
                     <div>
                         <label htmlFor="username">Username</label>
@@ -62,15 +72,7 @@ export default function Homepage() {
                     </div>
                     <button
                         type="button"
-                        onClick={() => {
-                            if(!usernameref && !passwordref) return;
-                            if(usernameref.current && passwordref.current) {
-                                checkPass(
-                                    usernameref.current.value.toLowerCase(), 
-                                    passwordref.current.value.toLowerCase()
-                                );
-                            }
-                        }}
+                        onClick={clickHandle}
                     >
                         Login
                     </button>

@@ -11,6 +11,13 @@ interface Menu {
     filterBy?: string,
 }
 
+interface Slot {
+    cid: number,
+    sprite: Phaser.GameObjects.Image,
+    text: Phaser.GameObjects.Text,
+    box: Phaser.GameObjects.Graphics
+}
+
 export default class Ui extends Phaser.Scene {
     constructor() {
         super('ui');
@@ -21,7 +28,7 @@ export default class Ui extends Phaser.Scene {
 
     currentCharacter?: Character | null;
     characters: Character[] = [];
-    characterSlots: any = [];
+    characterSlots: Slot[] = [];
 
     commandMenu: Menu = {
         isOpen: false,
@@ -83,7 +90,7 @@ export default class Ui extends Phaser.Scene {
             this.addSlot(character);
         });
 
-        this.registry.events.on('changedata', (a: any, key: string, payload: any) => {
+        this.registry.events.on('changedata', (a: unknown, key: string, payload: any) => {
             switch(key) {
                 case 'yourCharacters':
                     this.changeSelectedCharacterBoxs();
@@ -104,7 +111,7 @@ export default class Ui extends Phaser.Scene {
         });
 
         const menuBtn = this.add.graphics();
-        const menuText = this.add.text(570, 465, 'Menu', {fontSize: "11px"});
+        this.add.text(570, 465, 'Menu', {fontSize: "11px"});
         menuBtn.fillStyle(0x1199ff, 0.75);
         menuBtn.fillCircle(590, 475, 25);
         menuBtn.setInteractive({
@@ -261,7 +268,7 @@ export default class Ui extends Phaser.Scene {
     }
 
     changeSelectedCharacterBoxs() {
-        this.characterSlots.forEach((slot: any, ind: number) => {
+        this.characterSlots.forEach((slot: Slot, ind: number) => {
             slot.box.clear();
             slot.text.text = this.characters[ind].currentAction ?? 'N/A';
             if(slot.cid === this.currentCharacter?.cid) {

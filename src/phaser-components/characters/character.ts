@@ -119,8 +119,8 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         this.inventory.push({type: item.type, amount: 1});
     }
 
-    placeItem(item: string | null, place: WoodChest | Item) {
-        if(!item || !(place instanceof WoodChest)) return;
+    placeItem(item: string | null, place: any) {
+        if(!item) return;
         place.addResource(item);
         let shouldRemove = false;
         for(const inventoryItem of this.inventory) {

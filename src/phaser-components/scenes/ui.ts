@@ -133,7 +133,7 @@ export default class Ui extends Phaser.Scene {
         const buildsomething = (item: string) => {
             this.registry.set("selectedBuildItem", item.toUpperCase());
         };
-        const items: string[] = ['Chest', 'Crafting \n Area'];
+        const items: string[] = ['Chest', 'Wall', 'Floor'];
         items.forEach((item: string, ind: number) => {
             const button = createButton(this, ind * 85, 0, item, this.buildMenu.container, () => buildsomething(item));
             this.buildMenu.buttons.push(button);

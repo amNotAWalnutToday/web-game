@@ -93,6 +93,7 @@ export default class Game extends Phaser.Scene {
         this.map.full.addTilesetImage('forest_tileset', 'forest_tileset');
         this.map.full.addTilesetImage('water_tiles', 'water_tiles');
         const fullMap = this.map.full.createLayer('ground', ['forest_tileset', 'water_tiles'], 0, 0);
+        fullMap.setDepth(-5);
         const storage = this.physics.add.group();
         const groundItems = this.physics.add.group();
         this.registry.set('groundItems', groundItems);

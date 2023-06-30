@@ -8,6 +8,24 @@
                     "amount": 2
                 }
             ]
+        },
+        {
+            "type": "wall",
+            "resources": [
+                {
+                    "type": "logs",
+                    "amount": 1
+                }
+            ]
+        },
+        {
+            "type": "floor",
+            "resources": [
+                {
+                    "type": "logs",
+                    "amount": 1
+                }
+            ]
         }
     ]
 }

@@ -166,6 +166,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -176,6 +181,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -194,6 +204,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -204,6 +219,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -222,6 +242,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -232,6 +257,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -250,6 +280,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -260,6 +295,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -278,6 +318,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -288,6 +333,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -306,6 +356,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -316,6 +371,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -334,6 +394,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -344,6 +409,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -362,6 +432,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -372,6 +447,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -390,6 +470,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -400,6 +485,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -418,6 +508,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -428,6 +523,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -446,6 +546,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -456,6 +561,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -474,6 +584,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -484,6 +599,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -502,6 +622,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -512,6 +637,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -530,6 +660,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -540,6 +675,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -558,6 +698,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -568,6 +713,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -586,6 +736,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -596,6 +751,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -614,6 +774,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -624,6 +789,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -642,6 +812,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -652,6 +827,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -670,6 +850,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -680,6 +865,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -698,6 +888,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -708,6 +903,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -726,6 +926,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -736,6 +941,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -754,6 +964,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -764,6 +979,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -782,6 +1002,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -792,6 +1017,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -810,6 +1040,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -820,6 +1055,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -838,6 +1078,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -848,6 +1093,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -866,6 +1116,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -876,6 +1131,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -894,6 +1154,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -904,6 +1169,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -922,6 +1192,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -932,6 +1207,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -950,6 +1230,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -960,6 +1245,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -978,6 +1268,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -988,6 +1283,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1006,6 +1306,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1016,6 +1321,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1034,6 +1344,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1044,6 +1359,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1062,6 +1382,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1072,6 +1397,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1090,6 +1420,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1100,6 +1435,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1118,6 +1458,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1128,6 +1473,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1146,6 +1496,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1156,6 +1511,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1174,6 +1534,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1184,6 +1549,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1202,6 +1572,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1212,6 +1587,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1230,6 +1610,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1240,6 +1625,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1258,6 +1648,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1268,6 +1663,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1286,6 +1686,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1296,6 +1701,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1314,6 +1724,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1324,6 +1739,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1342,6 +1762,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1352,6 +1777,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1370,6 +1800,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1380,6 +1815,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1398,6 +1838,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1408,6 +1853,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1426,6 +1876,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1436,6 +1891,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1454,6 +1914,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1464,6 +1929,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1482,6 +1952,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1492,6 +1967,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1510,6 +1990,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1520,6 +2005,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1538,6 +2028,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1548,6 +2043,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1566,6 +2066,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1576,6 +2081,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1594,6 +2104,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1604,6 +2119,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1622,6 +2142,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1632,6 +2157,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1650,6 +2180,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1660,6 +2195,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1678,6 +2218,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1688,6 +2233,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1706,6 +2256,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1716,6 +2271,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1734,6 +2294,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1744,6 +2309,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1762,6 +2332,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1772,6 +2347,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1790,6 +2370,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1800,6 +2385,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1818,6 +2408,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1828,6 +2423,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1846,6 +2446,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1856,6 +2461,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1874,6 +2484,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1888,6 +2503,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1898,6 +2518,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1917,6 +2542,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1927,6 +2557,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1945,6 +2580,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1955,6 +2595,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -1973,6 +2618,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -1983,6 +2633,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -2001,6 +2656,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -2011,6 +2671,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -2029,6 +2694,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -2039,6 +2709,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -2057,6 +2732,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -2067,6 +2747,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -2085,6 +2770,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -2095,6 +2785,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -2113,6 +2808,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -2123,6 +2823,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -2141,6 +2846,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -2151,6 +2861,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -2169,6 +2884,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -2179,6 +2899,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -2197,6 +2922,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -2207,6 +2937,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -2225,6 +2960,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -2235,6 +2975,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -2253,6 +2998,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -2263,6 +3013,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -2281,6 +3036,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -2291,6 +3051,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -2309,6 +3074,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -2319,6 +3089,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -2337,6 +3112,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -2347,6 +3127,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -2365,6 +3150,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -2375,6 +3165,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -2393,6 +3188,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -2403,6 +3203,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -2421,6 +3226,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -2431,6 +3241,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -2449,6 +3264,11 @@
                          "value":false
                         }, 
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"forest"
@@ -2459,6 +3279,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }, 
@@ -2475,6 +3300,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2482,6 +3312,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2493,6 +3328,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2500,6 +3340,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2511,6 +3356,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2518,6 +3368,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2529,6 +3384,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2536,6 +3396,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2547,6 +3412,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2554,6 +3424,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2565,6 +3440,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2572,6 +3452,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2583,6 +3468,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2590,6 +3480,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2601,6 +3496,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2608,6 +3508,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2619,6 +3524,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2626,6 +3536,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2637,6 +3552,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2644,6 +3564,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2655,6 +3580,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2662,6 +3592,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2673,6 +3608,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2680,6 +3620,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2691,6 +3636,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2698,6 +3648,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2709,6 +3664,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2716,6 +3676,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2727,6 +3692,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2734,6 +3704,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2745,6 +3720,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2752,6 +3732,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2763,6 +3748,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2770,6 +3760,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2781,6 +3776,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2788,6 +3788,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2799,6 +3804,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2806,6 +3816,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2817,6 +3832,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2824,6 +3844,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2835,6 +3860,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2842,6 +3872,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2853,6 +3888,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2860,6 +3900,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2871,6 +3916,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2878,6 +3928,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2889,6 +3944,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2896,6 +3956,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2907,6 +3972,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2914,6 +3984,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2925,6 +4000,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2932,6 +4012,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2943,6 +4028,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2952,6 +4042,11 @@
                          "name":"buildingHere",
                          "type":"bool",
                          "value":false
+                        }, 
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
                         }]
                 }, 
                 {
@@ -2959,6 +4054,11 @@
                  "properties":[
                         {
                          "name":"buildingHere",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
+                         "name":"collides",
                          "type":"bool",
                          "value":false
                         }]
@@ -2981,6 +4081,11 @@
                  "id":0,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -2989,6 +4094,11 @@
                 {
                  "id":1,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -2999,6 +4109,11 @@
                  "id":2,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3007,6 +4122,11 @@
                 {
                  "id":3,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3017,6 +4137,11 @@
                  "id":4,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3025,6 +4150,11 @@
                 {
                  "id":5,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3035,6 +4165,11 @@
                  "id":6,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3043,6 +4178,11 @@
                 {
                  "id":7,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3053,6 +4193,11 @@
                  "id":8,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3061,6 +4206,11 @@
                 {
                  "id":9,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3071,6 +4221,11 @@
                  "id":10,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3079,6 +4234,11 @@
                 {
                  "id":11,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3089,6 +4249,11 @@
                  "id":12,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3097,6 +4262,11 @@
                 {
                  "id":13,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3107,6 +4277,11 @@
                  "id":14,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3115,6 +4290,11 @@
                 {
                  "id":15,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3125,6 +4305,11 @@
                  "id":16,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3133,6 +4318,11 @@
                 {
                  "id":17,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3143,6 +4333,11 @@
                  "id":18,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3151,6 +4346,11 @@
                 {
                  "id":19,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3161,6 +4361,11 @@
                  "id":20,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3169,6 +4374,11 @@
                 {
                  "id":21,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3179,6 +4389,11 @@
                  "id":22,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3187,6 +4402,11 @@
                 {
                  "id":23,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3197,6 +4417,11 @@
                  "id":24,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3205,6 +4430,11 @@
                 {
                  "id":25,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3215,6 +4445,11 @@
                  "id":26,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3223,6 +4458,11 @@
                 {
                  "id":27,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3233,6 +4473,11 @@
                  "id":28,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3241,6 +4486,11 @@
                 {
                  "id":29,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3251,6 +4501,11 @@
                  "id":30,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3259,6 +4514,11 @@
                 {
                  "id":31,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3269,6 +4529,11 @@
                  "id":32,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3277,6 +4542,11 @@
                 {
                  "id":33,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3287,6 +4557,11 @@
                  "id":34,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3295,6 +4570,11 @@
                 {
                  "id":35,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3305,6 +4585,11 @@
                  "id":36,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3313,6 +4598,11 @@
                 {
                  "id":37,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3323,6 +4613,11 @@
                  "id":38,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3331,6 +4626,11 @@
                 {
                  "id":39,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3341,6 +4641,11 @@
                  "id":40,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3349,6 +4654,11 @@
                 {
                  "id":41,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3359,6 +4669,11 @@
                  "id":42,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3367,6 +4682,11 @@
                 {
                  "id":43,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3377,6 +4697,11 @@
                  "id":44,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3385,6 +4710,11 @@
                 {
                  "id":45,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3395,6 +4725,11 @@
                  "id":46,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3403,6 +4738,11 @@
                 {
                  "id":47,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3413,6 +4753,11 @@
                  "id":48,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3421,6 +4766,11 @@
                 {
                  "id":49,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3431,6 +4781,11 @@
                  "id":50,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3439,6 +4794,11 @@
                 {
                  "id":51,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3449,6 +4809,11 @@
                  "id":52,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3457,6 +4822,11 @@
                 {
                  "id":53,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3467,6 +4837,11 @@
                  "id":54,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3475,6 +4850,11 @@
                 {
                  "id":55,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3485,6 +4865,11 @@
                  "id":56,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3493,6 +4878,11 @@
                 {
                  "id":57,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3503,6 +4893,11 @@
                  "id":58,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3511,6 +4906,11 @@
                 {
                  "id":59,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3521,6 +4921,11 @@
                  "id":60,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3529,6 +4934,11 @@
                 {
                  "id":61,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3539,6 +4949,11 @@
                  "id":62,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3547,6 +4962,11 @@
                 {
                  "id":63,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3557,6 +4977,11 @@
                  "id":64,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3565,6 +4990,11 @@
                 {
                  "id":65,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3575,6 +5005,11 @@
                  "id":66,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3583,6 +5018,11 @@
                 {
                  "id":67,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3593,6 +5033,11 @@
                  "id":68,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3601,6 +5046,11 @@
                 {
                  "id":69,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3611,6 +5061,11 @@
                  "id":70,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3619,6 +5074,11 @@
                 {
                  "id":71,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3629,6 +5089,11 @@
                  "id":72,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3637,6 +5102,11 @@
                 {
                  "id":73,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3647,6 +5117,11 @@
                  "id":74,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3655,6 +5130,11 @@
                 {
                  "id":75,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3665,6 +5145,11 @@
                  "id":76,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3673,6 +5158,11 @@
                 {
                  "id":77,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3683,6 +5173,11 @@
                  "id":78,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3691,6 +5186,11 @@
                 {
                  "id":79,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3701,6 +5201,11 @@
                  "id":80,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3709,6 +5214,11 @@
                 {
                  "id":81,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3719,6 +5229,11 @@
                  "id":82,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3727,6 +5242,11 @@
                 {
                  "id":83,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3737,6 +5257,11 @@
                  "id":84,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3745,6 +5270,11 @@
                 {
                  "id":85,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3755,6 +5285,11 @@
                  "id":86,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3763,6 +5298,11 @@
                 {
                  "id":87,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3773,6 +5313,11 @@
                  "id":88,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3781,6 +5326,11 @@
                 {
                  "id":89,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3791,6 +5341,11 @@
                  "id":90,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3799,6 +5354,11 @@
                 {
                  "id":91,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3809,6 +5369,11 @@
                  "id":92,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3817,6 +5382,11 @@
                 {
                  "id":93,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3827,6 +5397,11 @@
                  "id":94,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3835,6 +5410,11 @@
                 {
                  "id":95,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3845,6 +5425,11 @@
                  "id":96,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3853,6 +5438,11 @@
                 {
                  "id":97,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3863,6 +5453,11 @@
                  "id":98,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3871,6 +5466,11 @@
                 {
                  "id":99,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3881,6 +5481,11 @@
                  "id":100,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3889,6 +5494,11 @@
                 {
                  "id":101,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3899,6 +5509,11 @@
                  "id":102,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3907,6 +5522,11 @@
                 {
                  "id":103,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3917,6 +5537,11 @@
                  "id":104,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3925,6 +5550,11 @@
                 {
                  "id":105,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3935,6 +5565,11 @@
                  "id":106,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3943,6 +5578,11 @@
                 {
                  "id":107,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",
@@ -3953,6 +5593,11 @@
                  "id":108,
                  "properties":[
                         {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
+                        {
                          "name":"terrain",
                          "type":"string",
                          "value":"water"
@@ -3961,6 +5606,11 @@
                 {
                  "id":109,
                  "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }, 
                         {
                          "name":"terrain",
                          "type":"string",

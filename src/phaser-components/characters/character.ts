@@ -66,15 +66,6 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
 
     chopTree() {
         const trees = this.scene.registry.get("trees");
-        //const closest = {ind: 0, distance: 1000, tree: <Tree | null> null };
-        // trees.children.iterate((tree: Tree, ind: number) => {
-        //     const distance = Math.abs(Math.abs(this.x - tree.x) + Math.abs(this.y - tree.y));
-        //     if(distance < closest.distance) {
-        //         closest.tree = tree;
-        //         closest.ind = ind;
-        //         closest.distance = distance;
-        //     }
-        // });
         const closest = getClosest({x: this.x, y: this.y}, trees, 'ANY');
         this.target = closest.item;
         if(!closest.item || !(closest.item instanceof Tree)) return this.currentAction = null;
@@ -209,7 +200,6 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         this.path = { t: 0, vec: new Phaser.Math.Vector2() };
         this.graphics.clear();
         this.graphics = this.scene.add.graphics();
-        //this.curve = new Phaser.Curves.Line(new Phaser.Math.Vector2(this.x, this.y), new Phaser.Math.Vector2(tarX, tarY));
         this.curve = new Phaser.Curves.Spline([...path]);
         this.scene.tweens.add({
             targets: this.path,
@@ -273,8 +263,6 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
 
             if(this.currentAction === 'MOVE') {
                 this.graphics.clear();
-                // this.graphics.lineStyle(1, 0xffffff, 1);
-                // this.graphics.lineTo(100, 100);
         
                 this.curve.draw(this.graphics);  
                 this.curve.updateArcLengths();

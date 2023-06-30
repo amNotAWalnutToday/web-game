@@ -22,6 +22,7 @@ const findPath = (
         if(wallsLayer?.getTileAtWorldXY(target.x, target.y)) return [];
         if(groundLayer.getTileAt(target.x, target.y).properties.terrain === 'water'
         && options.race !== 'harpy') return [];
+        if(groundLayer.getTileAt(target.x, target.y).properties.collides) return [];
         
         const queue: TilePosition[] = [];
         const parentForKey: { [key: string]: {key: string, position: TilePosition } } = {};
@@ -64,6 +65,7 @@ const findPath = (
                 if(wallsLayer?.getTileAtWorldXY(neighbour.x, neighbour.y)) continue;
                 if(tileAt.properties.terrain === 'water'
                 && options.race !== 'harpy') continue;
+                if(tileAt.properties.collides) continue;
                 const key = toKey(neighbour.x, neighbour.y);
                 if(key in parentForKey) continue;
 

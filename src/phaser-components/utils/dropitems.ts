@@ -10,7 +10,7 @@ export default function dropItems(
     for(let i = 0; i < amount; i++) {
         switch(item) {
             case 'logs':
-                scene.add.existing(
+                scene.physics.add.existing(
                     new Logs(
                         scene,
                         x,

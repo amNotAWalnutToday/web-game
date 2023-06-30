@@ -2,6 +2,7 @@ import buildspot_items from '../data/buildspot_items.json';
 import WoodChest from './buildables/wood_chest';
 import dropItems from '../utils/dropitems';
 import drawProgress from '../utils/drawprogress';
+import buildItems from '../utils/builditems';
 
 interface Resource {
     type: string,
@@ -19,13 +20,15 @@ export default class BuildSpot extends Phaser.Physics.Arcade.Sprite {
         this.addToBuildersQueue();
         this.setResources();
         this.setInteractive();
-        this.on("pointerdown", () => (console.log(this.resources)))
+        this.on("pointerdown", () => (console.log(this.resources)));
+        this.type = this.scene.registry.get("selectedBuildItem").toLowerCase();
     }
 
     builder;
     resources: Resource[] = [];
     builtPercentage = 0;
     built = false;
+    type = '';
 
     private progressBar = {
         backdrop: this.scene.add.graphics(),
@@ -78,7 +81,7 @@ export default class BuildSpot extends Phaser.Physics.Arcade.Sprite {
         if(Math.ceil(this.builtPercentage) === 99
         && !this.built) {
             this.built = true;
-            this.scene.physics.add.existing(new WoodChest(this.scene, this.x, this.y));
+            buildItems(this.scene, this.type, this.x, this.y);
             this.progressBar.backdrop.clear();
             this.progressBar.bar.clear();
             this.destroy();

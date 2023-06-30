@@ -194,6 +194,9 @@ export default class Game extends Phaser.Scene {
                 case "selectedBuildItem":
                     this.selectedBuildItem = payload;
                     break;
+                case 'dunnowhattodowiththeaargsoimmajustdothis':
+                    console.log(a);
+                    break;
             }
         });
         this.yourCharacters.forEach(char => {

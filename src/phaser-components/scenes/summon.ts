@@ -1,4 +1,4 @@
-import Phaser, { Scene } from "phaser";
+import Phaser from "phaser";
 import { height, width } from '../phaser-config';
 import Slime from "../characters/slime";
 import Harpy from "../characters/harpy";
@@ -16,7 +16,7 @@ export default class Summon extends Phaser.Scene {
         const closeBtn = this.add.graphics();
         closeBtn.fillStyle(0xff0000);
         closeBtn.fillRoundedRect(575, 0, 25, 25, 5);
-        const closeBtnText = this.add.text(583.5, 4 , 'X');
+        this.add.text(583.5, 4 , 'X');
         closeBtn.setInteractive({
             hitArea: new Phaser.Geom.Rectangle(575, 0, 25, 25),
             hitAreaCallback: Phaser.Geom.Rectangle.Contains,
@@ -24,11 +24,11 @@ export default class Summon extends Phaser.Scene {
         closeBtn.on("pointerdown", () => this.scene.stop());
 
         const menuItems = ["Weak Core"];
-        menuItems.forEach((item, ind) => {
+        menuItems.forEach((item) => {
             const box = this.add.graphics();
             box.fillStyle(0x666666);
             box.fillRoundedRect(width / 2 - 250 / 2, height / 2 - 100, 250, 50, 5);
-            const text = this.add.text(width / 2 - 250 / 2 + 25, height / 2 - 100 + 12, `${item}`);
+            this.add.text(width / 2 - 250 / 2 + 25, height / 2 - 100 + 12, `${item}`);
             box.setInteractive({
                 hitArea: new Phaser.Geom.Rectangle(width / 2 - 250 / 2, height / 2 - 100, 250, 50),
                 hitAreaCallback: Phaser.Geom.Rectangle.Contains

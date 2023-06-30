@@ -107,6 +107,9 @@ export default class Ui extends Phaser.Scene {
                     if(payload && this.commandMenu.toggleBtn) this.commandMenu.toggleBtn.text.text = `Commands \n Build`; 
                     this.actionMenu.buttons[0].text.text = `Build \n ${payload ?? 'N/A'}`;
                     break;
+                case 'dunnowhattodowiththisaargbutcantcompileso':
+                    console.log(a);
+                    break;
             }
         });
 

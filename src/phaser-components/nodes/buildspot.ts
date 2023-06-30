@@ -1,5 +1,4 @@
 import buildspot_items from '../data/buildspot_items.json';
-import WoodChest from './buildables/wood_chest';
 import dropItems from '../utils/dropitems';
 import drawProgress from '../utils/drawprogress';
 import buildItems from '../utils/builditems';
@@ -13,7 +12,7 @@ interface Resource {
 export default class BuildSpot extends Phaser.Physics.Arcade.Sprite {
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame: number) {
         super(scene, x, y, texture, frame);
-        const map = this.scene.registry.get("map");
+        // const map = this.scene.registry.get("map");
         this.builder = this.scene.registry.get("selectedCharacter");
         this.setAlpha(0.25);
         this.scene.add.existing(this);
@@ -64,7 +63,7 @@ export default class BuildSpot extends Phaser.Physics.Arcade.Sprite {
         return null;
     }
 
-    checkCanBuild(inventory: any = []) {
+    checkCanBuild(inventory: any[] = []) {
         for(const resource of this.resources) {
             let extra = 0;
             for(const item of inventory) {

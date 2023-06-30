@@ -6,6 +6,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  color: white;
 }
 
 *, 
@@ -19,6 +21,7 @@
 .page {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   overflow: hidden;
   background-color: #111;
@@ -26,56 +29,31 @@
   min-height: 100vh;
 }
 
-.game_view {
-  margin-top: 1rem;
-  width: 800px;
-  height: 800px;
-  overflow: scroll;
-  resize: both;
+form {
+  gap: 1rem;
+  box-shadow: 0px 4px 32px black;
+  padding: 1rem;
+  border-radius: 3px;
 }
 
-.world_view {
-  display: grid;
-  width: 800px;
-  height: 800px;
-  grid-template-columns: repeat(200, 75px);
-  grid-template-rows: repeat(50, 75px);;
+form > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-.tiny {
-  grid-template-columns: repeat(100, 75px);
-  grid-template-rows: repeat(100, 75px);;
+form > button {
+  background-color: orangered;
+  border-radius: 12px;
+  border: none;
+  padding: 0.25rem 0;
+  color: white;
 }
 
-.tile {
-  border: 2px solid white;
-}
-
-.tile * {
-  user-select: none;
-  pointer-events: none;
-}
-
-.plains {
-  background-color: springgreen;
-}
-
-.water {
-  background-color: #19f;
-}
-
-.card {
-  height: 100px;
-  width: 75px;
-  background-color: #19f7;
-}
-
-.slime {
-  border-radius: 50%;
-  height: 20px;
-  width: 20px;
-  background: radial-gradient(rgb(152, 17, 255), rgb(235, 156, 255));
-  box-shadow: 0px 0px 4px black;
+form input {
+  border-radius: 6px;
+  border: none;
+  padding: 0 0.5rem;
 }
 
 a:hover,

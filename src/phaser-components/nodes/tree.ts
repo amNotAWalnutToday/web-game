@@ -4,9 +4,12 @@ import Logs from "./logs";
 export default class Tree extends Phaser.Physics.Arcade.Sprite {
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame: number) {
         super(scene, x, y, texture, frame);
-
+        const trees = this.scene.registry.get("trees");
         this.durability = 5;
         this.scene.add.existing(this);
+        trees.add(this);
+        this.scene.registry.set("trees", trees);
+        this.setScale(0.5);
     }
 
     durability: number;

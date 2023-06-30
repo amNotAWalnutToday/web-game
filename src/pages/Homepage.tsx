@@ -11,9 +11,6 @@ export default function Homepage() {
     return(
         <>
             <main className="page" >
-                <Link to={'/local-area'}>
-                    Local Map
-                </Link>
             </main>
         </>
     )

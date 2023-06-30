@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import buildspot_items from '../data/buildspot_items.json';
 import createButton, { Button, Container } from "../utils/createButton";
 import { Character } from "../characters/character";
 
@@ -7,6 +8,7 @@ interface Menu {
     container: Container,
     toggleBtn?: Button,
     buttons: Button[], 
+    filterBy?: string,
 }
 
 export default class Ui extends Phaser.Scene {
@@ -55,7 +57,20 @@ export default class Ui extends Phaser.Scene {
         },
         toggleBtn: undefined,
         buttons: [],
+        filterBy: 'STRUCTURE',
     };
+
+    buildCategoryMenu: Menu = {
+        isOpen: false,
+        container: {
+            screenX: 81,
+            screenY: this.screenHeight - 126,
+            width: 80,
+            height: 25,
+        },
+        toggleBtn: undefined,
+        buttons: []
+    }
 
     create() {
         this.screenWidth = this.scene.systems.canvas.width;
@@ -114,7 +129,10 @@ export default class Ui extends Phaser.Scene {
             0,
             'Build',
             this.actionMenu.container,
-            () => this.toggleMenu(this.buildMenu, this.addBuildMenuItem),
+            () => { 
+                this.toggleMenu(this.buildMenu, this.addBuildMenuItem);
+                this.toggleMenu(this.buildCategoryMenu, this.addBuildCategoryItems);
+            },
             { color: 0x11af33 },
         )
         const stopCommandBtn = createButton(
@@ -133,10 +151,37 @@ export default class Ui extends Phaser.Scene {
         const buildsomething = (item: string) => {
             this.registry.set("selectedBuildItem", item.toUpperCase());
         };
-        const items: string[] = ['Chest', 'Wall', 'Floor'];
+        const items: string[] = [];
+        for(const item of buildspot_items.items) {
+            if(item.category === this.buildMenu.filterBy) items.push(item.type);
+        }
         items.forEach((item: string, ind: number) => {
             const button = createButton(this, ind * 85, 0, item, this.buildMenu.container, () => buildsomething(item));
             this.buildMenu.buttons.push(button);
+        });
+    }
+
+    addBuildCategoryItems = () => {
+        const changeCategory = (query: string) => {
+            if(this.buildMenu.filterBy === query) return;
+            this.buildMenu.filterBy = query;
+            this.toggleMenu(this.buildCategoryMenu, this.addBuildCategoryItems);
+            this.toggleMenu(this.buildMenu, this.addBuildMenuItem);
+            this.time.addEvent({
+                delay: 25,
+                callback: () => { 
+                    this.toggleMenu(this.buildCategoryMenu, this.addBuildCategoryItems);
+                    this.toggleMenu(this.buildMenu, this.addBuildMenuItem);
+                },
+                callbackScope: this,
+                loop: false,
+            })
+        };
+        const items: string[] = ['PLANT', 'STRUCTURE'].reverse();
+        items.forEach((item: string, ind: number) => {
+            const color = item === this.buildMenu.filterBy ? 0x00ff00 : undefined;
+            const button = createButton(this, ind * 85, 0, item, this.buildCategoryMenu.container, () => changeCategory(item), {color});
+            this.buildCategoryMenu.buttons.push(button);
         });
     }
 

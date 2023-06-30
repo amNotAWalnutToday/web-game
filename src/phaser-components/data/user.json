@@ -2,11 +2,12 @@
     "units": [
         {
             "race": "slime",
-            "localLocation": [100, 100] 
+            "localLocation": [100, 100]
         },
         {
             "race": "harpy",
-            "localLocation": [200, 200]
+            "localLocation": [200, 200],
+            "speed": 18
         },
         {
             "race": "goblin_mage",

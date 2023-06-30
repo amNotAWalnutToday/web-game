@@ -2,6 +2,7 @@
     "items": [
         {
             "type": "chest",
+            "category": "STRUCTURE",
             "resources": [
                 {
                     "type": "logs",
@@ -11,6 +12,7 @@
         },
         {
             "type": "wall",
+            "category": "STRUCTURE",
             "resources": [
                 {
                     "type": "logs",
@@ -20,12 +22,18 @@
         },
         {
             "type": "floor",
+            "category": "STRUCTURE",
             "resources": [
                 {
                     "type": "logs",
                     "amount": 1
                 }
             ]
+        },
+        {
+            "type": "sapling",
+            "category": "PLANT",
+            "resources": []
         }
     ]
 }

@@ -1,6 +1,7 @@
 import WoodChest from "../nodes/buildables/wood_chest";
 import WoodFloor from "../nodes/buildables/wood_floor";
 import WoodWall from "../nodes/buildables/wood_wall";
+import Sapling from "../nodes/sapling";
 
 export default function buildItems(
         scene: Phaser.Scene, 
@@ -35,5 +36,15 @@ export default function buildItems(
                     y,
                 )
             )
+            break;
+        case 'sapling':
+            scene.physics.add.existing(
+                new Sapling(
+                    scene,
+                    x,
+                    y,
+                )
+            );
+            break;
     }
 }

@@ -51,6 +51,7 @@ export function setupTeam(scene: Phaser.Scene, yourCharacters: Character[] = [])
                 break;
         }
         if(!thisUnit) return;
+        if(unit.speed) thisUnit.speed = unit.speed;
     });
     return yourCharacters;
 }
@@ -66,6 +67,7 @@ export default class Game extends Phaser.Scene {
     selectedCommand = 'MOVE';
     selectedBuildItem: string | null = null;
     yourCharacters: Character[] = [];
+    pointerDown = false;
 
     create() {
         this.cameras.main.setBounds(0, 0, 1000 * 2, 1000 * 2);
@@ -134,21 +136,30 @@ export default class Game extends Phaser.Scene {
             if(!this.selectedCharacter) {
                 return;
             } else if(this.selectedBuildItem) {
-                const { x, y } = this.map.full.worldToTileXY(e.worldX, e.worldY);
-                const tileProps = this.map.full.getTileAt(x, y).properties;
-                if(tileProps.buildingHere || tileProps.terrain === 'water') return;
-                if(this.selectedCharacter.target instanceof BuildSpot) {
-                    this.selectedCharacter.buildQueue.push(
-                        this.physics.add.existing(new BuildSpot(this, (x * 16) + 8, (y * 16) + 8, this.selectedBuildItem.toLowerCase(), 0))
-                    );
-                } else {
-                    this.physics.add.existing(new BuildSpot(this, (x * 16) + 8, (y * 16) + 8, this.selectedBuildItem.toLowerCase(), 0));
-                }
-                tileProps.buildingHere = true;
+                this.pointerDown = true;
             } else {
                 this.selectedCharacter.getPath(e);
             }
         });
+        this.input.on('pointerup', (e) => {
+            if(!this.selectedCharacter || !this.selectedBuildItem) return;
+            this.pointerDown = false;
+        })
+        this.input.on('pointermove', (e) => {
+            if(!this.selectedBuildItem || !this.selectedCharacter
+            || !this.pointerDown) return;
+            const { x, y } = this.map.full.worldToTileXY(e.worldX, e.worldY);
+            const tileProps = this.map.full.getTileAt(x, y).properties;
+            if(tileProps.buildingHere || tileProps.terrain === 'water') return;
+            if(this.selectedCharacter.target instanceof BuildSpot) {
+                this.selectedCharacter.buildQueue.push(
+                    this.physics.add.existing(new BuildSpot(this, (x * 16) + 8, (y * 16) + 8, this.selectedBuildItem.toLowerCase(), 0))
+                );
+            } else {
+                this.physics.add.existing(new BuildSpot(this, (x * 16) + 8, (y * 16) + 8, this.selectedBuildItem.toLowerCase(), 0));
+            }
+            tileProps.buildingHere = true;
+        })
         this.input.keyboard?.on("keydown-W", () => camera.setVelocityY(-200));
         this.input.keyboard?.on("keydown-S", () => camera.setVelocityY(200));
         this.input.keyboard?.on("keydown-D", () => camera.setVelocityX(200));

@@ -12,7 +12,6 @@ interface Resource {
 export default class BuildSpot extends Phaser.Physics.Arcade.Sprite {
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame: number) {
         super(scene, x, y, texture, frame);
-        // const map = this.scene.registry.get("map");
         this.builder = this.scene.registry.get("selectedCharacter");
         this.setAlpha(0.25);
         this.scene.add.existing(this);
@@ -110,6 +109,12 @@ export default class BuildSpot extends Phaser.Physics.Arcade.Sprite {
     }
 
     selfDestruct() {
+        if(!this.active) return;
+        const map = this.scene.registry.get("map");
+        const tileCoords = map.map.worldToTileXY(this.x, this.y);
+        const tileAt = map.map.getTileAt(tileCoords.x, tileCoords.y);
+        tileAt.properties.buildingHere = false;
+        
         for(const resource of this.resources) {
             dropItems(this.scene, resource.type, this.x, this.y, resource.amountHere);
             console.log(resource.amountHere);

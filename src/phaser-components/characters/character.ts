@@ -139,6 +139,11 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         if(!(this.target instanceof BuildSpot)) return;
         this.target.selfDestruct();
         this.target = null;
+        for(const buildItem of this.buildQueue) {
+            buildItem.selfDestruct();
+        }
+        this.actionQueue = [];
+        this.buildQueue = [];
     }
 
     build(item: BuildSpot) {

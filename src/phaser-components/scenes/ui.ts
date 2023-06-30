@@ -117,7 +117,7 @@ export default class Ui extends Phaser.Scene {
                     break;
                 case 'selectedBuildItem':
                     if(payload && this.commandMenu.toggleBtn) this.commandMenu.toggleBtn.text.text = `Commands \n Build`; 
-                    this.actionMenu.buttons[0].text.text = `Build \n ${payload ?? 'N/A'}`;
+                    this.actionMenu.buttons[0].text.setText(`Build \n ${payload ?? 'N/A'}`);
                     break;
                 case 'gameSize':
                     this.setContainers();
@@ -144,6 +144,7 @@ export default class Ui extends Phaser.Scene {
 
     addActionMenu = () => {
         this.actionMenu.buttons.forEach(button => button.hide());
+        this.actionMenu.buttons = [];
         this.commandMenu.toggleBtn?.hide();
         this.commandMenu.toggleBtn = createButton(
             this, 
@@ -243,6 +244,7 @@ export default class Ui extends Phaser.Scene {
     toggleMenu = (menu: Menu, openCommand: () => void) => {
         if(menu.isOpen) {
             menu.buttons.forEach((button: Button) => button.hide());
+            menu.buttons = [];
         } else {
             openCommand();
         }

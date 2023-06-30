@@ -212,6 +212,7 @@ export default class Game extends Phaser.Scene {
         if(!(worldPoint instanceof Phaser.Math.Vector2)) return;
         const sourceTileX = this.map.chunk1.worldToTileX(worldPoint.x);
         const sourceTileY = this.map.chunk1.worldToTileY(worldPoint.y);
+        
         this.sourceMarker.x = this.map.chunk1.tileToWorldX(sourceTileX);
         this.sourceMarker.y = this.map.chunk1.tileToWorldY(sourceTileY);
     }

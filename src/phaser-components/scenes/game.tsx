@@ -85,7 +85,7 @@ export default class Game extends Phaser.Scene {
     }
 
     create() {
-        this.cameras.main.setBounds(0, 0, 1000 * 2, 1000 * 2);
+        this.cameras.main.setBounds(-1000, -1000, 1000 * 4, 1000 * 4);
         this.cameras.main.setZoom(1);
         this.physics.world.setBounds(0, 0, 1000 * 2, 1000 * 2);
         const camera = this.physics.add.sprite(0, 0, '', 0).setVisible(false);
@@ -152,7 +152,7 @@ export default class Game extends Phaser.Scene {
                 return;
             } else if(this.selectedBuildItem) {
                 this.pointerDown = true;
-                this.placeBuildItem(e);
+               this.placeBuildItem(e);
             } else {
                 this.selectedCharacter.getPath(e);
             }

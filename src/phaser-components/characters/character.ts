@@ -94,7 +94,6 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             this.updateCharacters();
         } else {
             this.target.loseDurability();
-            console.log(this.target.durability);
         }
     }
 
@@ -242,7 +241,8 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             const nextAction = this.actionQueue.pop();
             this.currentAction = nextAction ?? null;
             this.updateCharacters();
-        } else if(!this.target && this.buildQueue.length) {
+        } 
+        if(!this.target && this.buildQueue.length) {
             const nextTarget = this.buildQueue.pop();
             this.target = nextTarget ?? null;
             this.actionQueue.unshift("BUILD");

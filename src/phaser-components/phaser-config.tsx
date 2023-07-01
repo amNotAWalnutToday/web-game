@@ -30,7 +30,7 @@ const config = {
         mode: Phaser.Scale.NONE,
         width,
         height,
-    }
+    },
 };
 
 export default config;

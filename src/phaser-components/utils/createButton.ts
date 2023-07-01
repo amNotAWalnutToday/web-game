@@ -11,6 +11,14 @@ export interface Button {
     box : Phaser.GameObjects.Graphics,
     text: Phaser.GameObjects.Text,
     hide: () => void,
+    getRect: () => Rect,
+}
+
+interface Rect {
+    posX: number,
+    posY: number,
+    width: number,
+    height: number,
 }
 
 interface Options {
@@ -32,18 +40,23 @@ const createButton = (
 
         const button = {
             box: scene.add.graphics(),
-            text: scene.add.text(posX, posY, text),
+            text: scene.add.text(posX, posY, text, {fontFamily: 'monospace'}),
             hide,
+            getRect,
         } 
 
-        button.box.fillStyle(options.color ?? 0x1199ff, options.alpha ?? 0.75);
+        button.box.fillStyle(options.color ?? 0x121212, options.alpha ?? 0.75);
         button.box.fillRoundedRect(posX, posY, width, height, 5);
         button.box.setInteractive({
             hitArea: new Phaser.Geom.Rectangle(posX, posY, width, height),
             hitAreaCallback: Phaser.Geom.Rectangle.Contains,
         });
         button.box.on("pointerdown", onClick);
-        
+
+        function getRect() {
+            return { posX, posY, width, height };
+        }
+
         function hide() {
             button.box.destroy();
             button.text.destroy();

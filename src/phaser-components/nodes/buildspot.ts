@@ -101,6 +101,7 @@ export default class BuildSpot extends Phaser.Physics.Arcade.Sprite {
         this.builder = this.scene.registry.get("selectedCharacter");
         if(this.builder.target) {
             this.builder.buildQueue.unshift(this);
+            console.log(this.builder.buildQueue);
         } else {
             this.builder.build(this);
             this.builder.actionQueue.unshift('BUILD'); 
@@ -114,7 +115,7 @@ export default class BuildSpot extends Phaser.Physics.Arcade.Sprite {
         const tileCoords = map.map.worldToTileXY(this.x, this.y);
         const tileAt = map.map.getTileAt(tileCoords.x, tileCoords.y);
         tileAt.properties.buildingHere = false;
-        
+
         for(const resource of this.resources) {
             dropItems(this.scene, resource.type, this.x, this.y, resource.amountHere);
             console.log(resource.amountHere);

@@ -218,9 +218,9 @@ export default class Game extends Phaser.Scene {
     }
     
     resize() {
-        const dpr = window.devicePixelRatio;
-        const widthDPR = Math.round(window.innerWidth * dpr);
-        const heightDPR = Math.round(window.innerHeight * dpr);
+        // const dpr = window.devicePixelRatio;  below * 2 <= before
+        const widthDPR = Math.round(window.innerWidth);
+        const heightDPR = Math.round(window.innerHeight);
     
         this.sys.game.scale.parent.width = Math.round(window.innerWidth);
         this.sys.game.scale.parent.height = Math.round(window.innerHeight);

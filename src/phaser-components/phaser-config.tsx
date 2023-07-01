@@ -1,8 +1,8 @@
 import Phaser from 'phaser';
 
-const dpr = window.devicePixelRatio;
-const height = window.innerHeight * dpr;
-const width = window.innerWidth * dpr;
+// const dpr = window.devicePixelRatio; before below * 2;
+const height = window.innerHeight;
+const width = window.innerWidth;
 
 function getScreen() {
     return { width, height };

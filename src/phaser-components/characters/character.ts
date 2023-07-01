@@ -227,6 +227,12 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         }
     }
 
+    getClosestQueueAction(item: string) {
+        if(this.actionQueue.includes(item.toUpperCase())
+        || this.currentAction === item.toUpperCase()) return true;
+        else return false;
+    }
+
     updateCharacters() {
         const yourCharacters = this.scene.registry.get("yourCharacters");
         for(const char of yourCharacters) {

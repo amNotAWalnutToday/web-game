@@ -30,6 +30,11 @@ export default class Ui extends Phaser.Scene {
     characters: Character[] = [];
     characterSlots: Slot[] = [];
 
+    gameFunctionsMenu:any = {
+        box: undefined,
+        border: undefined,
+    };
+
     commandMenu: Menu = {
         isOpen: false,
         container: {
@@ -81,7 +86,6 @@ export default class Ui extends Phaser.Scene {
 
     setContainers = () => {
         const { width, height } = this.registry.get("gameSize");
-        console.log(height, width);
         this.screenHeight = height;
         this.screenWidth = width;
 
@@ -99,7 +103,6 @@ export default class Ui extends Phaser.Scene {
 
     create() {
         this.setContainers();
-        this.input.keyboard?.on('keydown-L', () => this.characterStatsUI.isOpen ? this.clearCharacterStats() : this.showCharacterStats());
         this.characters = this.registry.get('yourCharacters');
         this.currentCharacter = this.registry.get('selectedCharacter');
         if(!this.characters.length) return;
@@ -116,10 +119,11 @@ export default class Ui extends Phaser.Scene {
                 case 'selectedCharacter':
                     this.currentCharacter = payload;
                     this.changeSelectedCharacterBoxs();
+                    if(this.commandMenu.isOpen) this.reopenMenu(this.commandMenu, this.addCommandMenuItem);
                     break;
                 case 'selectedCommand':
                     if(!this.commandMenu.toggleBtn) break;
-                    this.commandMenu.toggleBtn.text.text = `Commands \n ${payload}`
+                    this.commandMenu.toggleBtn.text.text = `Commands`
                     break;
                 case 'selectedBuildItem':
                     if(payload && this.commandMenu.toggleBtn) this.commandMenu.toggleBtn.text.text = `Commands \n Build`; 
@@ -152,11 +156,19 @@ export default class Ui extends Phaser.Scene {
         this.actionMenu.buttons.forEach(button => button.hide());
         this.actionMenu.buttons = [];
         this.commandMenu.toggleBtn?.hide();
+        this.gameFunctionsMenu.box?.destroy();
+        this.gameFunctionsMenu.border?.destroy();
+
+        this.gameFunctionsMenu.box = this.add.graphics();
+        this.gameFunctionsMenu.box.fillStyle(0x000000, 0.25);
+        this.gameFunctionsMenu.box.fillRect(30, this.screenHeight - 200, 500, 190);
+        this.gameFunctionsMenu.border = this.add.graphics({lineStyle: {width: 2, color: 0xdaa52a}});
+        this.gameFunctionsMenu.border.strokeRect(28, this.screenHeight - 200, 500, 190);
         this.commandMenu.toggleBtn = createButton(
             this, 
             0,
             -55, 
-            'Commands \n MOVE', 
+            'Commands', 
             this.actionMenu.container, 
             () => {
                 (() => {
@@ -175,6 +187,7 @@ export default class Ui extends Phaser.Scene {
                     buildBtn.box.fillRect(posX, posY, width, height);
                     this.toggleMenu(this.buildMenu, this.addBuildCategoryItems);
                     this.toggleMenu(this.buildCategoryMenu, this.addBuildCategoryItems);
+                    this.registry.set("selectedBuildItem", null);
                 }
             }
         );
@@ -194,6 +207,7 @@ export default class Ui extends Phaser.Scene {
                 })();
                 this.toggleMenu(this.buildMenu, this.addBuildMenuItem);
                 this.toggleMenu(this.buildCategoryMenu, this.addBuildCategoryItems);
+                this.registry.set("selectedBuildItem", null);
                 if(this.commandMenu.isOpen) {
                     if(!this.commandMenu.toggleBtn) return;
                     const { posX, posY, width, height } = this.commandMenu.toggleBtn.getRect();
@@ -220,13 +234,24 @@ export default class Ui extends Phaser.Scene {
     addBuildMenuItem = () => {
         const buildsomething = (item: string) => {
             this.registry.set("selectedBuildItem", item.toUpperCase());
+            this.toggleMenu(this.buildMenu, this.addBuildMenuItem);
+            this.time.addEvent({
+                delay: 25,
+                callback: () => { 
+                    this.toggleMenu(this.buildMenu, this.addBuildMenuItem);
+                },
+                callbackScope: this,
+                loop: false,
+            })
         };
         const items: string[] = [];
         for(const item of buildspot_items.items) {
             if(item.category === this.buildMenu.filterBy) items.push(item.type);
         }
         items.forEach((item: string, ind: number) => {
-            const button = createButton(this, ind * 85, 0, item, this.buildMenu.container, () => buildsomething(item));
+            const selectedItem = this.registry.get("selectedBuildItem");
+            const color = item.toUpperCase() === selectedItem ? 0xdaa52a : undefined;
+            const button = createButton(this, ind * 85, 0, item, this.buildMenu.container, () => buildsomething(item), {color});
             this.buildMenu.buttons.push(button);
         });
     }
@@ -249,7 +274,7 @@ export default class Ui extends Phaser.Scene {
         };
         const items: string[] = ['PLANT', 'STRUCTURE'].reverse();
         items.forEach((item: string, ind: number) => {
-            const color = item === this.buildMenu.filterBy ? 0x00ff00 : undefined;
+            const color = item === this.buildMenu.filterBy ? 0xdaa52a : undefined;
             const button = createButton(this, ind * 85, 0, item, this.buildCategoryMenu.container, () => changeCategory(item), {color});
             this.buildCategoryMenu.buttons.push(button);
         });
@@ -262,21 +287,44 @@ export default class Ui extends Phaser.Scene {
                 if(!currentCharacter) return;
                 currentCharacter.actionQueue.unshift("CARRY");
                 this.registry.set("selectedCharacter", currentCharacter);
-                return;
             } else if(command === 'CHOP') {
                 if(!currentCharacter) return;
                 currentCharacter.actionQueue.unshift("CHOP");
                 this.registry.set("selectedCharacter", currentCharacter);
-                return;
             }
+            this.toggleMenu(this.commandMenu, this.addCommandMenuItem);
+            this.time.addEvent({
+                delay: 25,
+                callback: () => this.toggleMenu(this.commandMenu, this.addCommandMenuItem),
+                callbackScope: this,
+                loop: false,
+            })
+
             this.registry.set("selectedCommand", command);
             return;
         }
 
-        const items: string[] = ['MOVE', 'CHOP', 'CARRY'];
+        const items: string[] = ['CHOP', 'CARRY'];
         items.forEach((item: string, ind: number) => {
-            const button = createButton(this, ind * 85, 0, item, this.commandMenu.container, () => setCommand(item));
+            const currentCharacter = this.registry.get("selectedCharacter");
+            const color = (
+                currentCharacter &&
+                currentCharacter.getClosestQueueAction(item)
+            ) 
+                ? 0x1199ff 
+                : undefined;
+            const button = createButton(this, ind * 85, 0, item, this.commandMenu.container, () => setCommand(item), {color});
             this.commandMenu.buttons.push(button);
+        });
+    }
+
+    reopenMenu = (menu: Menu, openCommand: () => void) => {
+        this.toggleMenu(menu, openCommand);
+        this.time.addEvent({
+            delay: 25,
+            callback: () => this.toggleMenu(this.commandMenu, this.addCommandMenuItem),
+            callbackScope: this,
+            loop: false,
         });
     }
 
@@ -292,12 +340,13 @@ export default class Ui extends Phaser.Scene {
     }
 
     addSlot(character: Character) {
-        const [screenX, screenY, width, height] = [
-            50, 
-            50, 
-            0, 
-            0
-        ];
+        const container = {
+            screenX: 50, 
+            screenY: 50,
+            width: 50,
+            height: 20,
+        };
+        const { screenX, screenY } = container;
         const current = this.currentCharacter ? this.currentCharacter.cid : -1
         const newBox = this.add.graphics();
         if(character.cid === current) {
@@ -305,13 +354,22 @@ export default class Ui extends Phaser.Scene {
         } else {
             newBox.fillStyle(0x222222, 0.5);
         }
-        const text = this.add.text(screenX, screenY + (character.cid * 60), `${this.currentCharacter?.currentAction ?? 'N/A'}`);
-        newBox.fillRoundedRect(screenX, screenY + (character.cid * 60), 50, 50, 5);
-        const newSprite = this.add.image(screenX + 25, screenY + (character.cid * 60) + 25, character.race);
+        const text = this.add.text(screenX + (character.cid * 60), screenY, `${this.currentCharacter?.currentAction ?? 'N/A'}`);
+        newBox.fillRoundedRect(screenX + (character.cid * 60), screenY , 50, 50, 5);
+        const newSprite = this.add.image(screenX + (character.cid * 60) + 25, screenY + 25, character.race);
         newBox.setInteractive({
-            hitArea: new Phaser.Geom.Rectangle(screenX, screenY + (character.cid * 60), 50, 50),
+            hitArea: new Phaser.Geom.Rectangle(screenX + (character.cid * 60), screenY, 50, 50),
             hitAreaCallback: Phaser.Geom.Rectangle.Contains,
         });
+        const openStats = (cid: number) => {
+            if(this.characterStatsUI.isOpen) {
+                this.clearCharacterStats();
+            } else {
+                const chars = this.registry.get("yourCharacters");
+                this.showCharacterStats(chars[cid]);
+            }
+        }
+        const statbutton = createButton(this, (character.cid * 60), 51, 'Stats', container, () => openStats(character.cid));
         newBox.on("pointerdown", () => {
             let newCurrent;
             if(this.currentCharacter?.cid === character?.cid) newCurrent = null
@@ -319,7 +377,7 @@ export default class Ui extends Phaser.Scene {
             this.registry.set('selectedCharacter', newCurrent);
         });
 
-        const slot = { cid: character.cid, box: newBox, sprite: newSprite, text };
+        const slot = { cid: character.cid, box: newBox, sprite: newSprite, text, button: statbutton };
         this.characterSlots.push(slot);
     }
 
@@ -344,7 +402,7 @@ export default class Ui extends Phaser.Scene {
             } else {
                 slot.box.fillStyle(0x222222, 0.5);
             }
-            slot.box.fillRoundedRect(50, 50 + (ind * 60), 50, 50, 5);
+            slot.box.fillRoundedRect(50 + (ind * 60), 50, 50, 50, 5);
         });     
     }
 
@@ -421,7 +479,7 @@ export default class Ui extends Phaser.Scene {
         this.characterStatsUI.isOpen = false;
     }
 
-    showCharacterStats() {
+    showCharacterStats(selectedCharacter: Character) {
         const { screenX, screenY, width, height } = this.characterStatsUI.container;
         this.characterStatsUI.border = this.add.graphics({lineStyle: {color: 0xDAA520, width: 4}});
         this.characterStatsUI.box = this.add.graphics();

@@ -3,6 +3,11 @@
     "name": "Just A Game Probably",
     "icons": [
       {
+        "src": "testicon.jpg",
+        "type": "image/jpg",
+        "sizes": "256x256"
+      },
+      {
         "src": "slime_fire.png",
         "type": "image/png",
         "sizes": "32x32"

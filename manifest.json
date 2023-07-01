@@ -6,6 +6,11 @@
         "src": "sprites/slime.png",
         "type": "image/png",
         "sizes": "32x32"
+      },
+      {
+        "src:": "sprites/slime.png",
+        "type": "image/png",
+        "sizes": "800x720"
       }
     ],
     "start_url": ".",

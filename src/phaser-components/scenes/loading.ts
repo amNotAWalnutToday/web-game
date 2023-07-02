@@ -39,6 +39,7 @@ export default class Loading extends Phaser.Scene {
         this.registry.set("groundItems", []);
         this.registry.set("map", null);
         this.registry.set("isCameraLocked", true);
+        this.registry.set("gameTime", <{[key: string]: number}> {});
         this.registry.set("gameSize", { 
             height: this.sys.game.scale.height, 
             width: this.sys.game.scale.width

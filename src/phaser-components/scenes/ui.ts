@@ -110,6 +110,9 @@ export default class Ui extends Phaser.Scene {
         this.inspectMenu.container.screenY       = height - 130;
         this.addActionMenu();
 
+        this.mapStatsUI.container.screenX = width - 125;
+        this.mapStatsUI.container.screenY = height - 130;
+
         this.characterStatsUI.container.width = width > 500 ? width / 4.5 : width - 25;
         this.characterStatsUI.container.height = width > 500 ? height / 2 : height - 200;
         this.characterStatsUI.container.screenX = width > 500 ? (width / 2) - ((width / 4) / 2) : 12.5;
@@ -161,6 +164,11 @@ export default class Ui extends Phaser.Scene {
                     if(this.inspectMenu.isOpen) this.reopenMenu(this.inspectMenu, this.addInspectItemMenu);
                     else this.toggleMenu(this.inspectMenu, this.addInspectItemMenu);
                     break;
+                case 'gameTime':
+                    this.mapStatsUI.time.setText(`${payload.hour < 10 ? `0${payload.hour}` : payload.hour}:00, Day: ${payload.day}`);
+                    this.characters = this.registry.get("yourCharacters");
+                    if(this.characterStatsUI.isOpen) this.drawCharacterStatBars(this.characters[this.characterStatsUI.cid]);
+                    break;
                 case 'gameSize':
                     this.setContainers();
                     break;
@@ -182,6 +190,7 @@ export default class Ui extends Phaser.Scene {
             this.scene.launch("summon_ui");
         });
         this.addActionMenu();
+        this.addMapStatMenu();
     }
 
     addActionMenu = () => {
@@ -458,6 +467,22 @@ export default class Ui extends Phaser.Scene {
         });     
     }
 
+    mapStatsUI: any = {
+        container: {
+            screenX: this.screenWidth - 250,
+            screenY: this.screenHeight - 130,
+            width: 0,
+            height: 0
+        },
+        time: undefined
+    }
+
+    addMapStatMenu() {
+        const { screenX, screenY, width, height } = this.mapStatsUI.container;
+        const { hour, day } = this.registry.get("gameTime");
+        this.mapStatsUI.time = this.add.text(screenX, screenY, `${hour < 10 ? `0${hour}` : hour}:00, Day: ${day}`, {fontFamily: 'monospace'});
+    }
+
     characterStatsUI: any = {
         container: {
             screenX: 0,
@@ -465,6 +490,7 @@ export default class Ui extends Phaser.Scene {
             width: 0,
             height: 0
         },
+        cid: 0,
         border: undefined,
         box: undefined,
         bars: {
@@ -531,8 +557,36 @@ export default class Ui extends Phaser.Scene {
         this.characterStatsUI.isOpen = false;
     }
 
+    drawCharacterStatBars(selectedCharacter: Character) {
+        const { screenX, screenY } = this.characterStatsUI.container;
+        const { hp, maxhp, hunger, maxHunger } = selectedCharacter.stats;
+        this.characterStatsUI.bars.hp.backdrop?.destroy();
+        this.characterStatsUI.bars.hp.bar?.destroy();
+        this.characterStatsUI.bars.hp.text?.destroy();
+        this.characterStatsUI.bars.hunger.backdrop?.destroy();
+        this.characterStatsUI.bars.hunger.bar?.destroy();
+        this.characterStatsUI.bars.hunger.text?.destroy();
+
+        this.characterStatsUI.bars.hp.backdrop = this.add.graphics();
+        this.characterStatsUI.bars.hp.backdrop.fillStyle(0xaa1111);
+        this.characterStatsUI.bars.hp.backdrop.fillRect(screenX + 25, screenY + 50, screenX - (screenX / 2), 10);
+        this.characterStatsUI.bars.hp.bar = this.add.graphics();
+        this.characterStatsUI.bars.hp.bar.fillStyle(0x00aa00);
+        this.characterStatsUI.bars.hp.bar.fillRect(screenX + 25, screenY + 50, (((screenX - (screenX / 2))) / maxhp) * (hp), 10);
+        this.characterStatsUI.bars.hp.text = this.add.text(screenX + (screenX / 5), screenY + 47.5, `Hp : ${hp} / ${maxhp}`, {fontFamily: 'monospace', fontSize: 14, })
+    
+        this.characterStatsUI.bars.hunger.backdrop = this.add.graphics();
+        this.characterStatsUI.bars.hunger.backdrop.fillStyle(0x121212);
+        this.characterStatsUI.bars.hunger.backdrop.fillRect(screenX + 25, screenY + 75, screenX - (screenX / 2), 10);
+        this.characterStatsUI.bars.hunger.bar = this.add.graphics();
+        this.characterStatsUI.bars.hunger.bar.fillStyle(0x663399);
+        this.characterStatsUI.bars.hunger.bar.fillRect(screenX + 25, screenY + 75,(((screenX - (screenX / 2))) / maxHunger) * (hunger), 10);
+        this.characterStatsUI.bars.hunger.text = this.add.text(screenX + (screenX / 5), screenY + 72.5, `Hun: ${hunger} / ${maxHunger}`, {fontFamily: 'monospace', fontSize: 14, })
+    }
+
     showCharacterStats(selectedCharacter: Character) {
         const { screenX, screenY, width, height } = this.characterStatsUI.container;
+        this.characterStatsUI.cid = selectedCharacter.cid;
         this.characterStatsUI.border = this.add.graphics({lineStyle: {color: 0xDAA520, width: 4}});
         this.characterStatsUI.border.strokeRect(screenX, screenY, width + 1, height + 1);
         this.characterStatsUI.box = this.add.graphics();
@@ -544,7 +598,7 @@ export default class Ui extends Phaser.Scene {
         });
 
         const { name, rank, race } = selectedCharacter;
-        const { maxhp, hp, hunger, maxHunger, str, def, will, speed } = selectedCharacter.stats;
+        const { str, def, will, speed } = selectedCharacter.stats;
         this.characterStatsUI.specialStats.name = this.add.text(screenX + (screenX / 4.5), screenY + 10, name, {fontSize: 25, fontFamily: 'monospace'});
         this.characterStatsUI.specialStats.rank = this.add.text(screenX + 25, screenY + 100, `Rank: ${rank}`);
         this.characterStatsUI.specialStats.race = this.add.text(screenX + 25, screenY + 120, `Race: ${race}`);
@@ -554,21 +608,7 @@ export default class Ui extends Phaser.Scene {
         this.characterStatsUI.generalStats.will = this.add.text(screenX + (screenX / 2.5), screenY + 140, `Will: ${will}`);
         this.characterStatsUI.generalStats.spd = this.add.text(screenX + (screenX / 2.5), screenY + 160, `Spd : ${speed}`);
         
-        this.characterStatsUI.bars.hp.backdrop = this.add.graphics();
-        this.characterStatsUI.bars.hp.backdrop.fillStyle(0xaa1111);
-        this.characterStatsUI.bars.hp.backdrop.fillRect(screenX + 25, screenY + 50, screenX - (screenX / 2), 10);
-        this.characterStatsUI.bars.hp.bar = this.add.graphics();
-        this.characterStatsUI.bars.hp.bar.fillStyle(0x00aa00);
-        this.characterStatsUI.bars.hp.bar.fillRect(screenX + 25, screenY + 50, screenX - (screenX / 2), 10);
-        this.characterStatsUI.bars.hp.text = this.add.text(screenX + (screenX / 5), screenY + 47.5, `Hp : ${hp} / ${maxhp}`, {fontFamily: 'monospace', fontSize: 14, })
-        
-        this.characterStatsUI.bars.hunger.backdrop = this.add.graphics();
-        this.characterStatsUI.bars.hunger.backdrop.fillStyle(0x121212);
-        this.characterStatsUI.bars.hunger.backdrop.fillRect(screenX + 25, screenY + 75, screenX - (screenX / 2), 10);
-        this.characterStatsUI.bars.hunger.bar = this.add.graphics();
-        this.characterStatsUI.bars.hunger.bar.fillStyle(0x663399);
-        this.characterStatsUI.bars.hunger.bar.fillRect(screenX + 25, screenY + 75, screenX - (screenX / 2), 10);
-        this.characterStatsUI.bars.hunger.text = this.add.text(screenX + (screenX / 5), screenY + 72.5, `Hun: ${hunger} / ${maxHunger}`, {fontFamily: 'monospace', fontSize: 14, })
+        this.drawCharacterStatBars(selectedCharacter);
         
         const { meele, magic, construction, mining, foraging, logging, cooking, crafting, research, medicinal, fishing } = selectedCharacter.skills;
         this.characterStatsUI.skills.header = this.add.text(screenX + 25, screenY + 190, "Skills", { fontSize: 20, fontStyle: 'bold' });

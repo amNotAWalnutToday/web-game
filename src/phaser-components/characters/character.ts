@@ -40,6 +40,10 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             console.log(this.currentAction);
         });
 
+        this.scene.registry.events.on("changedata", (a: any, key: string, payload: unknown) => {
+            if(key === 'gameTime') this.loseHunger();
+        });
+
         this.scene.add.existing(this);
     }
 
@@ -138,6 +142,22 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
 
     create() {
         this.setCollideWorldBounds(true);
+    }
+
+    loseHunger() {
+        if(this.stats.hunger > 0) {
+            this.stats.hunger--;
+        } else {
+            this.takeDamage(1);
+        }
+    }
+
+    takeDamage(damage: number) {
+        if(this.stats.hp > 0) {
+            this.stats.hp -= damage;
+        } else {
+            this.destroy();
+        }
     }
 
     checkInventoryIfFull() {

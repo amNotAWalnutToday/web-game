@@ -79,6 +79,11 @@ export default class Game extends Phaser.Scene {
     pointerDown = false;
     isCameraLocked = true;
 
+    gameTime = {
+        hour: 0,
+        day: 1,
+    }
+
     placeBuildItem(e: Phaser.Input.Pointer) {
         if(!this.selectedBuildItem || !this.selectedCharacter
         || !this.pointerDown || this.selectedBuildItem === 'DESTROY') return;
@@ -110,6 +115,23 @@ export default class Game extends Phaser.Scene {
         this.map.full.addTilesetImage('water_tiles', 'water_tiles');
         const fullMap = this.map.full.createLayer('ground', ['forest_tileset', 'water_tiles'], 0, 0);
         fullMap.setDepth(-5);
+
+        const updateTime = () => {
+            this.gameTime.hour++;
+            if(this.gameTime.hour >= 24) {
+                this.gameTime.hour = 0;
+                this.gameTime.day++;
+            }
+            this.registry.set("gameTime", this.gameTime);
+        }
+
+        this.time.addEvent({
+            delay: 10000,
+            callback: updateTime,
+            callbackScope: this,
+            loop: true,
+        });
+
         const storage = this.physics.add.group();
         const itemsToDeconstruct = this.physics.add.group();
         const groundItems = this.physics.add.group();
@@ -163,6 +185,7 @@ export default class Game extends Phaser.Scene {
         this.input.keyboard?.on("keydown-Q", () => console.log(this.selectedCharacter?.inventory));
 
         this.registry.set('map', {map: this.map.full, layers: [fullMap]});
+        this.registry.set('gameTime', this.gameTime);
         this.registry.set('selectedCharacter', this.selectedCharacter);
         this.registry.set('itemsToDeconstruct', itemsToDeconstruct);
         this.registry.set('groundItems', groundItems);

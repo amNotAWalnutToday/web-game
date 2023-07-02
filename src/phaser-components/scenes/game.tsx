@@ -50,7 +50,16 @@ export function setupTeam(scene: Phaser.Scene, yourCharacters: Character[] = [])
                 break;
         }
         if(!thisUnit) return;
-        if(unit.speed) thisUnit.speed = unit.speed;
+        thisUnit.name = unit.name ?? 'nameless';
+        if(unit.stats) {
+            const unitStatsFromSave: {[key: string]: number} = unit.stats;
+            for(const stat in unitStatsFromSave) {
+                for(const newStat in thisUnit.stats) {
+                    if(stat === newStat) thisUnit.stats[newStat] = unitStatsFromSave[stat];
+                }
+            }
+        }
+        // if(unit.speed) thisUnit.stats.speed = unit.speed;
     });
     return yourCharacters;
 }

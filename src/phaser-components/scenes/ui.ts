@@ -489,16 +489,18 @@ export default class Ui extends Phaser.Scene {
             hitArea: new Phaser.Geom.Rectangle(screenX, screenY, width, height),
             hitAreaCallback: Phaser.Geom.Rectangle.Contains
         });
-        console.log(screenX, screenY, width, height);
+
+        const { name, rank, race } = selectedCharacter;
+        const { maxhp, hp, hunger, maxHunger, str, def, will, speed } = selectedCharacter.stats;
         this.characterStatsUI.border.strokeRect(screenX, screenY, width + 1, height + 1);
-        this.characterStatsUI.specialStats.name = this.add.text(screenX + (screenX / 4.5), screenY + 10, 'Happy', {fontSize: 25, fontFamily: 'monospace'});
-        this.characterStatsUI.specialStats.rank = this.add.text(screenX + 25, screenY + 100, "Rank: E");
-        this.characterStatsUI.specialStats.race = this.add.text(screenX + 25, screenY + 120, "Race: Harpy");
-        this.characterStatsUI.specialStats.age = this.add.text(screenX + 25, screenY + 140, "Age : 15");
-        this.characterStatsUI.generalStats.str = this.add.text(screenX + (screenX / 2.5), screenY + 100, "Str : 18");
-        this.characterStatsUI.generalStats.def = this.add.text(screenX + (screenX / 2.5), screenY + 120, "Def : 18");
-        this.characterStatsUI.generalStats.will = this.add.text(screenX + (screenX / 2.5), screenY + 140, "Will: 18");
-        this.characterStatsUI.generalStats.spd = this.add.text(screenX + (screenX / 2.5), screenY + 160, "Spd : 18");
+        this.characterStatsUI.specialStats.name = this.add.text(screenX + (screenX / 4.5), screenY + 10, name, {fontSize: 25, fontFamily: 'monospace'});
+        this.characterStatsUI.specialStats.rank = this.add.text(screenX + 25, screenY + 100, `Rank: ${rank}`);
+        this.characterStatsUI.specialStats.race = this.add.text(screenX + 25, screenY + 120, `Race: ${race}`);
+        this.characterStatsUI.specialStats.age = this.add.text(screenX + 25, screenY + 140,  "Age : TBA");
+        this.characterStatsUI.generalStats.str = this.add.text(screenX + (screenX / 2.5), screenY + 100, `Str : ${str}`);
+        this.characterStatsUI.generalStats.def = this.add.text(screenX + (screenX / 2.5), screenY + 120, `Def : ${def}`);
+        this.characterStatsUI.generalStats.will = this.add.text(screenX + (screenX / 2.5), screenY + 140, `Will: ${will}`);
+        this.characterStatsUI.generalStats.spd = this.add.text(screenX + (screenX / 2.5), screenY + 160, `Spd : ${speed}`);
         
         this.characterStatsUI.bars.hp.backdrop = this.add.graphics();
         this.characterStatsUI.bars.hp.backdrop.fillStyle(0xaa1111);
@@ -506,7 +508,7 @@ export default class Ui extends Phaser.Scene {
         this.characterStatsUI.bars.hp.bar = this.add.graphics();
         this.characterStatsUI.bars.hp.bar.fillStyle(0x00aa00);
         this.characterStatsUI.bars.hp.bar.fillRect(screenX + 25, screenY + 50, screenX - (screenX / 2), 10);
-        this.characterStatsUI.bars.hp.text = this.add.text(screenX + (screenX / 5), screenY + 47.5, 'Hp : 50 / 50', {fontFamily: 'monospace', fontSize: 14, })
+        this.characterStatsUI.bars.hp.text = this.add.text(screenX + (screenX / 5), screenY + 47.5, `Hp : ${hp} / ${maxhp}`, {fontFamily: 'monospace', fontSize: 14, })
         
         this.characterStatsUI.bars.hunger.backdrop = this.add.graphics();
         this.characterStatsUI.bars.hunger.backdrop.fillStyle(0x121212);
@@ -514,20 +516,21 @@ export default class Ui extends Phaser.Scene {
         this.characterStatsUI.bars.hunger.bar = this.add.graphics();
         this.characterStatsUI.bars.hunger.bar.fillStyle(0x663399);
         this.characterStatsUI.bars.hunger.bar.fillRect(screenX + 25, screenY + 75, screenX - (screenX / 2), 10);
-        this.characterStatsUI.bars.hunger.text = this.add.text(screenX + (screenX / 5), screenY + 72.5, 'Hun: 50 / 50', {fontFamily: 'monospace', fontSize: 14, })
+        this.characterStatsUI.bars.hunger.text = this.add.text(screenX + (screenX / 5), screenY + 72.5, `Hun: ${hunger} / ${maxHunger}`, {fontFamily: 'monospace', fontSize: 14, })
         
+        const { meele, magic, construction, mining, foraging, logging, cooking, crafting, research, medicinal, fishing } = selectedCharacter.skills;
         this.characterStatsUI.skills.header = this.add.text(screenX + 25, screenY + 190, "Skills", { fontSize: 20, fontStyle: 'bold' });
-        this.characterStatsUI.skills.meele = this.add.text(screenX + 25, screenY + 220, "Meele   : 1");
-        this.characterStatsUI.skills.magic = this.add.text(screenX + 25, screenY + 240, "Magic   : 1");
-        this.characterStatsUI.skills.construction = this.add.text(screenX + 25, screenY + 260, "Build   : 1");
-        this.characterStatsUI.skills.mining = this.add.text(screenX + 25, screenY + 280, "Mining  : 1");
-        this.characterStatsUI.skills.foraging = this.add.text(screenX + 25, screenY + 300, "Forage  : 1");
-        this.characterStatsUI.skills.logging = this.add.text(screenX + 25, screenY + 320, "Logging : 1");
-        this.characterStatsUI.skills.cooking = this.add.text(screenX + 25, screenY + 340, "Cooking : 1");
-        this.characterStatsUI.skills.crafting = this.add.text(screenX + 25, screenY + 360, "Craft   : 1");
-        this.characterStatsUI.skills.research = this.add.text(screenX + 25, screenY + 380, "Research: 1");
-        this.characterStatsUI.skills.medicinal = this.add.text(screenX + 25, screenY + 400, "Medic   : 1");
-        this.characterStatsUI.skills.fishing = this.add.text(screenX + 25, screenY + 420, "Fish    : 1");
+        this.characterStatsUI.skills.meele = this.add.text(screenX + 25, screenY + 220, `Meele   : ${meele.level} / 20`);
+        this.characterStatsUI.skills.magic = this.add.text(screenX + 25, screenY + 240, `Magic   : ${magic.level} / 20`);
+        this.characterStatsUI.skills.construction = this.add.text(screenX + 25, screenY + 260, `Build   : ${construction.level} / 20`);
+        this.characterStatsUI.skills.mining = this.add.text(screenX + 25, screenY + 280, `Mining  : ${mining.level} / 20`);
+        this.characterStatsUI.skills.foraging = this.add.text(screenX + 25, screenY + 300, `Forage  : ${foraging.level} / 20`);
+        this.characterStatsUI.skills.logging = this.add.text(screenX + 25, screenY + 320, `Logging : ${logging.level} / 20`);
+        this.characterStatsUI.skills.cooking = this.add.text(screenX + 25, screenY + 340, `Cooking : ${cooking.level} / 20`);
+        this.characterStatsUI.skills.crafting = this.add.text(screenX + 25, screenY + 360, `Craft   : ${crafting.level} / 20`);
+        this.characterStatsUI.skills.research = this.add.text(screenX + 25, screenY + 380, `Research: ${research.level} / 20`);
+        this.characterStatsUI.skills.medicinal = this.add.text(screenX + 25, screenY + 400, `Medic   : ${medicinal.level} / 20`);
+        this.characterStatsUI.skills.fishing = this.add.text(screenX + 25, screenY + 420, `Fish    : ${fishing.level} / 20`);
         
         this.characterStatsUI.isOpen = true;
     }

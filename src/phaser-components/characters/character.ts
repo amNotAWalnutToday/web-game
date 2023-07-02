@@ -17,6 +17,10 @@ interface PathClick {
     worldY: number,
 }
 
+interface Stats {
+    [key: string]: number
+}
+
 export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Physics.Arcade.Sprite {
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame: number) {
         super(scene, x, y, texture, frame);
@@ -24,16 +28,82 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         const yourCharacters = this.scene.registry.get("yourCharacters");
         yourCharacters.push(this);
         this.cid = yourCharacters.length - 1;
-        this.speed = 1;
+        this.stats.speed = 1;
         this.scene.registry.set("yourCharacters", yourCharacters);
 
         this.scene.add.existing(this);
     }
 
+    /*********/
+    // stats //
+    name = "Slimeson";
     race = "slime"; 
     cid: number;
-    speed: number;
+    rank = 'E';
+    stats: Stats = {
+        maxhp: 10,
+        hp: 10,
+        maxHunger: 10,
+        hunger: 10,
+        str: 0,
+        def: 0,
+        will: 0,
+        speed: 0,  
+    }
 
+    /************/
+
+    /**********/
+    // skills //
+    skills = {
+        meele: {
+            level: 1,
+            xp:    0,
+        },
+        magic: {
+            level: 1,
+            xp:    0,
+        },
+        construction: {
+            level: 1,
+            xp:    0,
+        },
+        mining: {
+            level: 1,
+            xp:    0,
+        },
+        logging: {
+            level: 1,
+            xp:    1,
+        },
+        foraging: {
+            level: 1,
+            xp:    1,
+        },
+        fishing: {
+            level: 1,
+            xp:    0,
+        },
+        cooking: {
+            level: 1,
+            xp:    0,
+        },
+        crafting: {
+            level: 1,
+            xp:    0,
+        },
+        research: {
+            level: 1,
+            xp:    0,
+        },
+        medicinal: {
+            level: 1,
+            xp:    0,
+        },
+    }
+
+    /********/
+    // misc //
     currentAction: string | null = null;
     actionQueue: string[] = [];
     buildQueue: BuildSpot[] = [];
@@ -44,12 +114,17 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     pickupTarget: Target = null;
     inventory: InventoryItem[] = [];
     carryCapacity = 1;
+    /************/
 
+
+    /************/
+    // graphics //
     path: { t: number, vec: Phaser.Math.Vector2 } = { t: 0, vec: new Phaser.Math.Vector2() };
     curve: Phaser.Curves.Spline = new Phaser.Curves.Spline();
     graphics: Phaser.GameObjects.Graphics = this.scene.add.graphics();
 
     private movePath: Phaser.Math.Vector2[] = [];
+    /************/
 
     create() {
         this.setCollideWorldBounds(true);
@@ -208,7 +283,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         this.scene.tweens.add({
             targets: this.path,
             t: 1,
-            duration: (60 - (this.speed * 2.5)) * distance,
+            duration: (60 - (this.stats.speed * 2.5)) * distance,
             repeat: 0
         });
     }

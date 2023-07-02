@@ -5,11 +5,22 @@
             "localLocation": [100, 100]
         },
         {
+            "name": "Happy",
             "race": "harpy",
             "localLocation": [200, 200],
-            "speed": 18
+            "stats": {
+                "maxhp": 5,
+                "hp": 5,
+                "maxHunger": 5,
+                "hunger": 5,
+                "str": 0,
+                "def": 5,
+                "will": 10,
+                "speed": 18
+            }
         },
         {
+            "name": "Gobta",
             "race": "goblin_mage",
             "localLocation": [300, 300]
         },

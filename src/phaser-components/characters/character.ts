@@ -31,6 +31,11 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         this.stats.speed = 1;
         this.scene.registry.set("yourCharacters", yourCharacters);
 
+        this.setInteractive();
+        this.on("pointerdown", () => {
+            this.scene.registry.set("selectedInspection", this);
+        });
+
         this.scene.add.existing(this);
     }
 

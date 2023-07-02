@@ -74,8 +74,10 @@ export default class Game extends Phaser.Scene {
     selectedCharacter: Character | null = null;
     selectedCommand: Commands = 'MOVE';
     selectedBuildItem: string | null = null;
+    selectedInspection: any = null;
     yourCharacters: Character[] = [];
     pointerDown = false;
+    isCameraLocked = true;
 
     placeBuildItem(e: Phaser.Input.Pointer) {
         if(!this.selectedBuildItem || !this.selectedCharacter
@@ -141,16 +143,6 @@ export default class Game extends Phaser.Scene {
                     0
             ));
         }
-        // trees.children.iterate((tree: Tree) => {
-        //     tree.setInteractive();
-        //     tree.on("pointerdown", () => {
-        //         console.log(this.selectedCommand);
-        //         if(this.selectedCommand === 'CHOP') {
-        //             this.selectedCharacter?.actionQueue.unshift('CHOP');
-        //             this.selectedCharacter?.chopTree(tree);
-        //         }
-        //     })
-        // //})
         
         setupTeam(this, this.yourCharacters);
         
@@ -186,14 +178,17 @@ export default class Game extends Phaser.Scene {
         this.registry.set('groundItems', groundItems);
         this.registry.set('storage', storage);
         this.registry.set('trees', trees);
+        this.registry.set("selectedInspection", this.selectedInspection);
         this.yourCharacters = this.registry.get('yourCharacters');
         this.registry.events.on('changedata', (a: unknown, key: string, payload: any) => {
             switch(key) {
                 case "selectedCharacter":
+                    this.selectedCharacter = payload;
+                    if(!this.registry.get("isCameraLocked")) return;
                     camera.x = this.selectedCharacter?.x ?? 0; 
                     camera.y = this.selectedCharacter?.y ?? 0;
-                    this.selectedCharacter = payload;
                     this.selectedCharacter ? this.cameras.main.startFollow(this.selectedCharacter) : this.cameras.main.startFollow(camera);
+                    this.registry.set("isCameraLocked", true);
                     break;
                 case "selectedCommand":
                     this.selectedCommand = payload;
@@ -202,6 +197,13 @@ export default class Game extends Phaser.Scene {
                     break;
                 case "selectedBuildItem":
                     this.selectedBuildItem = payload;
+                    break;
+                case "isCameraLocked":
+                    this.isCameraLocked = payload;
+                    camera.x = this.selectedCharacter?.x ?? 0; 
+                    camera.y = this.selectedCharacter?.y ?? 0;
+                    if(!this.selectedCharacter) return this.cameras.main.startFollow(camera);
+                    this.isCameraLocked ? this.cameras.main.startFollow(this.selectedCharacter) : this.cameras.main.startFollow(camera);
                     break;
                 case 'dunnowhattodowiththeaargsoimmajustdothis':
                     console.log(a);

@@ -29,6 +29,7 @@ export default class Ui extends Phaser.Scene {
     currentCharacter?: Character | null;
     characters: Character[] = [];
     characterSlots: Slot[] = [];
+    escapeCameraBtn?: Button = undefined;
 
     gameFunctionsMenu:any = {
         box: undefined,
@@ -84,6 +85,18 @@ export default class Ui extends Phaser.Scene {
         buttons: []
     }
 
+    inspectMenu: Menu = {
+        isOpen: false,
+        container: {
+            screenX: this.screenWidth / 2.25 + 25,
+            screenY: this.screenHeight - 126,
+            width: 100,
+            height: 100,
+            box: undefined,
+        },
+        buttons: [],
+    }
+
     setContainers = () => {
         const { width, height } = this.registry.get("gameSize");
         this.screenHeight = height;
@@ -93,12 +106,19 @@ export default class Ui extends Phaser.Scene {
         this.actionMenu.container.screenY        = height - 75;
         this.buildMenu.container.screenY         = height - 130;
         this.buildCategoryMenu.container.screenY = height - 156; 
+        this.inspectMenu.container.screenX       = width / 2.25 + 75;
+        this.inspectMenu.container.screenY       = height - 130;
         this.addActionMenu();
 
-        this.characterStatsUI.container.width = width / 4.5;
-        this.characterStatsUI.container.height = height / 2;
-        this.characterStatsUI.container.screenX = (width / 2) - ((width / 4) / 2);
-        this.characterStatsUI.container.screenY = (height / 2) - ((height / 2) / 2);
+        this.characterStatsUI.container.width = width > 500 ? width / 4.5 : width - 25;
+        this.characterStatsUI.container.height = width > 500 ? height / 2 : height - 200;
+        this.characterStatsUI.container.screenX = width > 500 ? (width / 2) - ((width / 4) / 2) : 12.5;
+        this.characterStatsUI.container.screenY = width > 500 ? (height / 2) - ((height / 2) / 2) : 125;
+        
+        // this.characterStatsUI.container.width = width > 500 ? width / 4.5 : width - 25;
+        // this.characterStatsUI.container.height = width > 500 ? height / 2 : height - 200;
+        // this.characterStatsUI.container.screenX = width > 500 ? (width / 2) - ((width / 4) / 2) : 12.5;
+        // this.characterStatsUI.container.screenY = width > 500 ? (height / 2) - ((height / 2) / 2) : 125;
     }
 
     create() {
@@ -107,6 +127,13 @@ export default class Ui extends Phaser.Scene {
         this.currentCharacter = this.registry.get('selectedCharacter');
         if(!this.characters.length) return;
 
+        const escapeCamera = () => {
+            const isCameraLocked = this.registry.get("isCameraLocked");
+            this.registry.set("isCameraLocked", !isCameraLocked);
+            !isCameraLocked ? this.escapeCameraBtn?.select() : this.escapeCameraBtn?.deselect();
+        }
+        this.escapeCameraBtn = createButton(this, 0, 0, '', {width: 25, height: 25, screenX: 15, screenY: 67}, escapeCamera);
+        this.escapeCameraBtn.select();
         this.characters.forEach((character: Character)=> {
             this.addSlot(character);
         });
@@ -128,6 +155,11 @@ export default class Ui extends Phaser.Scene {
                 case 'selectedBuildItem':
                     if(payload && this.commandMenu.toggleBtn) this.commandMenu.toggleBtn.text.text = `Commands \n Build`; 
                     this.actionMenu.buttons[0].text.setText(`Build \n ${payload ?? 'N/A'}`);
+                    break;
+                case 'selectedInspection':
+                case 'storage': 
+                    if(this.inspectMenu.isOpen) this.reopenMenu(this.inspectMenu, this.addInspectItemMenu);
+                    else this.toggleMenu(this.inspectMenu, this.addInspectItemMenu);
                     break;
                 case 'gameSize':
                     this.setContainers();
@@ -161,9 +193,9 @@ export default class Ui extends Phaser.Scene {
 
         this.gameFunctionsMenu.box = this.add.graphics();
         this.gameFunctionsMenu.box.fillStyle(0x000000, 0.25);
-        this.gameFunctionsMenu.box.fillRect(30, this.screenHeight - 200, 500, 190);
+        this.gameFunctionsMenu.box.fillRect(30, this.screenHeight - 200, this.screenWidth / 2.25, 190);
         this.gameFunctionsMenu.border = this.add.graphics({lineStyle: {width: 2, color: 0xdaa52a}});
-        this.gameFunctionsMenu.border.strokeRect(28, this.screenHeight - 200, 500, 190);
+        this.gameFunctionsMenu.border.strokeRect(28, this.screenHeight - 200, this.screenWidth / 2.25, 190);
         this.commandMenu.toggleBtn = createButton(
             this, 
             0,
@@ -318,11 +350,33 @@ export default class Ui extends Phaser.Scene {
         });
     }
 
+    addInspectItemMenu = () => {
+        const { screenX, screenY, width, height } = this.inspectMenu.container;
+        const target = this.registry.get("selectedInspection");
+        if(!target) return;
+        this.inspectMenu.container.box = this.add.graphics();
+        this.inspectMenu.container.box?.fillStyle(0x121212, 0.75);
+        this.inspectMenu.container.box?.fillRect(screenX, screenY, width, height);
+        const inventory = target?.inventory ? target.inventory : target.storage;
+        inventory.forEach((item: {[key: string]: string}) => {
+            const text = this.add.text(screenX + 5, screenY + 20, `${item.type}: ${item.amount}`);
+            const textItem = {
+                text,
+                box: this.add.graphics(),
+                deselect: () => null,
+                select: () => null,
+                getRect: () => ({ width: 0, height: 0, posX: 0, posY: 0}),
+                hide: () => text.destroy()
+            }
+            this.inspectMenu.buttons.push(textItem);
+        });
+    }
+
     reopenMenu = (menu: Menu, openCommand: () => void) => {
         this.toggleMenu(menu, openCommand);
         this.time.addEvent({
             delay: 25,
-            callback: () => this.toggleMenu(this.commandMenu, this.addCommandMenuItem),
+            callback: () => this.toggleMenu(menu, openCommand),
             callbackScope: this,
             loop: false,
         });
@@ -330,6 +384,7 @@ export default class Ui extends Phaser.Scene {
 
     toggleMenu = (menu: Menu, openCommand: () => void) => {
         if(menu.isOpen) {
+            if(menu.container.box) menu.container.box.destroy();
             menu.buttons.forEach((button: Button) => button.hide());
             menu.buttons = [];
         } else {
@@ -482,6 +537,7 @@ export default class Ui extends Phaser.Scene {
     showCharacterStats(selectedCharacter: Character) {
         const { screenX, screenY, width, height } = this.characterStatsUI.container;
         this.characterStatsUI.border = this.add.graphics({lineStyle: {color: 0xDAA520, width: 4}});
+        this.characterStatsUI.border.strokeRect(screenX, screenY, width + 1, height + 1);
         this.characterStatsUI.box = this.add.graphics();
         this.characterStatsUI.box.fillStyle(0x111111, 0.9);
         this.characterStatsUI.box.fillRect(screenX, screenY, width, height);
@@ -492,7 +548,6 @@ export default class Ui extends Phaser.Scene {
 
         const { name, rank, race } = selectedCharacter;
         const { maxhp, hp, hunger, maxHunger, str, def, will, speed } = selectedCharacter.stats;
-        this.characterStatsUI.border.strokeRect(screenX, screenY, width + 1, height + 1);
         this.characterStatsUI.specialStats.name = this.add.text(screenX + (screenX / 4.5), screenY + 10, name, {fontSize: 25, fontFamily: 'monospace'});
         this.characterStatsUI.specialStats.rank = this.add.text(screenX + 25, screenY + 100, `Rank: ${rank}`);
         this.characterStatsUI.specialStats.race = this.add.text(screenX + 25, screenY + 120, `Race: ${race}`);

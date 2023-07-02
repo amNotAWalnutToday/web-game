@@ -5,6 +5,7 @@ export interface Container {
     screenY: number,
     width: number,
     height: number,
+    box?: Phaser.GameObjects.Graphics,
 }
 
 export interface Button {
@@ -12,6 +13,8 @@ export interface Button {
     text: Phaser.GameObjects.Text,
     hide: () => void,
     getRect: () => Rect,
+    select: () => void,
+    deselect: () => void,
 }
 
 interface Rect {
@@ -43,6 +46,8 @@ const createButton = (
             text: scene.add.text(posX, posY, text, {fontFamily: 'monospace'}),
             hide,
             getRect,
+            select,
+            deselect
         } 
 
         button.box.fillStyle(options.color ?? 0x121212, options.alpha ?? 0.75);
@@ -55,6 +60,18 @@ const createButton = (
 
         function getRect() {
             return { posX, posY, width, height };
+        }
+
+        function select() {
+            button.box.clear();
+            button.box.fillStyle(0x1199ff, 0.75);
+            button.box.fillRoundedRect(posX, posY, width, height, 5);
+        }
+
+        function deselect() {
+            button.box.clear();   
+            button.box.fillStyle(options.color ?? 0x121212, options.alpha ?? 0.75);
+            button.box.fillRoundedRect(posX, posY, width, height, 5);
         }
 
         function hide() {

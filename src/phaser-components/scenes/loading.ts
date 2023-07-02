@@ -34,8 +34,10 @@ export default class Loading extends Phaser.Scene {
         this.registry.set("yourCharacters", []);
         this.registry.set("selectedCommand", 'MOVE');
         this.registry.set("selectedBuildItem", null);
+        this.registry.set("selectedInspection", null);
         this.registry.set("groundItems", []);
         this.registry.set("map", null);
+        this.registry.set("isCameraLocked", true);
         this.registry.set("gameSize", { 
             height: this.sys.game.scale.height, 
             width: this.sys.game.scale.width

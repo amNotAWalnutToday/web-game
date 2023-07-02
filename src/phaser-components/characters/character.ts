@@ -5,8 +5,9 @@ import BuildSpot from "../nodes/buildspot";
 import Item from "../nodes/item";
 import { getClosest, getClosestStorage } from "../utils/getclosest";
 import WoodChest from "../nodes/buildables/wood_chest";
+import Buildable from "../nodes/buildables/buildable";
 
-type Target = Tree | BuildSpot | Item | WoodChest | null;
+type Target = Tree | BuildSpot | Item | WoodChest | Buildable | null;
 
 interface InventoryItem {
     type: string,
@@ -34,6 +35,9 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         this.setInteractive();
         this.on("pointerdown", () => {
             this.scene.registry.set("selectedInspection", this);
+            console.log(this.actionQueue);
+            console.log(this.destroyQueue);
+            console.log(this.currentAction);
         });
 
         this.scene.add.existing(this);
@@ -112,6 +116,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     currentAction: string | null = null;
     actionQueue: string[] = [];
     buildQueue: BuildSpot[] = [];
+    destroyQueue: Buildable[] = [];
     targetCoords: [number, number] = [0, 0];
     isMoving = false;
     isDoing = false;
@@ -163,20 +168,6 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         }
     }
 
-    chopTreeToEnd() {
-        if(!this.target) return;
-        if(!(this.target instanceof Tree)) return;
-
-        if(this.target.durability - 1 < 0) {
-            this.target = null;
-            this.currentAction = null;
-            this.isDoing = false;
-            this.updateCharacters();
-        } else {
-            this.target.loseDurability();
-        }
-    }
-
     takeFromStorage(item: string) {
         if(!(this.pickupTarget instanceof WoodChest)) return;
         this.pickupTarget.removeItem(item);
@@ -214,6 +205,16 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         this.inventory.splice(ind, 1);
     }
 
+    cancelQueue() {
+        this.currentAction = null;
+        this.actionQueue = [];
+        this.graphics.clear();
+        this.cancelBuild();
+        this.target = null;
+        this.pickupTarget = null;
+        this.isDoing = false;
+    }
+
     cancelBuild() {
         if(!(this.target instanceof BuildSpot)) return;
         this.target.selfDestruct();
@@ -223,6 +224,29 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         }
         this.actionQueue = [];
         this.buildQueue = [];
+    }
+
+    deconstruct() {
+        const itemsToDeconstruct = this.scene.registry.get("itemsToDeconstruct");
+        const closest = getClosest({x: this.x, y: this.y }, itemsToDeconstruct, 'ANY');
+        if(!closest.item) return;
+        if(!(closest.item instanceof Buildable)) return;
+        if(!this.checkIfArrived(this, closest.item, {xDiff: 3, yDiff: 3})) {
+            const freeSpot = closest.item.checkForEmptySpot();
+            if(!freeSpot) return this.currentAction = null;
+            else {
+                this.currentAction = null;
+                this.actionQueue.unshift("DESTROY");
+            }
+            return this.getPath({worldX: freeSpot.x * 16, worldY: freeSpot.y * 16});
+        } else {
+            if(!(closest.item instanceof Buildable)) return;
+            closest.item.deconstruct();
+            if(closest.item.deconstructPercentage > 99) {
+                this.currentAction = null;
+                this.cancelQueue();
+            }
+        }
     }
 
     build(item: BuildSpot) {
@@ -293,14 +317,18 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         });
     }
 
-    checkIfArrived(start: Phaser.Physics.Arcade.Sprite, target: Phaser.Physics.Arcade.Sprite) {
+    checkIfArrived(
+        start: Phaser.Physics.Arcade.Sprite, 
+        target: Phaser.Physics.Arcade.Sprite,
+        options = {xDiff: 2, yDiff: 2},
+    ) {
         if(!start || !target) return;
         const map = this.scene.registry.get("map");
         const startVec = map.map.worldToTileXY(start.x, start.y);
         const targetVec = map.map.worldToTileXY(target.x, target.y);
         const xDif = Math.abs(startVec.x - targetVec.x);
         const yDif = Math.abs(startVec.y - targetVec.y);
-        if(xDif < 2 && yDif < 2) {
+        if(xDif < options.xDiff && yDif < options.yDiff) {
             return true;
         } else {
             return false;
@@ -322,7 +350,10 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     }
 
     update() {
-        if(!this.actionQueue.length && !this.currentAction && !this.buildQueue.length) return;
+        if(!this.actionQueue.length 
+        && !this.currentAction 
+        && !this.buildQueue.length
+        && !this.destroyQueue.length) return;
         if(!this.currentAction && this.actionQueue.length) {
             const nextAction = this.actionQueue.pop();
             this.currentAction = nextAction ?? null;
@@ -332,6 +363,12 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             const nextTarget = this.buildQueue.pop();
             this.target = nextTarget ?? null;
             this.actionQueue.unshift("BUILD");
+            this.updateCharacters();
+        }
+        if(!this.target && this.destroyQueue.length) {
+            const nextTarget = this.destroyQueue.pop();
+            this.target = nextTarget ?? null;
+            this.actionQueue.unshift("DESTROY");
             this.updateCharacters();
         }
 
@@ -367,7 +404,9 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             /*eslint-disable-next-line*/
             if(!this.checkIfArrived(this, this.pickupTarget!)) {
                 this.currentAction = null;
-                this.actionQueue.unshift('PICKUP');
+                if(this.actionQueue.length) {
+                    this.actionQueue.unshift('PICKUP');
+                }
             } else {
                 this.currentAction = null;
                 const resourceType = this.target instanceof BuildSpot 
@@ -384,6 +423,11 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         if(this.currentAction === 'CHOP') {
             this.chopTree();
         }
+
+        if(this.currentAction === 'DESTROY') {
+            this.deconstruct();
+        }
+
         if(this.currentAction === 'BUILD'
         && this.target) {
             if(!(this.target instanceof BuildSpot)) return;

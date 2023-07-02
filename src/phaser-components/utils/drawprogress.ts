@@ -17,4 +17,6 @@ export default function drawProgress(
         bar.bar.fillStyle(0x00ff00);
         // bar.bar.fillRect(sprite.x - 8, sprite.y + 16, Math.ceil(progress / (sprite.width / 3)), 2);
         bar.bar.fillRect(sprite.x - 8, sprite.y + ((sprite.height) / 4), Math.ceil(((16 + 2) / 100) * progress), 2);
+        bar.bar.setDepth(1);
+        bar.backdrop.setDepth(1);
 }

@@ -81,9 +81,9 @@ export default class Game extends Phaser.Scene {
 
     placeBuildItem(e: Phaser.Input.Pointer) {
         if(!this.selectedBuildItem || !this.selectedCharacter
-        || !this.pointerDown) return;
+        || !this.pointerDown || this.selectedBuildItem === 'DESTROY') return;
         const { x, y } = this.map.full.worldToTileXY(e.worldX, e.worldY);
-        const tileProps = this.map.full.getTileAt(x, y).properties;
+        const tileProps = this.map.full.getTileAt(x, y)?.properties;
         if(tileProps.buildingHere || tileProps.terrain === 'water') return;
         if(this.selectedCharacter.target instanceof BuildSpot) {
             this.selectedCharacter.buildQueue.push(
@@ -100,29 +100,18 @@ export default class Game extends Phaser.Scene {
         this.cameras.main.setZoom(1);
         this.physics.world.setBounds(0, 0, 1000 * 2, 1000 * 2);
         const camera = this.physics.add.sprite(0, 0, '', 0).setVisible(false);
-        this.cameras.main.startFollow(camera);
-        // this.map = this.make.tilemap({ tileHeight: 16, tileWidth: 16, width: 600, height: 480 });
-        //const floorTiles = this.map.addTilesetImage('forest_tiles');
-        //const floorLayer = this.map.createBlankLayer('floor', floorTiles ? floorTiles : 'floor');
-        //floorLayer?.randomize(0, 0, this.map.width, this.map.height, [12]);
-        
+        this.cameras.main.startFollow(camera);    
         this.map = {
             chunk1: this.make.tilemap( {key: 'forest_chunk_1'} ),
             chunk2: this.make.tilemap( {key: 'forest_chunk_2'} ),
             full: this.make.tilemap({ key: 'full_forest_1' }),
         };
-        // const forestCliffs = this.map.chunk1.addTilesetImage('forest_cliffs', 'forest_cliffs');
-        // const waterTiles =  this.map.chunk1.addTilesetImage('water_tiles', 'water_tiles');
-        // const forestchunk = this.map.chunk1.createLayer('forest', forestCliffs, 0, 0 );
-        // const chunk1 = this.map.chunk1.createLayer('shallow_water', waterTiles, 0, 0);
-        // const terrain = this.map.chunk2.addTilesetImage('forest_cliffs', 'forest_cliffs');
-        // const water = this.map.chunk2.addTilesetImage('water_tiles', 'water_tiles');
-        // const chunk2 = this.map.chunk2.createLayer('terrain', [terrain, water], 480, 0);
         this.map.full.addTilesetImage('forest_tileset', 'forest_tileset');
         this.map.full.addTilesetImage('water_tiles', 'water_tiles');
         const fullMap = this.map.full.createLayer('ground', ['forest_tileset', 'water_tiles'], 0, 0);
         fullMap.setDepth(-5);
         const storage = this.physics.add.group();
+        const itemsToDeconstruct = this.physics.add.group();
         const groundItems = this.physics.add.group();
         this.registry.set('groundItems', groundItems);
         const trees = this.physics.add.group();
@@ -175,6 +164,7 @@ export default class Game extends Phaser.Scene {
 
         this.registry.set('map', {map: this.map.full, layers: [fullMap]});
         this.registry.set('selectedCharacter', this.selectedCharacter);
+        this.registry.set('itemsToDeconstruct', itemsToDeconstruct);
         this.registry.set('groundItems', groundItems);
         this.registry.set('storage', storage);
         this.registry.set('trees', trees);

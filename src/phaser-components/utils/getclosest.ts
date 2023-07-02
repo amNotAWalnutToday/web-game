@@ -1,5 +1,6 @@
 import Item from "../nodes/item";
 import WoodChest from "../nodes/buildables/wood_chest";
+import Buildable from "../nodes/buildables/buildable";
 
 export function getClosest(
         startPoint: { x: number, y: number },
@@ -7,7 +8,7 @@ export function getClosest(
         searchItem: string | null,
     ) {
         const { x, y } = startPoint;
-        const closest = { ind: 0, distance: 1000, item: <Item | null> null };
+        const closest = { ind: 0, distance: 1000, item: <Item | Buildable | null> null };
         group.children.iterate((item: Item, ind: number) => {
             const distance = Math.abs(Math.abs(x - item.x) + Math.abs(y - item.y));
             if((item.type === searchItem

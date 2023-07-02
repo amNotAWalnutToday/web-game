@@ -266,26 +266,20 @@ export default class Ui extends Phaser.Scene {
     addBuildMenuItem = () => {
         const buildsomething = (item: string) => {
             this.registry.set("selectedBuildItem", item.toUpperCase());
-            this.toggleMenu(this.buildMenu, this.addBuildMenuItem);
-            this.time.addEvent({
-                delay: 25,
-                callback: () => { 
-                    this.toggleMenu(this.buildMenu, this.addBuildMenuItem);
-                },
-                callbackScope: this,
-                loop: false,
-            })
+            this.reopenMenu(this.buildMenu, this.addBuildMenuItem);
         };
-        const items: string[] = [];
+        const items: string[] = ['DESTROY'];
         for(const item of buildspot_items.items) {
             if(item.category === this.buildMenu.filterBy) items.push(item.type);
         }
         items.forEach((item: string, ind: number) => {
             const selectedItem = this.registry.get("selectedBuildItem");
             const color = item.toUpperCase() === selectedItem ? 0xdaa52a : undefined;
-            const button = createButton(this, ind * 85, 0, item, this.buildMenu.container, () => buildsomething(item), {color});
+            const [placeX, placeY] = item === 'DESTROY' ? [0, 55] : [ind * 85, 0]; 
+            const button = createButton(this, placeX, placeY, item, this.buildMenu.container, () => buildsomething(item), {color});
             this.buildMenu.buttons.push(button);
         });
+
     }
 
     addBuildCategoryItems = () => {
@@ -323,20 +317,19 @@ export default class Ui extends Phaser.Scene {
                 if(!currentCharacter) return;
                 currentCharacter.actionQueue.unshift("CHOP");
                 this.registry.set("selectedCharacter", currentCharacter);
+            } else {
+                if(!currentCharacter) return;
+                currentCharacter.actionQueue.unshift(command);
+                this.registry.set("selectedCharacter", currentCharacter);
             }
-            this.toggleMenu(this.commandMenu, this.addCommandMenuItem);
-            this.time.addEvent({
-                delay: 25,
-                callback: () => this.toggleMenu(this.commandMenu, this.addCommandMenuItem),
-                callbackScope: this,
-                loop: false,
-            })
+
+            this.reopenMenu(this.commandMenu, this.addCommandMenuItem);
 
             this.registry.set("selectedCommand", command);
             return;
         }
 
-        const items: string[] = ['CHOP', 'CARRY'];
+        const items: string[] = ['DESTROY', 'CHOP', 'CARRY'];
         items.forEach((item: string, ind: number) => {
             const currentCharacter = this.registry.get("selectedCharacter");
             const color = (
@@ -444,7 +437,11 @@ export default class Ui extends Phaser.Scene {
         this.currentCharacter.graphics.clear();
         this.currentCharacter.cancelBuild();
         this.currentCharacter.target = null;
+        this.currentCharacter.pickupTarget = null;
         this.currentCharacter.isDoing = false;
+        this.currentCharacter.destroyQueue = [];
+        this.registry.set("selectedBuildItem", null);
+        this.reopenMenu(this.buildMenu, this.addBuildMenuItem);
         this.registry.set('selectedCharacter', this.currentCharacter);
     }
 

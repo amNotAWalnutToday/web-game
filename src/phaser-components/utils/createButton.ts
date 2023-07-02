@@ -43,7 +43,7 @@ const createButton = (
 
         const button = {
             box: scene.add.graphics(),
-            text: scene.add.text(posX, posY, text, {fontFamily: 'monospace'}),
+            text: scene.add.text(posX, posY, text, {fontFamily: 'monospace', padding: {top: height/7, right: width / 10}}),
             hide,
             getRect,
             select,

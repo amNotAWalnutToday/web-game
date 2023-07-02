@@ -12,6 +12,12 @@ export default class Buildable extends Phaser.Physics.Arcade.Sprite {
                 const itemsToDeconstruct = this.scene.registry.get("itemsToDeconstruct");
                 itemsToDeconstruct.add(this);
                 this.isInDeconstructionQueue = true;
+                this.toggleMark();
+            } else if(this.isInDeconstructionQueue) {
+                const itemsToDeconstruct = this.scene.registry.get("itemsToDeconstruct");
+                this.isInDeconstructionQueue = false;
+                itemsToDeconstruct.remove(this, false, false);
+                this.toggleMark();
             }
         });
         this.scene.add.existing(this);
@@ -21,6 +27,8 @@ export default class Buildable extends Phaser.Physics.Arcade.Sprite {
     isInDeconstructionQueue = false;
     deconstructPercentage = 0;
     deconstructed = false;
+
+    private deconstructionMark?: Phaser.GameObjects.Image = undefined;
 
     private progressBar = {
         backdrop: this.scene.add.graphics(),
@@ -33,6 +41,16 @@ export default class Buildable extends Phaser.Physics.Arcade.Sprite {
         const tileAt = map.map.getTileAt(tileCoords.x, tileCoords.y);
         for(const item of buildspot_items.items) {
             if(item.type === 'floor') tileAt.properties.buildingHere = false; 
+        }
+    }
+
+    toggleMark() {
+        if(this.isInDeconstructionQueue && !this.deconstructed) {
+            this.deconstructionMark = this.scene.add.image(this.x,this.y, 'stop').setScale(0.25).setRotation(45);
+        } else {
+            this.deconstructionMark?.destroy();
+            this.progressBar.bar.clear();
+            this.progressBar.backdrop.clear();
         }
     }
 
@@ -69,7 +87,7 @@ export default class Buildable extends Phaser.Physics.Arcade.Sprite {
         const tileAt = map.map.getTileAt(tileCoords.x, tileCoords.y);
         tileAt.properties.buildingHere = false;
         tileAt.properties.collides = false;
-        
+        this.toggleMark();
         this.progressBar.backdrop.destroy();
         this.progressBar.bar.destroy();
         this.destroy();

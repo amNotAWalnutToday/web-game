@@ -15,7 +15,8 @@ interface Slot {
     cid: number,
     sprite: Phaser.GameObjects.Image,
     text: Phaser.GameObjects.Text,
-    box: Phaser.GameObjects.Graphics
+    box: Phaser.GameObjects.Graphics,
+    button: Button,
 }
 
 export default class Ui extends Phaser.Scene {
@@ -144,7 +145,7 @@ export default class Ui extends Phaser.Scene {
         this.registry.events.on('changedata', (a: unknown, key: string, payload: any) => {
             switch(key) {
                 case 'yourCharacters':
-                    this.changeSelectedCharacterBoxs();
+                        this.changeSelectedCharacterBoxs();
                     break;
                 case 'selectedCharacter':
                     this.currentCharacter = payload;
@@ -338,7 +339,7 @@ export default class Ui extends Phaser.Scene {
             return;
         }
 
-        const items: string[] = ['DESTROY', 'CHOP', 'CARRY'];
+        const items: string[] = ['DESTROY', 'CHOP', 'CARRY', 'FISH'];
         items.forEach((item: string, ind: number) => {
             const currentCharacter = this.registry.get("selectedCharacter");
             const color = (
@@ -455,6 +456,21 @@ export default class Ui extends Phaser.Scene {
     }
 
     changeSelectedCharacterBoxs() {
+        if(this.characterSlots.length !== this.characters.length) {
+            for(const slot of this.characterSlots) {
+                slot.box.destroy();
+                slot.sprite.destroy();
+                slot.text.destroy();
+                slot.button.hide();
+            }
+            this.characterSlots = [];
+            for(const char of this.characters) {
+                this.addSlot(char);
+            }
+            if(this.characterStatsUI.isOpen) this.clearCharacterStats();
+            return;
+        }
+
         this.characterSlots.forEach((slot: Slot, ind: number) => {
             slot.box.clear();
             slot.text.text = this.characters[ind].currentAction ?? 'N/A';

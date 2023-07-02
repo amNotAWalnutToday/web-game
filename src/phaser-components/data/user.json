@@ -11,8 +11,8 @@
             "stats": {
                 "maxhp": 5,
                 "hp": 5,
-                "maxHunger": 5,
-                "hunger": 5,
+                "maxHunger": 50,
+                "hunger": 50,
                 "str": 0,
                 "def": 5,
                 "will": 10,

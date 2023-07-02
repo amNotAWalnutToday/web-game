@@ -1,4 +1,3 @@
-import buildspot_items from '../../data/buildspot_items.json';
 import drawProgress from '../../utils/drawprogress';
 
 export default class Buildable extends Phaser.Physics.Arcade.Sprite {
@@ -21,7 +20,7 @@ export default class Buildable extends Phaser.Physics.Arcade.Sprite {
             }
         });
         this.scene.add.existing(this);
-        this.setBuildOnTop();
+        // this.setBuildOnTop();
     }
 
     isInDeconstructionQueue = false;
@@ -35,14 +34,15 @@ export default class Buildable extends Phaser.Physics.Arcade.Sprite {
         bar: this.scene.add.graphics()
     }
 
-    setBuildOnTop() {
-        const map = this.scene.registry.get("map");
-        const tileCoords = map.map.worldToTileXY(this.x, this.y);
-        const tileAt = map.map.getTileAt(tileCoords.x, tileCoords.y);
-        for(const item of buildspot_items.items) {
-            if(item.type === 'floor') tileAt.properties.buildingHere = false; 
-        }
-    }
+    // setBuildOnTop() {
+    //     const map = this.scene.registry.get("map");
+    //     const tileCoords = map.map.worldToTileXY(this.x, this.y);
+    //     const tileAt = map.map.getTileAt(tileCoords.x, tileCoords.y);
+    //     console.log(tileAt);
+    //     for(const item of buildspot_items.items) {
+    //         if(item.type === 'floor') tileAt.properties.buildingHere = false; 
+    //     }
+    // }
 
     toggleMark() {
         if(this.isInDeconstructionQueue && !this.deconstructed) {

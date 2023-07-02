@@ -37,6 +37,9 @@ export default class Loading extends Phaser.Scene {
         this.registry.set("selectedBuildItem", null);
         this.registry.set("selectedInspection", null);
         this.registry.set("groundItems", []);
+        this.registry.set("storage", []);
+        this.registry.set("fishingTiles", []);
+        this.registry.set("trees", []);
         this.registry.set("map", null);
         this.registry.set("isCameraLocked", true);
         this.registry.set("gameTime", <{[key: string]: number}> {});

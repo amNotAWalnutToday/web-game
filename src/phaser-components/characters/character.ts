@@ -3,9 +3,10 @@ import findPath from "../utils/pathfind";
 import Tree from "../nodes/tree";
 import BuildSpot from "../nodes/buildspot";
 import Item from "../nodes/item";
-import { getClosest, getClosestStorage } from "../utils/getclosest";
+import { getClosest, getClosestFromArray, getClosestStorage } from "../utils/getclosest";
 import WoodChest from "../nodes/buildables/wood_chest";
 import Buildable from "../nodes/buildables/buildable";
+import checkForEmptyTile from "../utils/checkForEmptyTile";
 
 type Target = Tree | BuildSpot | Item | WoodChest | Buildable | null;
 
@@ -124,6 +125,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     targetCoords: [number, number] = [0, 0];
     isMoving = false;
     isDoing = false;
+    isDead = false;
     target: Target = null;
     pickupTarget: Target = null;
     inventory: InventoryItem[] = [];
@@ -156,8 +158,22 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         if(this.stats.hp > 0) {
             this.stats.hp -= damage;
         } else {
-            this.destroy();
+            this.selfDestruct();
         }
+    }
+
+    selfDestruct() {
+        if(this.isDead) return; 
+        const yourCharacters = this.scene.registry.get("yourCharacters");
+        yourCharacters.splice(this.cid, 1);
+        for(let i = 0; i < yourCharacters.length; i++) {
+            yourCharacters[i].cid = i; 
+        }
+        this.isDead = true;
+        this.scene.registry.set("yourCharacters", yourCharacters);
+        this.scene.registry.set("selectedCharacter", null);
+        this.graphics.destroy();
+        this.destroy();
     }
 
     checkInventoryIfFull() {
@@ -185,6 +201,38 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             this.target = null;
             this.currentAction = null;
             this.updateCharacters();
+        }
+    }
+
+    fishPercentage = 0;
+
+    fish() {
+        const fishingTiles = this.scene.registry.get("fishingTiles");
+        const closest = !(this.target instanceof Phaser.Tilemaps.Tile) 
+            ? getClosestFromArray({x: this.x / 16, y: this.y / 16}, fishingTiles, 'ANY')
+            : {item: this.target};
+        this.target = closest.item;
+        if(!closest.item) return;
+        if(this.checkInventoryIfFull()) {
+            this.storeItems();
+            this.currentAction = null;
+            this.actionQueue.unshift("FISH");
+        } else if(!this.checkIfArrived(this, {x: closest.item.x * 16, y: closest.item.y * 16}, {xDiff: 3, yDiff: 3})) {
+            this.currentAction = null;
+            console.log(this.checkIfArrived(this, closest.item, { xDiff: 18, yDiff: 18 }));
+            const freeSpot = checkForEmptyTile(this.scene, closest.item.x * 16, closest.item.y * 16);
+            if(!freeSpot) return;
+            this.actionQueue.unshift("FISH");
+            return this.getPath({worldX: freeSpot.x * 16, worldY: freeSpot.y * 16});
+        } else {
+            this.fishPercentage += 0.1;
+            if(Math.ceil(this.fishPercentage) === 99) {
+                this.fishPercentage = 0;
+                for(const inventoryItem of this.inventory) {
+                    if(inventoryItem.type === 'crawfish') return inventoryItem.amount++;
+                }
+                this.inventory.push({type: 'crawfish', amount: 1});
+            }  
         }
     }
 
@@ -277,6 +325,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     }
 
     storeItems() {
+        const wasCarry = this.currentAction;
         this.currentAction = null;
         const groundItems = this.scene.registry.get("groundItems");
         const storage = this.scene.registry.get("storage");
@@ -293,7 +342,10 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
                 ? this.placeItem(this.inventory[0].type, this.target)
                 : null;
         }
-        this.actionQueue.unshift("CARRY");
+        if(wasCarry === "CARRY" 
+        || this.actionQueue.includes("CARRY")) {
+            this.actionQueue.unshift("CARRY");
+        }
     }
 
     getResources(resource: string | null, fromStorage = false) {
@@ -338,8 +390,8 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     }
 
     checkIfArrived(
-        start: Phaser.Physics.Arcade.Sprite, 
-        target: Phaser.Physics.Arcade.Sprite,
+        start:  Phaser.Physics.Arcade.Sprite | {x: number, y: number}, 
+        target: Phaser.Physics.Arcade.Sprite | {x: number, y: number},
         options = {xDiff: 2, yDiff: 2},
     ) {
         if(!start || !target) return;
@@ -436,17 +488,10 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
                 this.pickupTarget = null;
             }
         }
-        if(this.currentAction === 'CARRY') {
-            this.storeItems();
-        }
-
-        if(this.currentAction === 'CHOP') {
-            this.chopTree();
-        }
-
-        if(this.currentAction === 'DESTROY') {
-            this.deconstruct();
-        }
+        if(this.currentAction === 'CARRY') this.storeItems();
+        if(this.currentAction === 'CHOP') this.chopTree();
+        if(this.currentAction === 'FISH') this.fish();
+        if(this.currentAction === 'DESTROY') this.deconstruct();
 
         if(this.currentAction === 'BUILD'
         && this.target) {

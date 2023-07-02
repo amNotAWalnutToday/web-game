@@ -7,6 +7,7 @@ export default class WoodFloor extends Buildable {
         const tileCoords = map.map.worldToTileXY(this.x, this.y);
         const tileAt = map.map.getTileAt(tileCoords.x, tileCoords.y);
         tileAt.properties.terrain = 'wood';
+        tileAt.properties.buildingHere = false;
         this.scene.registry.set("map", map);
         this.setDepth(-1);
     }

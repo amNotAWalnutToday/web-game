@@ -132,8 +132,16 @@ export default class Game extends Phaser.Scene {
             loop: true,
         });
 
+        this.registry.set('gameTime', this.gameTime);
+
+
         const storage = this.physics.add.group();
         const itemsToDeconstruct = this.physics.add.group();
+        const fishingTiles: any = { children: [] };
+        this.map.full.forEachTile((tile: Phaser.Tilemaps.Tile) => {
+            if(tile.properties.terrain === 'water') fishingTiles.children.push(tile);
+        });
+        this.registry.set("fishingTiles", fishingTiles);
         const groundItems = this.physics.add.group();
         this.registry.set('groundItems', groundItems);
         const trees = this.physics.add.group();
@@ -185,7 +193,6 @@ export default class Game extends Phaser.Scene {
         this.input.keyboard?.on("keydown-Q", () => console.log(this.selectedCharacter?.inventory));
 
         this.registry.set('map', {map: this.map.full, layers: [fullMap]});
-        this.registry.set('gameTime', this.gameTime);
         this.registry.set('selectedCharacter', this.selectedCharacter);
         this.registry.set('itemsToDeconstruct', itemsToDeconstruct);
         this.registry.set('groundItems', groundItems);

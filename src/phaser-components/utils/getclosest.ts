@@ -23,6 +23,27 @@ export function getClosest(
         else return closest;
 }
 
+export function getClosestFromArray(
+        startPoint: { x: number, y: number },
+        group: Phaser.Physics.Arcade.Group | any,
+        searchItem: string | null,
+    ) {
+        const { x, y } = startPoint;
+        const closest = { ind: 0, distance: 1000, item: <Item | Buildable | null> null };
+        group.children.forEach((item: Item, ind: number) => {
+            const distance = Math.abs(Math.abs(x - item.x) + Math.abs(y - item.y));
+            if((item.type === searchItem
+            || searchItem === 'ANY')
+            && distance < closest.distance) {
+                closest.distance = distance;
+                closest.ind = ind;
+                closest.item = item;
+            }
+        });
+        if(!closest.item) return {item: null};
+        else return closest;
+}
+
 interface Options {
     checkFull?: boolean,
     checkForResource?: boolean,

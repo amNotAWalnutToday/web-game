@@ -26,7 +26,8 @@ interface Rect {
 
 interface Options {
     color?: number,
-    alpha?: number, 
+    alpha?: number,
+    width?: number,
 }
 
 const createButton = (
@@ -51,7 +52,7 @@ const createButton = (
         } 
 
         button.box.fillStyle(options.color ?? 0x121212, options.alpha ?? 0.75);
-        button.box.fillRoundedRect(posX, posY, width, height, 5);
+        button.box.fillRoundedRect(posX, posY, options.width ?? width, height, 5);
         button.box.setInteractive({
             hitArea: new Phaser.Geom.Rectangle(posX, posY, width, height),
             hitAreaCallback: Phaser.Geom.Rectangle.Contains,
@@ -59,19 +60,20 @@ const createButton = (
         button.box.on("pointerdown", onClick);
 
         function getRect() {
-            return { posX, posY, width, height };
+            const whichWidth = options.width ?? width;
+            return { posX, posY, width: whichWidth, height };
         }
 
         function select() {
             button.box.clear();
             button.box.fillStyle(0x1199ff, 0.75);
-            button.box.fillRoundedRect(posX, posY, width, height, 5);
+            button.box.fillRoundedRect(posX, posY, options.width ?? width, height, 5);
         }
 
         function deselect() {
             button.box.clear();   
             button.box.fillStyle(options.color ?? 0x121212, options.alpha ?? 0.75);
-            button.box.fillRoundedRect(posX, posY, width, height, 5);
+            button.box.fillRoundedRect(posX, posY, options.width ?? width, height, 5);
         }
 
         function hide() {

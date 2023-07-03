@@ -3,12 +3,17 @@ import buildspot_items from '../data/buildspot_items.json';
 import createButton, { Button, Container } from "../utils/createButton";
 import { Character } from "../characters/character";
 
+interface FilterBy {
+    item?: string,
+    scroll?: [number, number, number],
+}
+
 interface Menu {
     isOpen: boolean,
     container: Container,
     toggleBtn?: Button,
     buttons: Button[], 
-    filterBy?: string,
+    filterBy?: FilterBy,
 }
 
 interface Slot {
@@ -47,6 +52,9 @@ export default class Ui extends Phaser.Scene {
         },
         toggleBtn: undefined,
         buttons: [],
+        filterBy: { 
+            scroll: [0, 2, 3],
+        },
     };
 
     actionMenu: Menu = {
@@ -71,7 +79,10 @@ export default class Ui extends Phaser.Scene {
         },
         toggleBtn: undefined,
         buttons: [],
-        filterBy: 'STRUCTURE',
+        filterBy: { 
+            item: 'STRUCTURE',
+            scroll: [0, 2, 3]
+        },
     };
 
     buildCategoryMenu: Menu = {
@@ -280,37 +291,34 @@ export default class Ui extends Phaser.Scene {
         };
         const items: string[] = ['DESTROY'];
         for(const item of buildspot_items.items) {
-            if(item.category === this.buildMenu.filterBy) items.push(item.type);
+            if(item.category === this.buildMenu.filterBy?.item) items.push(item.type);
         }
+
+        const scrollLeft =  createButton(this, 0, 0, '<', this.buildMenu.container, () => this.scroll(this.buildMenu, 'left', this.addBuildMenuItem), {width: 15});
+        this.buildMenu.buttons.push(scrollLeft);
         items.forEach((item: string, ind: number) => {
             const selectedItem = this.registry.get("selectedBuildItem");
             const color = item.toUpperCase() === selectedItem ? 0xdaa52a : undefined;
-            const [placeX, placeY] = item === 'DESTROY' ? [0, 55] : [ind * 85, 0]; 
+            const [placeX, placeY] = item === 'DESTROY' ? [0, 55] : [20 + (ind - 1) * 85, 0]; 
             const button = createButton(this, placeX, placeY, item, this.buildMenu.container, () => buildsomething(item), {color});
             this.buildMenu.buttons.push(button);
         });
-
+        const scrollRight = createButton(this, 20 + ((this.buildMenu.buttons.length - 2) * 85), 0, '>', this.buildMenu.container, () => this.scroll(this.buildMenu, 'right', this.addBuildMenuItem), {width: 15});
+        this.buildMenu.buttons.push(scrollRight);
     }
 
     addBuildCategoryItems = () => {
         const changeCategory = (query: string) => {
-            if(this.buildMenu.filterBy === query) return;
-            this.buildMenu.filterBy = query;
-            this.toggleMenu(this.buildCategoryMenu, this.addBuildCategoryItems);
-            this.toggleMenu(this.buildMenu, this.addBuildMenuItem);
-            this.time.addEvent({
-                delay: 25,
-                callback: () => { 
-                    this.toggleMenu(this.buildCategoryMenu, this.addBuildCategoryItems);
-                    this.toggleMenu(this.buildMenu, this.addBuildMenuItem);
-                },
-                callbackScope: this,
-                loop: false,
-            })
+            if(this.buildMenu.filterBy?.item === query
+            || !this.buildMenu.filterBy?.item) return;
+            this.buildMenu.filterBy.item = query;
+            this.reopenMenu(this.buildCategoryMenu, this.addBuildCategoryItems);
+            this.reopenMenu(this.buildMenu, this.addBuildMenuItem);
         };
+
         const items: string[] = ['PLANT', 'STRUCTURE'].reverse();
         items.forEach((item: string, ind: number) => {
-            const color = item === this.buildMenu.filterBy ? 0xdaa52a : undefined;
+            const color = item === this.buildMenu.filterBy?.item ? 0xdaa52a : undefined;
             const button = createButton(this, ind * 85, 0, item, this.buildCategoryMenu.container, () => changeCategory(item), {color});
             this.buildCategoryMenu.buttons.push(button);
         });
@@ -319,28 +327,21 @@ export default class Ui extends Phaser.Scene {
     addCommandMenuItem = () => {
         const setCommand = (command: string) => {
             const currentCharacter = this.registry.get("selectedCharacter");
-            if(command === 'CARRY') {
-                if(!currentCharacter) return;
-                currentCharacter.actionQueue.unshift("CARRY");
-                this.registry.set("selectedCharacter", currentCharacter);
-            } else if(command === 'CHOP') {
-                if(!currentCharacter) return;
-                currentCharacter.actionQueue.unshift("CHOP");
-                this.registry.set("selectedCharacter", currentCharacter);
-            } else {
-                if(!currentCharacter) return;
-                currentCharacter.actionQueue.unshift(command);
-                this.registry.set("selectedCharacter", currentCharacter);
-            }
-
-            this.reopenMenu(this.commandMenu, this.addCommandMenuItem);
-
+            if(!currentCharacter) return;
+            currentCharacter.actionQueue.unshift(command);
+            this.registry.set("selectedCharacter", currentCharacter);
             this.registry.set("selectedCommand", command);
-            return;
+            this.reopenMenu(this.commandMenu, this.addCommandMenuItem);
         }
 
         const items: string[] = ['DESTROY', 'CHOP', 'CARRY', 'FISH'];
+
+        const scrollLeft =  createButton(this, 0, 0, '<', this.commandMenu.container, () => this.scroll(this.commandMenu, 'left', this.addCommandMenuItem), {width: 15});
+        this.commandMenu.buttons.push(scrollLeft);
         items.forEach((item: string, ind: number) => {
+            const filter = this.commandMenu.filterBy?.scroll;
+            if(!filter?.length) return;
+            if(filter[0] > ind || filter[1] < ind) return;
             const currentCharacter = this.registry.get("selectedCharacter");
             const color = (
                 currentCharacter &&
@@ -348,9 +349,11 @@ export default class Ui extends Phaser.Scene {
             ) 
                 ? 0x1199ff 
                 : undefined;
-            const button = createButton(this, ind * 85, 0, item, this.commandMenu.container, () => setCommand(item), {color});
+            const button = createButton(this, 20 + (ind * 85) - (Number(filter[0]) * 85), 0, item, this.commandMenu.container, () => setCommand(item), {color});
             this.commandMenu.buttons.push(button);
         });
+        const scrollRight = createButton(this, 20 + ((this.commandMenu.buttons.length - 1) * 85), 0, '>', this.commandMenu.container, () => this.scroll(this.commandMenu, 'right', this.addCommandMenuItem), {width: 15});
+        this.commandMenu.buttons.push(scrollRight);
     }
 
     addInspectItemMenu = () => {
@@ -373,6 +376,20 @@ export default class Ui extends Phaser.Scene {
             }
             this.inspectMenu.buttons.push(textItem);
         });
+    }
+    
+    scroll = (menu: Menu, dir: string, openCommand: () => void) => {
+        const filter = menu.filterBy?.scroll;
+        if(!menu.filterBy || !filter) return;
+        if(dir === 'left') {
+            if(filter[0] <= 0) return;
+            menu.filterBy.scroll = [filter[0] - 1, filter[1] - 1, filter[2]];
+        } else if(dir === 'right') {
+            if(filter[2] <= filter[1]) return;
+            menu.filterBy.scroll = [filter[0] + 1, filter[1] + 1, filter[2]];
+        }
+        this.reopenMenu(menu, openCommand);
+        return menu;
     }
 
     reopenMenu = (menu: Menu, openCommand: () => void) => {
@@ -475,6 +492,11 @@ export default class Ui extends Phaser.Scene {
             slot.box.clear();
             slot.text.text = this.characters[ind].currentAction ?? 'N/A';
             if(slot.cid === this.currentCharacter?.cid) {
+                if(this.currentCharacter?.stats.hp < this.currentCharacter?.stats.maxhp) {
+                    slot.sprite.setTint(0xaa1122);
+                } else {
+                    slot.sprite.clearTint();
+                }
                 slot.box.fillStyle(0xffffff, 0.5);
             } else {
                 slot.box.fillStyle(0x222222, 0.5);

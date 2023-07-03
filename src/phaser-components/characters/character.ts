@@ -2,13 +2,14 @@ import Phaser from "phaser";
 import findPath from "../utils/pathfind";
 import Tree from "../nodes/tree";
 import BuildSpot from "../nodes/buildspot";
-import Item from "../nodes/item";
+import Item from "../nodes/items/item";
 import { getClosest, getClosestFromArray, getClosestStorage } from "../utils/getclosest";
 import WoodChest from "../nodes/buildables/wood_chest";
 import Buildable from "../nodes/buildables/buildable";
 import checkForEmptyTile from "../utils/checkForEmptyTile";
+import Stone from "../nodes/stone";
 
-type Target = Tree | BuildSpot | Item | WoodChest | Buildable | null;
+type Target = Tree | BuildSpot | Item | WoodChest | Buildable | Stone | null;
 
 interface InventoryItem {
     type: string,
@@ -219,9 +220,14 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             this.currentAction = null;
             return this.getPath({worldX: closest.item.x, worldY: closest.item.y});
         } else {
-            this.takeFromStorage("crayfish");
-            this.currentAction = null;
-            this.pickupTarget = null;
+            if(this.checkInventoryIfFull()) {
+                this.storeItems();
+            } else {
+                this.takeFromStorage("crayfish");
+                this.currentAction = null;
+                this.pickupTarget = null;
+            }
+
         }
     }
 
@@ -241,6 +247,23 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             this.target = null;
             this.currentAction = null;
             this.updateCharacters();
+        }
+    }
+
+    mineStone() {
+        const miningNodes = this.scene.registry.get("miningNodes");
+        const closest = getClosest({x: this.x, y: this.y}, miningNodes, 'ANY');
+        this.target = closest.item;
+        if(!closest.item) return this.currentAction = null;
+        if(!this.checkIfArrived(this, closest.item, {xDiff: 3, yDiff: 3})) {
+            this.currentAction = null;
+            this.actionQueue.unshift("MINE");
+            const freeSpot = checkForEmptyTile(this.scene, closest.item.x, closest.item.y);
+            if(!freeSpot) return;
+            return this.getPath({worldX: freeSpot.x * 16, worldY: freeSpot.y * 16});
+        } else {
+            if(!(this.target instanceof Stone)) return this.currentAction = null;
+            this.target.mine();
         }
     }
 
@@ -406,6 +429,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         const startVec = map.map.worldToTileXY(this.x, this.y);
         const targetVec = map.map.worldToTileXY(worldX, worldY);
         const path = findPath(startVec, targetVec, map.layers[0], null, {race: this.race});
+        if(!path.length) return;
         this.moveTowardsPoint(worldX, worldY, path);
         this.targetCoords = [targetVec.x, targetVec.y];
         this.actionQueue.push('MOVE');
@@ -450,6 +474,10 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         if(this.actionQueue.includes(item.toUpperCase())
         || this.currentAction === item.toUpperCase()) return true;
         else return false;
+    }
+
+    checkQueueBroke() {
+        if(this.actionQueue.length > 50) this.cancelQueue();
     }
 
     updateCharacters() {
@@ -533,6 +561,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         }
         if(this.currentAction === 'CARRY') this.storeItems();
         if(this.currentAction === 'CHOP') this.chopTree();
+        if(this.currentAction === 'MINE') this.mineStone();
         if(this.currentAction === 'FISH') this.fish();
         if(this.currentAction === 'DESTROY') this.deconstruct();
 

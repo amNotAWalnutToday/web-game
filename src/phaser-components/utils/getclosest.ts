@@ -1,4 +1,4 @@
-import Item from "../nodes/item";
+import Item from "../nodes/items/item";
 import WoodChest from "../nodes/buildables/wood_chest";
 import Buildable from "../nodes/buildables/buildable";
 
@@ -8,7 +8,7 @@ export function getClosest(
         searchItem: string | null,
     ) {
         const { x, y } = startPoint;
-        const closest = { ind: 0, distance: 1000, item: <Item | Buildable | null> null };
+        const closest = { ind: 0, distance: 10000, item: <Item | Buildable | null> null };
         group.children.iterate((item: Item, ind: number) => {
             const distance = Math.abs(Math.abs(x - item.x) + Math.abs(y - item.y));
             if((item.type === searchItem
@@ -29,7 +29,7 @@ export function getClosestFromArray(
         searchItem: string | null,
     ) {
         const { x, y } = startPoint;
-        const closest = { ind: 0, distance: 1000, item: <Item | Buildable | null> null };
+        const closest = { ind: 0, distance: 10000, item: <Item | Buildable | null> null };
         group.children.forEach((item: Item, ind: number) => {
             const distance = Math.abs(Math.abs(x - item.x) + Math.abs(y - item.y));
             if((item.type === searchItem
@@ -56,7 +56,7 @@ export function getClosestStorage(
         options: Options = { checkFull: false, checkForResource: false },
     ) {
         const { x, y } = startPoint;
-        const closest = { ind: 0, distance: 1000, item: <WoodChest | null> null };
+        const closest = { ind: 0, distance: 10000, item: <WoodChest | null> null };
         group.children.iterate((item: WoodChest, ind: number) => {
             const distance = Math.abs(Math.abs(x - item.x) + Math.abs(y - item.y));
             if((item.getItem(searchItem)

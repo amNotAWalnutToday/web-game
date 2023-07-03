@@ -1,5 +1,5 @@
 import drawProgress from "../utils/drawprogress";
-import Logs from "./logs";
+import Logs from "./items/logs";
 
 export default class Tree extends Phaser.Physics.Arcade.Sprite {
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame: number) {

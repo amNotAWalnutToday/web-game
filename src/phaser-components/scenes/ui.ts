@@ -40,6 +40,7 @@ export default class Ui extends Phaser.Scene {
     gameFunctionsMenu:any = {
         box: undefined,
         border: undefined,
+        canShow: true,
     };
 
     commandMenu: Menu = {
@@ -53,7 +54,7 @@ export default class Ui extends Phaser.Scene {
         toggleBtn: undefined,
         buttons: [],
         filterBy: { 
-            scroll: [0, 2, 3],
+            scroll: [0, 2, 4],
         },
     };
 
@@ -81,7 +82,7 @@ export default class Ui extends Phaser.Scene {
         buttons: [],
         filterBy: { 
             item: 'STRUCTURE',
-            scroll: [0, 2, 3]
+            scroll: [0, 2, 2]
         },
     };
 
@@ -113,6 +114,8 @@ export default class Ui extends Phaser.Scene {
         const { width, height } = this.registry.get("gameSize");
         this.screenHeight = height;
         this.screenWidth = width;
+
+        this.gameFunctionsMenu.canShow = height > 499;
 
         this.commandMenu.container.screenY       = height - 130;
         this.actionMenu.container.screenY        = height - 75;
@@ -209,14 +212,18 @@ export default class Ui extends Phaser.Scene {
         this.actionMenu.buttons.forEach(button => button.hide());
         this.actionMenu.buttons = [];
         this.commandMenu.toggleBtn?.hide();
-        this.gameFunctionsMenu.box?.destroy();
-        this.gameFunctionsMenu.border?.destroy();
+        
+        if(this.gameFunctionsMenu.canShow) {
+            this.gameFunctionsMenu.box?.destroy();
+            this.gameFunctionsMenu.border?.destroy();
+    
+            this.gameFunctionsMenu.box = this.add.graphics();
+            this.gameFunctionsMenu.box.fillStyle(0x000000, 0.25);
+            this.gameFunctionsMenu.box.fillRect(30, this.screenHeight - 200, this.screenWidth / 2.25, 190);
+            this.gameFunctionsMenu.border = this.add.graphics({lineStyle: {width: 2, color: 0xdaa52a}});
+            this.gameFunctionsMenu.border.strokeRect(28, this.screenHeight - 200, this.screenWidth / 2.25, 190);
+        }
 
-        this.gameFunctionsMenu.box = this.add.graphics();
-        this.gameFunctionsMenu.box.fillStyle(0x000000, 0.25);
-        this.gameFunctionsMenu.box.fillRect(30, this.screenHeight - 200, this.screenWidth / 2.25, 190);
-        this.gameFunctionsMenu.border = this.add.graphics({lineStyle: {width: 2, color: 0xdaa52a}});
-        this.gameFunctionsMenu.border.strokeRect(28, this.screenHeight - 200, this.screenWidth / 2.25, 190);
         this.commandMenu.toggleBtn = createButton(
             this, 
             0,
@@ -305,6 +312,7 @@ export default class Ui extends Phaser.Scene {
         });
         const scrollRight = createButton(this, 20 + ((this.buildMenu.buttons.length - 2) * 85), 0, '>', this.buildMenu.container, () => this.scroll(this.buildMenu, 'right', this.addBuildMenuItem), {width: 15});
         this.buildMenu.buttons.push(scrollRight);
+        this.hideScrollButtons(this.buildMenu, [scrollLeft, scrollRight]);
     }
 
     addBuildCategoryItems = () => {
@@ -334,7 +342,7 @@ export default class Ui extends Phaser.Scene {
             this.reopenMenu(this.commandMenu, this.addCommandMenuItem);
         }
 
-        const items: string[] = ['DESTROY', 'CHOP', 'CARRY', 'FISH'];
+        const items: string[] = ['DESTROY', 'CHOP', 'CARRY', 'FISH', 'MINE'];
 
         const scrollLeft =  createButton(this, 0, 0, '<', this.commandMenu.container, () => this.scroll(this.commandMenu, 'left', this.addCommandMenuItem), {width: 15});
         this.commandMenu.buttons.push(scrollLeft);
@@ -354,6 +362,7 @@ export default class Ui extends Phaser.Scene {
         });
         const scrollRight = createButton(this, 20 + ((this.commandMenu.buttons.length - 1) * 85), 0, '>', this.commandMenu.container, () => this.scroll(this.commandMenu, 'right', this.addCommandMenuItem), {width: 15});
         this.commandMenu.buttons.push(scrollRight);
+        this.hideScrollButtons(this.commandMenu, [scrollLeft, scrollRight]);
     }
 
     addInspectItemMenu = () => {
@@ -364,8 +373,8 @@ export default class Ui extends Phaser.Scene {
         this.inspectMenu.container.box?.fillStyle(0x121212, 0.75);
         this.inspectMenu.container.box?.fillRect(screenX, screenY, width, height);
         const inventory = target?.inventory ? target.inventory : target.storage;
-        inventory.forEach((item: {[key: string]: string}) => {
-            const text = this.add.text(screenX + 5, screenY + 20, `${item.type}: ${item.amount}`);
+        inventory.forEach((item: {[key: string]: string}, ind: number) => {
+            const text = this.add.text(screenX + 5, screenY + 20 + (ind * 20), `${item.type}: ${item.amount}`);
             const textItem = {
                 text,
                 box: this.add.graphics(),
@@ -376,6 +385,14 @@ export default class Ui extends Phaser.Scene {
             }
             this.inspectMenu.buttons.push(textItem);
         });
+    }
+
+    hideScrollButtons(menu: Menu, buttons: Button[]) {
+        if(!menu.filterBy?.scroll) return;
+        if(menu.filterBy?.scroll[0] === 0) buttons[0].hide();
+        if(menu.filterBy?.scroll[1] === menu.filterBy?.scroll[2]) {
+            buttons[1].hide();
+        }
     }
     
     scroll = (menu: Menu, dir: string, openCommand: () => void) => {
@@ -437,11 +454,13 @@ export default class Ui extends Phaser.Scene {
             hitAreaCallback: Phaser.Geom.Rectangle.Contains,
         });
         const openStats = (cid: number) => {
-            if(this.characterStatsUI.isOpen) {
+            if(this.characterStatsUI.isOpen
+            && this.characterStatsUI.cid === cid) {
                 this.clearCharacterStats();
             } else {
+                this.clearCharacterStats();
                 const chars = this.registry.get("yourCharacters");
-                this.showCharacterStats(chars[cid]);
+                this.time.addEvent({delay: 25, callback: () => this.showCharacterStats(chars[cid]), callbackScope: this})
             }
         }
         const statbutton = createButton(this, (character.cid * 60), 51, 'Stats', container, () => openStats(character.cid));
@@ -575,6 +594,7 @@ export default class Ui extends Phaser.Scene {
     } 
 
     clearCharacterStats() {
+        if(!this.characterStatsUI.isOpen) return;
         this.characterStatsUI.box.destroy();
         this.characterStatsUI.border.destroy();
         for(const stat in this.characterStatsUI.specialStats) {

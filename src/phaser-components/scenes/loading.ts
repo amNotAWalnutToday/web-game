@@ -17,10 +17,15 @@ export default class Loading extends Phaser.Scene {
         this.load.image('wall', 'sprites/wood_wall.png');
         this.load.image('floor', 'sprites/wood_floor.png');
         this.load.image('sapling', 'sprites/sapling.png');
+        this.load.image('firestone', 'sprites/firestone.png');
         this.load.image('stop', 'sprites/stop.png');
         this.load.image('forest_tileset', 'tilesets/forest_tileset.png');
         this.load.image('water_tiles', 'tilesets/water_tiles.png');
         this.load.image('forest_cliffs', 'tilesets/forest_cliffs.png');
+        this.load.spritesheet('stones', 'sprites/stones.png', {
+            frameWidth: 16,
+            frameHeight: 16
+        });
         this.load.spritesheet('tree', 'tilesets/Trees.png', {
             frameWidth: 64,
             frameHeight: 96,
@@ -40,6 +45,7 @@ export default class Loading extends Phaser.Scene {
         this.registry.set("storage", []);
         this.registry.set("fishingTiles", []);
         this.registry.set("trees", []);
+        this.registry.set("miningNodes", []);
         this.registry.set("map", null);
         this.registry.set("isCameraLocked", true);
         this.registry.set("gameTime", <{[key: string]: number}> {});

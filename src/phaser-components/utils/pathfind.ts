@@ -81,15 +81,15 @@ const findPath = (
         const path: Phaser.Math.Vector2[] = [];
 
         let currentKey = targetKey;
-        let currentPos = parentForKey[targetKey].position;
+        let currentPos = parentForKey[targetKey]?.position;
 
         while(currentKey !== startKey) {
-            const pos = groundLayer.tileToWorldXY(currentPos.x, currentPos.y);
+            const pos = groundLayer.tileToWorldXY(currentPos?.x, currentPos?.y);
             pos.x += groundLayer.tilemap.tileWidth * 0.5;
             pos.y += groundLayer.tilemap.tileHeight * 0.5;
             
             path.push(pos);
-
+            if(!parentForKey[currentKey]) return [];
             const { key, position } = parentForKey[currentKey];
             currentKey = key;
             currentPos = position;

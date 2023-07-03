@@ -6,7 +6,9 @@ import Goblin from "../characters/goblin";
 import user from '../data/user.json';
 import Tree from "../nodes/tree";
 import BuildSpot from "../nodes/buildspot";
-import Logs from "../nodes/logs";
+import Logs from "../nodes/items/logs";
+import Firestone from "../nodes/firestone";
+import generateStones from "../utils/generatestones";
 
 type Commands = 'MOVE' | 'BUILD' | 'CHOP' | 'CARRY'; 
 
@@ -89,6 +91,7 @@ export default class Game extends Phaser.Scene {
         || !this.pointerDown || this.selectedBuildItem === 'DESTROY') return;
         const { x, y } = this.map.full.worldToTileXY(e.worldX, e.worldY);
         const tileProps = this.map.full.getTileAt(x, y)?.properties;
+        if(!tileProps) return;
         if(tileProps.buildingHere || tileProps.terrain === 'water') return;
         if(this.selectedCharacter.target instanceof BuildSpot) {
             this.selectedCharacter.buildQueue.push(
@@ -113,8 +116,10 @@ export default class Game extends Phaser.Scene {
         };
         this.map.full.addTilesetImage('forest_tileset', 'forest_tileset');
         this.map.full.addTilesetImage('water_tiles', 'water_tiles');
-        const fullMap = this.map.full.createLayer('ground', ['forest_tileset', 'water_tiles'], 0, 0);
+        this.map.full.addTilesetImage('forest_cliffs', 'forest_cliffs');
+        const fullMap = this.map.full.createLayer('ground', ['forest_tileset', 'water_tiles', 'forest_cliffs'], 0, 0);
         fullMap.setDepth(-5);
+        this.registry.set('map', {map: this.map.full, layers: [fullMap]});
 
         const updateTime = () => {
             this.gameTime.hour++;
@@ -137,9 +142,14 @@ export default class Game extends Phaser.Scene {
 
         const storage = this.physics.add.group();
         const itemsToDeconstruct = this.physics.add.group();
+        const miningNodes = this.physics.add.staticGroup();
+        this.registry.set("miningNodes", miningNodes);
         const fishingTiles: any = { children: [] };
         this.map.full.forEachTile((tile: Phaser.Tilemaps.Tile) => {
             if(tile.properties.terrain === 'water') fishingTiles.children.push(tile);
+            if(tile.properties.terrain === 'stone') {
+                generateStones(this, (tile.x * 16) + 8, (tile.y * 16) + 8, 'E');
+            }
         });
         this.registry.set("fishingTiles", fishingTiles);
         const groundItems = this.physics.add.group();
@@ -192,7 +202,6 @@ export default class Game extends Phaser.Scene {
         this.input.keyboard?.on("keyup-D", () => camera.setVelocityX(0));
         this.input.keyboard?.on("keydown-Q", () => console.log(this.selectedCharacter?.inventory));
 
-        this.registry.set('map', {map: this.map.full, layers: [fullMap]});
         this.registry.set('selectedCharacter', this.selectedCharacter);
         this.registry.set('itemsToDeconstruct', itemsToDeconstruct);
         this.registry.set('groundItems', groundItems);

@@ -23,6 +23,15 @@ interface Stats {
     [key: string]: number
 }
 
+const convertRankToInd = (rank: string): number => {
+    const ranks = ["E", "D", "C", "B", "A", "S"];
+    let indexRank = 0 ;
+    ranks.forEach((rankInd: string, ind: number) => {
+        if(rankInd === rank) indexRank = ind;
+    });
+    return indexRank + 1;
+}
+
 export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Physics.Arcade.Sprite {
     constructor(scene: Phaser.Scene, x: number, y: number, texture: string, frame: number) {
         super(scene, x, y, texture, frame);
@@ -31,6 +40,9 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         yourCharacters.push(this);
         this.cid = yourCharacters.length - 1;
         this.stats.speed = 1;
+        const rank = convertRankToInd('E');
+        this.stats.maxHunger = (this.stats.hp + this.stats.def) * rank;
+        this.stats.hunger = this.stats.maxHunger;
         this.scene.registry.set("yourCharacters", yourCharacters);
 
         this.setInteractive();
@@ -185,6 +197,34 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         else false;
     }
 
+    checkInventoryForItem(searchItems: string[]) {
+        for(const item of this.inventory) {
+            for(const searchItem of searchItems) {
+                if(searchItem === item.type) return item;
+            } 
+        }
+    }
+
+    eatFood() {
+        const storage = this.scene.registry.get("storage");
+        const closest = getClosestStorage({x: this.x, y: this.y}, storage, 'crayfish', {checkForResource: true});
+        this.pickupTarget = closest.item;
+        if(this.checkInventoryForItem(["crayfish"])) {
+            this.stats.hunger += 5;
+            if(this.stats.hunger > this.stats.maxHunger) this.stats.hunger = this.stats.maxHunger;
+            return this.placeItem("crayfish", null);
+        }
+        if(!closest.item) return;
+        if(!this.checkIfArrived(this, closest.item)) {
+            this.currentAction = null;
+            return this.getPath({worldX: closest.item.x, worldY: closest.item.y});
+        } else {
+            this.takeFromStorage("crayfish");
+            this.currentAction = null;
+            this.pickupTarget = null;
+        }
+    }
+
     chopTree() {
         const trees = this.scene.registry.get("trees");
         const closest = getClosest({x: this.x, y: this.y}, trees, 'ANY');
@@ -219,7 +259,6 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             this.actionQueue.unshift("FISH");
         } else if(!this.checkIfArrived(this, {x: closest.item.x * 16, y: closest.item.y * 16}, {xDiff: 3, yDiff: 3})) {
             this.currentAction = null;
-            console.log(this.checkIfArrived(this, closest.item, { xDiff: 18, yDiff: 18 }));
             const freeSpot = checkForEmptyTile(this.scene, closest.item.x * 16, closest.item.y * 16);
             if(!freeSpot) return;
             this.actionQueue.unshift("FISH");
@@ -229,9 +268,9 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             if(Math.ceil(this.fishPercentage) === 99) {
                 this.fishPercentage = 0;
                 for(const inventoryItem of this.inventory) {
-                    if(inventoryItem.type === 'crawfish') return inventoryItem.amount++;
+                    if(inventoryItem.type === 'crayfish') return inventoryItem.amount++;
                 }
-                this.inventory.push({type: 'crawfish', amount: 1});
+                this.inventory.push({type: 'crayfish', amount: 1});
             }  
         }
     }
@@ -259,7 +298,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
 
     placeItem(item: string | null, place: any) {
         if(!item) return;
-        place.addResource(item);
+        if(place) place.addResource(item);
         let shouldRemove = false;
         for(const inventoryItem of this.inventory) {
             if(inventoryItem.type === item
@@ -422,6 +461,10 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     }
 
     update() {
+        if(this.stats.hunger < this.stats.maxHunger / 4
+        && this.currentAction !== 'MOVE') { 
+            this.eatFood();
+        } 
         if(!this.actionQueue.length 
         && !this.currentAction 
         && !this.buildQueue.length

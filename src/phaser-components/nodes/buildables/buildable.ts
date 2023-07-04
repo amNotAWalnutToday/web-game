@@ -29,7 +29,7 @@ export default class Buildable extends Phaser.Physics.Arcade.Sprite {
 
     private deconstructionMark?: Phaser.GameObjects.Image = undefined;
 
-    private progressBar = {
+    progressBar = {
         backdrop: this.scene.add.graphics(),
         bar: this.scene.add.graphics()
     }

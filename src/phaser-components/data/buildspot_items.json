@@ -31,6 +31,24 @@
             ]
         },
         {
+            "type": "campfire",
+            "category": "STATION",
+            "resources": [
+                {
+                    "type": "logs",
+                    "amount": 5
+                },
+                {
+                    "type": "stones",
+                    "amount": 5
+                },
+                {
+                    "type": "firestone",
+                    "amount": 1
+                }
+            ]
+        },
+        {
             "type": "sapling",
             "category": "PLANT",
             "resources": []

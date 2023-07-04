@@ -54,7 +54,7 @@ export default class Ui extends Phaser.Scene {
         toggleBtn: undefined,
         buttons: [],
         filterBy: { 
-            scroll: [0, 2, 5],
+            scroll: [0, 2, 6],
         },
     };
 
@@ -324,7 +324,7 @@ export default class Ui extends Phaser.Scene {
             this.reopenMenu(this.buildMenu, this.addBuildMenuItem);
         };
 
-        const items: string[] = ['PLANT', 'STRUCTURE'].reverse();
+        const items: string[] = ['PLANT', 'STATION', 'STRUCTURE'].reverse();
         items.forEach((item: string, ind: number) => {
             const color = item === this.buildMenu.filterBy?.item ? 0xdaa52a : undefined;
             const button = createButton(this, ind * 85, 0, item, this.buildCategoryMenu.container, () => changeCategory(item), {color});
@@ -342,7 +342,7 @@ export default class Ui extends Phaser.Scene {
             this.reopenMenu(this.commandMenu, this.addCommandMenuItem);
         }
 
-        const items: string[] = ['DESTROY', 'CHOP', 'CARRY', 'FISH', 'MINE', 'FORAGE'];
+        const items: string[] = ['DESTROY', 'CHOP', 'CARRY', 'FISH', 'MINE', 'FORAGE', 'COOK'];
 
         const scrollLeft =  createButton(this, 0, 0, '<', this.commandMenu.container, () => this.scroll(this.commandMenu, 'left', this.addCommandMenuItem), {width: 15});
         this.commandMenu.buttons.push(scrollLeft);

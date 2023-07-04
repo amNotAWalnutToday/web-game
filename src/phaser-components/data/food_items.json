@@ -3,12 +3,20 @@
         {
             "type": "crayfish",
             "category": "fish",
+            "rank": "E",
             "value": 5
         },
         {
             "type": "mushroom",
             "category": "plant",
+            "rank": "E",
             "value": 2
+        }, 
+        {
+            "type": "stew",
+            "category": "recipe",
+            "rank": "E",
+            "value": 20
         }
     ]
 }

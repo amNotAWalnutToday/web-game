@@ -7,9 +7,12 @@ import user from '../data/user.json';
 import Tree from "../nodes/tree";
 import BuildSpot from "../nodes/buildspot";
 import Logs from "../nodes/items/logs";
-import Firestone from "../nodes/firestone";
 import generateStones from "../utils/generatestones";
 import generateFlora from "../utils/generateFlora";
+import Stones from "../nodes/items/stones";
+import Firegem from "../nodes/items/firegem";
+import Mushrooms from "../nodes/items/mushrooms";
+import WoodChest from "../nodes/buildables/wood_chest";
 
 type Commands = 'MOVE' | 'BUILD' | 'CHOP' | 'CARRY'; 
 
@@ -142,6 +145,8 @@ export default class Game extends Phaser.Scene {
 
 
         const storage = this.physics.add.group();
+        const cookingStations = this.physics.add.group();
+        this.registry.set("cookingStations", cookingStations);
         const itemsToDeconstruct = this.physics.add.group();
         const plants = this.physics.add.staticGroup();
         this.registry.set("plants", plants);
@@ -177,7 +182,22 @@ export default class Game extends Phaser.Scene {
                     'logs',
                     0
             ));
+            this.physics.add.existing(new Stones(
+                this,
+                Phaser.Math.Between(64, 400),
+                Phaser.Math.Between(100, 400),
+            ));
         }
+        this.physics.add.existing(new Firegem(
+            this,
+            Phaser.Math.Between(64, 400),
+            Phaser.Math.Between(100, 400),
+        ));
+        this.physics.add.existing(new Mushrooms(
+            this,
+            Phaser.Math.Between(64, 400),
+            Phaser.Math.Between(100, 400),
+        ));
         
         setupTeam(this, this.yourCharacters);
         
@@ -250,6 +270,12 @@ export default class Game extends Phaser.Scene {
             this.registry.set('yourCharacters', this.yourCharacters);
         });
         window.addEventListener('resize', () => this.resize());
+        const chest = this.physics.add.existing(new WoodChest(
+            this,
+            Phaser.Math.Between(64, 400),
+            Phaser.Math.Between(100, 400),
+        ));
+        chest.storage.push({type: 'crayfish', amount: 1});
     }
 
     update() {

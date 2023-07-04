@@ -11,7 +11,7 @@ export function getClosest(
         const searchItems = Array.isArray(searchItem)
             ? searchItem
             : [searchItem];
-        const closest = { ind: 0, distance: 10000, item: <Item | Buildable | null> null };
+        const closest = { ind: 0, distance: 10000, item: <Item | Buildable | null> null, query: '' };
         group.children.iterate((item: Item, ind: number) => {
             const distance = Math.abs(Math.abs(x - item.x) + Math.abs(y - item.y));
             for(const query of searchItems) {
@@ -21,6 +21,7 @@ export function getClosest(
                     closest.distance = distance;
                     closest.ind = ind;
                     closest.item = item;
+                    closest.query = query ?? '';
                 }
             }
 

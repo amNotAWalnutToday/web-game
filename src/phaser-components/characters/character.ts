@@ -10,6 +10,8 @@ import checkForEmptyTile from "../utils/checkForEmptyTile";
 import Stone from "../nodes/stone";
 import Plant from "../nodes/flora/plant";
 import food from "../data/food_items.json";
+import getStorageTotal from "../utils/getstoragetotal";
+import Campfire from "../nodes/buildables/campfire";
 
 type Target = Tree | BuildSpot | Item | WoodChest | Buildable | Stone | Plant | null;
 
@@ -56,9 +58,9 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             console.log(this.currentAction);
         });
 
-        this.scene.registry.events.on("changedata", (a: any, key: string, payload: unknown) => {
-            if(key === 'gameTime') this.loseHunger();
-        });
+        // this.scene.registry.events.on("changedata", (a: any, key: string, payload: unknown) => {
+        //     if(key === 'gameTime') this.loseHunger();
+        // });
 
         this.scene.add.existing(this);
     }
@@ -143,6 +145,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     isDead = false;
     target: Target = null;
     pickupTarget: Target = null;
+    pickupQuery: string | null = null;
     inventory: InventoryItem[] = [];
     carryCapacity = 1;
     /************/
@@ -217,8 +220,8 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     eatFood() {
         const storage = this.scene.registry.get("storage");
         const foodItems = Array.from(food.items, (item) => item.type);
+        if(!getStorageTotal(this.scene, foodItems)) return;
         const closest = getClosestStorage({x: this.x, y: this.y}, storage, foodItems, {checkForResource: true});
-        this.pickupTarget = closest.item;
         const inventoryFoodItem = this.checkInventoryForItem(foodItems);
         if(inventoryFoodItem) {
             const listItem = this.checkListForItem(food.items, inventoryFoodItem.type);
@@ -227,6 +230,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             return this.placeItem(listItem.type, null);
         }
         if(!closest.item) return;
+        this.pickupTarget = closest.item;
         if(!this.checkIfArrived(this, closest.item)) {
             this.currentAction = null;
             return this.getPath({worldX: closest.item.x, worldY: closest.item.y});
@@ -238,7 +242,6 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
                 this.currentAction = null;
                 this.pickupTarget = null;
             }
-
         }
     }
 
@@ -301,7 +304,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             ? getClosestFromArray({x: this.x / 16, y: this.y / 16}, fishingTiles, 'ANY')
             : {item: this.target};
         this.target = closest.item;
-        if(!closest.item) return;
+        if(!closest.item) return this.currentAction = null;
         if(this.checkInventoryIfFull()) {
             this.storeItems();
             this.currentAction = null;
@@ -324,8 +327,41 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         }
     }
 
+    cook() {
+        const cookingStations = this.scene.registry.get("cookingStations");
+        const closest = getClosest({x: this.x, y: this.y}, cookingStations, 'ANY');
+        this.target = closest.item;
+        if(!closest.item) return this.currentAction = null;
+        if(!(closest.item instanceof Campfire)) return this.currentAction = null;
+        if(!closest.item.checkCanCook()
+        && !this.checkInventoryIfFull()) {
+            const fromStorage = getStorageTotal(this.scene, Array.from(food.items, (i) => i.type));
+            this.getResources(<string[]> closest.item.getIngredientsType(), fromStorage.length > 0);
+            this.currentAction = null;
+            this.actionQueue.unshift("COOK");
+        } else if(!this.checkInventoryForItem([this.pickupQuery ?? 'ANYTHING'])
+        && this.checkInventoryIfFull()) {
+            this.currentAction = null;
+            this.actionQueue.unshift("COOK");
+            this.storeItems();
+        } else if(!this.checkIfArrived(this, {x: closest.item.x, y: closest.item.y})) {
+            this.currentAction = null;
+            this.actionQueue.unshift("COOK");
+            return this.getPath({worldX: closest.item.x, worldY: closest.item.y});
+        } else if(this.checkIfArrived(this, {x: closest.item.x, y: closest.item.y})) {
+            if(!closest.item.checkCanCook()) {
+                this.currentAction = null;
+                this.actionQueue.unshift("COOK");
+                this.placeItem(this.pickupQuery, closest.item); 
+            } else if(closest.item.checkCanCook()) {
+                closest.item.cooker = this;
+                closest.item.cook();
+            }
+        }
+    }
+
     takeFromStorage(item: string) {
-        if(!(this.pickupTarget instanceof WoodChest)) return;
+        if(!(this.pickupTarget instanceof WoodChest) || !item) return;
         this.pickupTarget.removeItem(item);
         for(const inventoryItem of this.inventory) {
             if(item === inventoryItem.type) return inventoryItem.amount++; 
@@ -343,6 +379,13 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             if(item.type === inventoryItem.type) return inventoryItem.amount++; 
         }
         this.inventory.push({type: item.type, amount: 1});
+    }
+
+    dirtyPickup(item: string) {
+        for(const inventoryItem of this.inventory) {
+            if(item === inventoryItem.type) return inventoryItem.amount++; 
+        }
+        this.inventory.push({type: item, amount: 1});
     }
 
     placeItem(item: string | null, place: any) {
@@ -436,13 +479,14 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         }
     }
 
-    getResources(resource: string | null, fromStorage = false) {
+    getResources(resource: string | string[] | null, fromStorage = false) {
         const groundItems = this.scene.registry.get("groundItems");
         const storage = this.scene.registry.get("storage");
         const closest = fromStorage 
             ? getClosestStorage({x: this.x, y: this.y}, storage, resource, {checkForResource: true})
             : getClosest({x: this.x, y: this.y}, groundItems, resource);
         if(!closest.item) return groundItems;
+        if(fromStorage) this.pickupQuery = closest.query;
         this.getPath({worldX: closest.item.x, worldY: closest.item.y});
         this.pickupTarget = closest.item;
         this.actionQueue.unshift("PICKUP");
@@ -578,9 +622,12 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
                 }
             } else {
                 this.currentAction = null;
-                const resourceType = this.target instanceof BuildSpot 
+                const resourceType = this.target instanceof BuildSpot
                     ? this.target.getNeededResources()
-                    : '';
+                    : this.target instanceof Campfire
+                        ? this.pickupQuery
+                        : '';
+
                 this.pickup(this.pickupTarget, resourceType);
                 this.pickupTarget = null;
             }
@@ -590,6 +637,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         if(this.currentAction === 'FORAGE') this.pickPlant();
         if(this.currentAction === 'MINE') this.mineStone();
         if(this.currentAction === 'FISH') this.fish();
+        if(this.currentAction === 'COOK') this.cook();
         if(this.currentAction === 'DESTROY') this.deconstruct();
 
         if(this.currentAction === 'BUILD'

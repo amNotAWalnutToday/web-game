@@ -7,5 +7,8 @@ export default defineConfig({
   base: 'https://amnotawalnuttoday.github.io/web-game/',
   build: {
     outDir: 'build'
+  },
+  server: {
+    hmr: { overlay: false }
   }
 })

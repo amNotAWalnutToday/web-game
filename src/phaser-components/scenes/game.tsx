@@ -9,6 +9,7 @@ import BuildSpot from "../nodes/buildspot";
 import Logs from "../nodes/items/logs";
 import Firestone from "../nodes/firestone";
 import generateStones from "../utils/generatestones";
+import generateFlora from "../utils/generateFlora";
 
 type Commands = 'MOVE' | 'BUILD' | 'CHOP' | 'CARRY'; 
 
@@ -142,6 +143,8 @@ export default class Game extends Phaser.Scene {
 
         const storage = this.physics.add.group();
         const itemsToDeconstruct = this.physics.add.group();
+        const plants = this.physics.add.staticGroup();
+        this.registry.set("plants", plants);
         const miningNodes = this.physics.add.staticGroup();
         this.registry.set("miningNodes", miningNodes);
         const fishingTiles: any = { children: [] };
@@ -149,6 +152,9 @@ export default class Game extends Phaser.Scene {
             if(tile.properties.terrain === 'water') fishingTiles.children.push(tile);
             if(tile.properties.terrain === 'stone') {
                 generateStones(this, (tile.x * 16) + 8, (tile.y * 16) + 8, 'E');
+            }
+            if(tile.properties.terrain === 'forest') {
+                generateFlora(this, (tile.x * 16) + 8, (tile.y * 16) + 8, 'E');
             }
         });
         this.registry.set("fishingTiles", fishingTiles);

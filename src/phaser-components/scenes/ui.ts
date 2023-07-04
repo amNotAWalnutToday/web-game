@@ -54,7 +54,7 @@ export default class Ui extends Phaser.Scene {
         toggleBtn: undefined,
         buttons: [],
         filterBy: { 
-            scroll: [0, 2, 4],
+            scroll: [0, 2, 5],
         },
     };
 
@@ -342,7 +342,7 @@ export default class Ui extends Phaser.Scene {
             this.reopenMenu(this.commandMenu, this.addCommandMenuItem);
         }
 
-        const items: string[] = ['DESTROY', 'CHOP', 'CARRY', 'FISH', 'MINE'];
+        const items: string[] = ['DESTROY', 'CHOP', 'CARRY', 'FISH', 'MINE', 'FORAGE'];
 
         const scrollLeft =  createButton(this, 0, 0, '<', this.commandMenu.container, () => this.scroll(this.commandMenu, 'left', this.addCommandMenuItem), {width: 15});
         this.commandMenu.buttons.push(scrollLeft);

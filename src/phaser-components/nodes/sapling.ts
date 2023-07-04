@@ -19,18 +19,22 @@ export default class Sapling extends Phaser.Physics.Arcade.Sprite {
 
     growthPercentage = 0;
     tileAt: Phaser.Tilemaps.Tile;
+    frameNum = 0;
 
     update() {
         this.growthPercentage++;
         if(this.growthPercentage === 25) {
             this.setTexture('tree');
             this.setScale(0.25);
+            const ran = Phaser.Math.Between(0, 6);
+            this.setFrame(ran);
+            this.frameNum = ran;
         }
         if(this.growthPercentage === 50) {
             this.setScale(0.35);
         }
         if(Math.ceil(this.growthPercentage) === 99) {
-            this.scene.physics.add.existing( new Tree(this.scene, this.x, this.y, 'tree', 0));
+            this.scene.physics.add.existing( new Tree(this.scene, this.x, this.y, 'tree', this.frameNum));
             this.destroy();
             this.tileAt.properties.collides = false;
         }

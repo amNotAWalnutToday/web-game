@@ -30,6 +30,10 @@ export default class Loading extends Phaser.Scene {
             frameWidth: 64,
             frameHeight: 96,
         });
+        this.load.spritesheet('flora', 'sprites/flora.png', {
+            frameWidth: 16,
+            frameHeight: 16,
+        });
         this.load.tilemapTiledJSON('forest_chunk_1', 'maps/forest_chunk_1.tmj');
         this.load.tilemapTiledJSON('forest_chunk_2', 'maps/forest_chunk_2.tmj');
         this.load.tilemapTiledJSON('full_forest_1', 'maps/full_forest_1.tmj');

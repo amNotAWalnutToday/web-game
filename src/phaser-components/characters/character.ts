@@ -8,8 +8,10 @@ import WoodChest from "../nodes/buildables/wood_chest";
 import Buildable from "../nodes/buildables/buildable";
 import checkForEmptyTile from "../utils/checkForEmptyTile";
 import Stone from "../nodes/stone";
+import Plant from "../nodes/flora/plant";
+import food from "../data/food_items.json";
 
-type Target = Tree | BuildSpot | Item | WoodChest | Buildable | Stone | null;
+type Target = Tree | BuildSpot | Item | WoodChest | Buildable | Stone | Plant | null;
 
 interface InventoryItem {
     type: string,
@@ -206,14 +208,23 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         }
     }
 
+    checkListForItem(list: any[], searchItem: string) {
+        for(const item of list) {
+            if(searchItem === item.type) return item;
+        }
+    }
+
     eatFood() {
         const storage = this.scene.registry.get("storage");
-        const closest = getClosestStorage({x: this.x, y: this.y}, storage, 'crayfish', {checkForResource: true});
+        const foodItems = Array.from(food.items, (item) => item.type);
+        const closest = getClosestStorage({x: this.x, y: this.y}, storage, foodItems, {checkForResource: true});
         this.pickupTarget = closest.item;
-        if(this.checkInventoryForItem(["crayfish"])) {
-            this.stats.hunger += 5;
+        const inventoryFoodItem = this.checkInventoryForItem(foodItems);
+        if(inventoryFoodItem) {
+            const listItem = this.checkListForItem(food.items, inventoryFoodItem.type);
+            this.stats.hunger += listItem?.value;
             if(this.stats.hunger > this.stats.maxHunger) this.stats.hunger = this.stats.maxHunger;
-            return this.placeItem("crayfish", null);
+            return this.placeItem(listItem.type, null);
         }
         if(!closest.item) return;
         if(!this.checkIfArrived(this, closest.item)) {
@@ -223,11 +234,26 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             if(this.checkInventoryIfFull()) {
                 this.storeItems();
             } else {
-                this.takeFromStorage("crayfish");
+                this.takeFromStorage(closest.query);
                 this.currentAction = null;
                 this.pickupTarget = null;
             }
 
+        }
+    }
+
+    pickPlant() {
+        const plants = this.scene.registry.get("plants");
+        const closest = getClosest({x: this.x, y: this.y}, plants, 'ANY');
+        this.target = closest.item;
+        if(!closest.item) return this.currentAction = null;
+        if(!this.checkIfArrived(this, closest.item)) {
+            this.currentAction = null;
+            this.actionQueue.unshift("FORAGE");
+            return this.getPath({worldX: closest.item.x, worldY: closest.item.y});
+        } else {
+            if(!(this.target instanceof Plant)) return this.currentAction = null;
+            this.target.pick();
         }
     }
 
@@ -561,6 +587,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         }
         if(this.currentAction === 'CARRY') this.storeItems();
         if(this.currentAction === 'CHOP') this.chopTree();
+        if(this.currentAction === 'FORAGE') this.pickPlant();
         if(this.currentAction === 'MINE') this.mineStone();
         if(this.currentAction === 'FISH') this.fish();
         if(this.currentAction === 'DESTROY') this.deconstruct();

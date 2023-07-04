@@ -1,0 +1,14 @@
+{
+    "items": [
+        {
+            "type": "crayfish",
+            "category": "fish",
+            "value": 5
+        },
+        {
+            "type": "mushroom",
+            "category": "plant",
+            "value": 2
+        }
+    ]
+}

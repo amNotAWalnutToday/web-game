@@ -6,10 +6,9 @@ export default class Mat extends Buildable {
         super(scene, x, y, texture, frame);
         this.setInteractive();
         this.on("pointerdown", () => {
-            console.log(this.assignBox.isOpen);
             !this.assignBox.isOpen 
                 ? this.showAssignBox()
-                : this.clearAssignBox()
+                : this.clearAssignBox();
         });
         this.setScale(0.5);
         this.setDepth(-1);
@@ -40,6 +39,7 @@ export default class Mat extends Buildable {
             { screenX: this.x, screenY: this.y, width: 100, height: 50 },
             () => assignBed(),
         );
+        this.scene.time.addEvent({delay: 1000, callback: () => this.clearAssignBox(), callbackScope: this});
         this.assignBox.isOpen = true;
     }
 

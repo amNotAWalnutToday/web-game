@@ -491,6 +491,8 @@ export default class Ui extends Phaser.Scene {
         this.currentCharacter.target = null;
         this.currentCharacter.pickupTarget = null;
         this.currentCharacter.isDoing = false;
+        this.currentCharacter.isSleep = false;
+        this.currentCharacter.setScale(1);
         this.currentCharacter.destroyQueue = [];
         this.registry.set("selectedBuildItem", null);
         this.reopenMenu(this.buildMenu, this.addBuildMenuItem);

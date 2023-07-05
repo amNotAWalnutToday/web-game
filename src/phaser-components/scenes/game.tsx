@@ -57,6 +57,7 @@ export function setupTeam(scene: Phaser.Scene, yourCharacters: Character[] = [])
         }
         if(!thisUnit) return;
         thisUnit.name = unit.name ?? 'nameless';
+        thisUnit.rank = unit.rank ?? 'E';
         if(unit.stats) {
             const unitStatsFromSave: {[key: string]: number} = unit.stats;
             for(const stat in unitStatsFromSave) {
@@ -284,7 +285,7 @@ export default class Game extends Phaser.Scene {
             Phaser.Math.Between(64, 400),
             Phaser.Math.Between(100, 400),
         ));
-        chest.storage.push({type: 'stew', amount: 10}, {type: 'flax', amount: 20});
+        chest.storage.push({type: 'stew', amount: 10}, {type: 'flax', amount: 20}, {type: 'crayfish', amount: 10}, {type: 'mushroom', amount: 10});
     }
 
     update() {

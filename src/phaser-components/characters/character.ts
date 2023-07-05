@@ -55,6 +55,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             console.log(this.destroyQueue);
             console.log(this.currentAction);
             console.log(this.buildQueue, 'buildqueue');
+            console.log(this.stats.fatigue);
         });
 
         this.scene.registry.events.on("changedata", (a: any, key: string) => {
@@ -87,7 +88,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         will: 0,
         speed: 0,
         maxFatigue: 16, 
-        fatigue: 16
+        fatigue: -18
     }
 
     /************/
@@ -172,9 +173,9 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     /************/
 
     create() {
-        const rank = convertRankToInd('E');
+        const rank = convertRankToInd(this.rank);
         this.stats.maxHunger = Math.ceil(((this.stats.maxhp * 1.5) + this.stats.def + this.stats.str) * rank);
-        this.stats.maxHunger < 10 ? this.stats.maxHunger = 10 : null;
+        this.stats.maxHunger < 20 ? this.stats.maxHunger = 20 : null;
         this.stats.hunger = this.stats.maxHunger;
     }
 
@@ -192,6 +193,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         } else {
             this.currentAction = null;
             this.isSleep = false;
+            this.setScale(1);
         }
     }
 
@@ -250,14 +252,22 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     }
 
     sleep() {
-        if(this.stats.fatigue === this.stats.maxFatigue
-        || !this.sleepingArea) return this.currentAction = null;
+        if(this.stats.fatigue === this.stats.maxFatigue) return this.currentAction = null;
+        if(!this.sleepingArea)  {
+            this.isSleep = true;
+            return this.currentAction = 'SLEEP';
+        }
         if(!this.checkIfArrived(this, this.sleepingArea)) {
             this.currentAction = null;
             this.actionQueue.unshift("SLEEP");
             return this.getPath({worldX: this.sleepingArea.x, worldY: this.sleepingArea.y});
         } else if(this.checkIfArrived(this, this.sleepingArea)) {
             this.isSleep = true;
+            if(this.sleepingArea) {
+                this.setX(this.sleepingArea.x);
+                this.setY(this.sleepingArea.y);
+                this.setScale(0.5);
+            }
         }
     }
 

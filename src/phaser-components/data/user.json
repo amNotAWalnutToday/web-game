@@ -7,6 +7,7 @@
         },
         {
             "name": "Happy",
+            "rank": "S",
             "race": "harpy",
             "localLocation": [200, 200],
             "stats": {
@@ -27,6 +28,7 @@
         },
         {
             "name": "Harpyson",
+            "rank": "D",
             "race": "harpy",
             "localLocation": [400, 400]
         }

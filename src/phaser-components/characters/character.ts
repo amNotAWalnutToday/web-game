@@ -45,9 +45,6 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         yourCharacters.push(this);
         this.cid = yourCharacters.length - 1;
         this.stats.speed = 1;
-        const rank = convertRankToInd('E');
-        this.stats.maxHunger = (this.stats.hp + this.stats.def) * rank;
-        this.stats.hunger = this.stats.maxHunger;
         this.scene.registry.set("yourCharacters", yourCharacters);
 
         this.setInteractive();
@@ -58,11 +55,12 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             console.log(this.currentAction);
         });
 
-        // this.scene.registry.events.on("changedata", (a: any, key: string, payload: unknown) => {
-        //     if(key === 'gameTime') this.loseHunger();
-        // });
+        this.scene.registry.events.on("changedata", (a: any, key: string, payload: unknown) => {
+            if(key === 'gameTime') this.loseHunger();
+        });
 
         this.scene.add.existing(this);
+        this.scene.time.addEvent({delay: 25, callback: this.create, callbackScope: this});
     }
 
     /*********/
@@ -161,7 +159,10 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     /************/
 
     create() {
-        this.setCollideWorldBounds(true);
+        const rank = convertRankToInd('E');
+        this.stats.maxHunger = Math.ceil(((this.stats.maxhp * 1.5) + this.stats.def + this.stats.str) * rank);
+        this.stats.maxHunger < 10 ? this.stats.maxHunger = 10 : null;
+        this.stats.hunger = this.stats.maxHunger;
     }
 
     loseHunger() {

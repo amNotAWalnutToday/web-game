@@ -5,5 +5,10 @@ export default class Goblin extends Character {
         super(scene, x, y, texture, frame);
         this.race = 'goblin_mage';
         this.stats.speed = Phaser.Math.Between(3, 6);
+        this.stats.maxhp = Phaser.Math.Between(3, 7);
+        this.stats.hp    = this.stats.maxhp;
+        this.stats.str   = Phaser.Math.Between(0, 10); 
+        this.stats.def   = Phaser.Math.Between(0, 10);
+        this.stats.will  = 0;
     }
 } 

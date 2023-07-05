@@ -135,7 +135,7 @@ export default class Game extends Phaser.Scene {
         }
 
         this.time.addEvent({
-            delay: 10000,
+            delay: 15000,
             callback: updateTime,
             callbackScope: this,
             loop: true,

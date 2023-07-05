@@ -1,4 +1,4 @@
-import createButton, { Button } from "../../utils/createButton";
+import createButton from "../../utils/createButton";
 import Buildable from "./buildable";
 
 export default class Mat extends Buildable {

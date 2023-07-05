@@ -541,7 +541,7 @@ export default class Ui extends Phaser.Scene {
     }
 
     addMapStatMenu() {
-        const { screenX, screenY, width, height } = this.mapStatsUI.container;
+        const { screenX, screenY } = this.mapStatsUI.container;
         const { hour, day } = this.registry.get("gameTime");
         this.mapStatsUI.time = this.add.text(screenX, screenY, `${hour < 10 ? `0${hour}` : hour}:00, Day: ${day}`, {fontFamily: 'monospace'});
     }

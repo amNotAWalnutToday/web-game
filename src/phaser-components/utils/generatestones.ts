@@ -16,5 +16,5 @@ export default function generateStones(
         } else if(ran > 40 && ran < 80) {
             scene.physics.add.existing(new Stone(scene, x, y));
         }
-        return;
+        return rank;
 }

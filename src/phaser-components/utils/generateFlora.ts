@@ -13,5 +13,5 @@ export default function generateFlora(
     } else if(ran > 10 && ran < 12) {
         scene.physics.add.existing(new Sapling(scene, x, y));
     }
-    return;
+    return rank;
 }

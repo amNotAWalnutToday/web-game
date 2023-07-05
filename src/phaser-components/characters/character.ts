@@ -56,13 +56,14 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             console.log(this.currentAction);
         });
 
-        this.scene.registry.events.on("changedata", (a: any, key: string, payload: unknown) => {
+        this.scene.registry.events.on("changedata", (a: any, key: string) => {
             if(key === 'gameTime') { 
                 this.loseHunger();
                 if(this.stats.fatigue < 1) this.actionQueue.push("SLEEP");
                 if(!this.isSleep) this.loseFatigue();
                 else this.gainFatigue();
             }
+            if(key === 'abcdefghj') console.log(a);
         });
 
         this.scene.add.existing(this);
@@ -689,14 +690,8 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             if(!(this.buildTarget instanceof BuildSpot)) return;
             if(!this.buildTarget.checkCanBuild(this.inventory)
             && !this.checkInventoryIfFull()) {
-                const storage = this.scene.registry.get("storage");
-                const groundItems = this.scene.registry.get("groundItems");
                 const neededResource = this.buildTarget.getNeededResources();
                 const storageContains = getStorageTotal(this.scene, neededResource ?? 'ANYTHING').length > 0;
-                // storage.children.iterate((store: WoodChest) => {
-                //     if(store.getItem(neededResource)) return storageContains = true;
-                // });
-                console.log(getGroundTotal(this.scene, neededResource ?? 'any'))
                 this.getResources(neededResource, storageContains);
                 if(!getGroundTotal(this.scene, neededResource ?? 'ANYTHING')
                 && !storageContains) {

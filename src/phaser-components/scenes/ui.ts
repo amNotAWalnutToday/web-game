@@ -121,8 +121,8 @@ export default class Ui extends Phaser.Scene {
         this.actionMenu.container.screenY        = height - 75;
         this.buildMenu.container.screenY         = height - 130;
         this.buildCategoryMenu.container.screenY = height - 156; 
-        this.inspectMenu.container.screenX       = width / 2.25 + 75;
-        this.inspectMenu.container.screenY       = height - 130;
+        this.inspectMenu.container.screenX       = 75;
+        this.inspectMenu.container.screenY       = (height / 2) / 2;
         this.addActionMenu();
 
         this.mapStatsUI.container.screenX = width - 125;
@@ -370,8 +370,13 @@ export default class Ui extends Phaser.Scene {
         const target = this.registry.get("selectedInspection");
         if(!target) return;
         this.inspectMenu.container.box = this.add.graphics();
-        this.inspectMenu.container.box?.fillStyle(0x121212, 0.75);
-        this.inspectMenu.container.box?.fillRect(screenX, screenY, width, height);
+        this.inspectMenu.container.box?.fillStyle(0x121212, 1);
+        this.inspectMenu.container.box?.fillRect(screenX, screenY, width, height * 2);
+        this.inspectMenu.container.box?.setInteractive({
+            hitArea: new Phaser.Geom.Rectangle(screenX, screenY, width, height * 2),
+            hitAreaCallback: Phaser.Geom.Rectangle.Contains
+        });
+        this.inspectMenu.container.box?.on("pointerdown", () => this.toggleMenu(this.inspectMenu, this.addInspectItemMenu));
         const inventory = target?.inventory ? target.inventory : target.storage;
         inventory.forEach((item: {[key: string]: string}, ind: number) => {
             const text = this.add.text(screenX + 5, screenY + 20 + (ind * 20), `${item.type}: ${item.amount}`);

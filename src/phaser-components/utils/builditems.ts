@@ -1,4 +1,5 @@
 import Campfire from "../nodes/buildables/campfire";
+import Mat from "../nodes/buildables/mat";
 import WoodChest from "../nodes/buildables/wood_chest";
 import WoodFloor from "../nodes/buildables/wood_floor";
 import WoodWall from "../nodes/buildables/wood_wall";
@@ -19,6 +20,9 @@ export default function buildItems(
             break;
         case 'floor':
             scene.physics.add.existing(new WoodFloor(scene, x, y,));
+            break;
+        case 'mat':
+            scene.physics.add.existing(new Mat(scene, x, y));
             break;
         case 'campfire':
             scene.physics.add.existing(new Campfire(scene, x, y));

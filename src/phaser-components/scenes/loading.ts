@@ -19,6 +19,7 @@ export default class Loading extends Phaser.Scene {
         this.load.image('sapling', 'sprites/sapling.png');
         this.load.image('firestone', 'sprites/firestone.png');
         this.load.image('stop', 'sprites/stop.png');
+        this.load.image('mat', 'sprites/mat.png');
         this.load.image('forest_tileset', 'tilesets/forest_tileset.png');
         this.load.image('water_tiles', 'tilesets/water_tiles.png');
         this.load.image('forest_cliffs', 'tilesets/forest_cliffs.png');

@@ -31,6 +31,16 @@
             ]
         },
         {
+            "type": "mat",
+            "category": "STRUCTURE",
+            "resources": [
+                {
+                    "type": "flax",
+                    "amount": 5
+                }
+            ]
+        },
+        {
             "type": "campfire",
             "category": "STATION",
             "resources": [
@@ -40,7 +50,7 @@
                 },
                 {
                     "type": "stones",
-                    "amount": 5
+                    "amount": 3
                 },
                 {
                     "type": "firestone",

@@ -9,6 +9,6 @@ export default class WoodFloor extends Buildable {
         tileAt.properties.terrain = 'wood';
         tileAt.properties.buildingHere = false;
         this.scene.registry.set("map", map);
-        this.setDepth(-1);
+        this.setDepth(-2);
     }
 }

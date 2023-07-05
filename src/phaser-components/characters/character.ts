@@ -12,6 +12,7 @@ import Plant from "../nodes/flora/plant";
 import food from "../data/food_items.json";
 import getStorageTotal, { getGroundTotal } from "../utils/getstoragetotal";
 import Campfire from "../nodes/buildables/campfire";
+import Mat from "../nodes/buildables/mat";
 
 type Target = Tree | BuildSpot | Item | WoodChest | Buildable | Stone | Plant | null;
 
@@ -56,7 +57,12 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         });
 
         this.scene.registry.events.on("changedata", (a: any, key: string, payload: unknown) => {
-            if(key === 'gameTime') this.loseHunger();
+            if(key === 'gameTime') { 
+                this.loseHunger();
+                if(this.stats.fatigue < 1) this.actionQueue.push("SLEEP");
+                if(!this.isSleep) this.loseFatigue();
+                else this.gainFatigue();
+            }
         });
 
         this.scene.add.existing(this);
@@ -77,7 +83,9 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         str: 0,
         def: 0,
         will: 0,
-        speed: 0,  
+        speed: 0,
+        maxFatigue: 16, 
+        fatigue: 16
     }
 
     /************/
@@ -140,11 +148,13 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     targetCoords: [number, number] = [0, 0];
     isMoving = false;
     isDoing = false;
+    isSleep = false;
     isDead = false;
     target: Target = null;
     buildTarget: Target = null;
     pickupTarget: Target = null;
     pickupQuery: string | null = null;
+    sleepingArea: Mat | null = null;
     inventory: InventoryItem[] = [];
     carryCapacity = 1;
     /************/
@@ -171,6 +181,24 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             this.stats.hunger--;
         } else {
             this.takeDamage(1);
+        }
+    }
+
+    gainFatigue() {
+        if(this.stats.fatigue < this.stats.maxFatigue) {
+            this.stats.fatigue += 2
+        } else {
+            this.currentAction = null;
+            this.isSleep = false;
+        }
+    }
+
+    loseFatigue() {
+        if(this.stats.fatigue > -20) {
+            this.stats.fatigue--
+        } else {
+            this.cancelQueue();
+            this.currentAction = 'SLEEP';
         }
     }
 
@@ -216,6 +244,18 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     checkListForItem(list: any[], searchItem: string) {
         for(const item of list) {
             if(searchItem === item.type) return item;
+        }
+    }
+
+    sleep() {
+        if(this.stats.fatigue === this.stats.maxFatigue
+        || !this.sleepingArea) return this.currentAction = null;
+        if(!this.checkIfArrived(this, this.sleepingArea)) {
+            this.currentAction = null;
+            this.actionQueue.unshift("SLEEP");
+            return this.getPath({worldX: this.sleepingArea.x, worldY: this.sleepingArea.y});
+        } else if(this.checkIfArrived(this, this.sleepingArea)) {
+            this.isSleep = true;
         }
     }
 
@@ -635,6 +675,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
                 this.pickupTarget = null;
             }
         }
+        if(this.currentAction === 'SLEEP') this.sleep();
         if(this.currentAction === 'CARRY') this.storeItems();
         if(this.currentAction === 'CHOP') this.chopTree();
         if(this.currentAction === 'FORAGE') this.pickPlant();
@@ -651,12 +692,12 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
                 const storage = this.scene.registry.get("storage");
                 const groundItems = this.scene.registry.get("groundItems");
                 const neededResource = this.buildTarget.getNeededResources();
-                const storageContains = getStorageTotal(this.scene, neededResource ?? 'ANYTHING') ? true : false;
+                const storageContains = getStorageTotal(this.scene, neededResource ?? 'ANYTHING').length > 0;
                 // storage.children.iterate((store: WoodChest) => {
                 //     if(store.getItem(neededResource)) return storageContains = true;
                 // });
                 console.log(getGroundTotal(this.scene, neededResource ?? 'any'))
-                this.getResources(neededResource, );
+                this.getResources(neededResource, storageContains);
                 if(!getGroundTotal(this.scene, neededResource ?? 'ANYTHING')
                 && !storageContains) {
                     this.buildTarget.selfDestruct();

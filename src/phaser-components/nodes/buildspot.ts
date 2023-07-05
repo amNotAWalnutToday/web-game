@@ -20,6 +20,7 @@ export default class BuildSpot extends Phaser.Physics.Arcade.Sprite {
         this.setInteractive();
         this.on("pointerdown", () => (console.log(this.resources)));
         this.type = this.scene.registry.get("selectedBuildItem").toLowerCase();
+        if(this.type === 'mushroom') this.setFrame(5);
     }
 
     builder;

@@ -4,6 +4,7 @@ import WoodChest from "../nodes/buildables/wood_chest";
 import WoodFloor from "../nodes/buildables/wood_floor";
 import WoodWall from "../nodes/buildables/wood_wall";
 import Sapling from "../nodes/sapling";
+import Seed from "../nodes/seed";
 
 export default function buildItems(
         scene: Phaser.Scene, 
@@ -30,5 +31,7 @@ export default function buildItems(
         case 'sapling':
             scene.physics.add.existing(new Sapling(scene, x, y,));
             break;
+        case 'mushroom':
+            scene.physics.add.existing(new Seed(scene, x, y));
     }
 }

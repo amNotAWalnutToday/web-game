@@ -91,6 +91,11 @@ export default class Game extends Phaser.Scene {
         day: 1,
     }
 
+    convertBuildItem(item: string) {
+        if(item === 'mushroom') return 'flora';
+        return item;
+    }
+
     placeBuildItem(e: Phaser.Input.Pointer) {
         if(!this.selectedBuildItem || !this.selectedCharacter
         || !this.pointerDown || this.selectedBuildItem === 'DESTROY') return;
@@ -100,10 +105,10 @@ export default class Game extends Phaser.Scene {
         if(tileProps.buildingHere || tileProps.terrain === 'water') return;
         if(this.selectedCharacter.target instanceof BuildSpot) {
             this.selectedCharacter.buildQueue.push(
-                this.physics.add.existing(new BuildSpot(this, (x * 16) + 8, (y * 16) + 8, this.selectedBuildItem.toLowerCase(), 0))
+                this.physics.add.existing(new BuildSpot(this, (x * 16) + 8, (y * 16) + 8, this.convertBuildItem(this.selectedBuildItem.toLowerCase()), 0))
             );
         } else {
-            this.physics.add.existing(new BuildSpot(this, (x * 16) + 8, (y * 16) + 8, this.selectedBuildItem.toLowerCase(), 0));
+            this.physics.add.existing(new BuildSpot(this, (x * 16) + 8, (y * 16) + 8, this.convertBuildItem(this.selectedBuildItem.toLowerCase()), 0));
         }
         tileProps.buildingHere = true;        
     }

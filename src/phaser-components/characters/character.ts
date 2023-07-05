@@ -88,7 +88,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         will: 0,
         speed: 0,
         maxFatigue: 16, 
-        fatigue: -18
+        fatigue: 12
     }
 
     /************/
@@ -198,7 +198,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     }
 
     loseFatigue() {
-        if(this.stats.fatigue > -20) {
+        if(this.stats.fatigue > -10) {
             this.stats.fatigue--
         } else {
             this.cancelQueue();

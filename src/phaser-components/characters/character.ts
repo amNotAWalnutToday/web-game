@@ -10,7 +10,7 @@ import checkForEmptyTile from "../utils/checkForEmptyTile";
 import Stone from "../nodes/stone";
 import Plant from "../nodes/flora/plant";
 import food from "../data/food_items.json";
-import getStorageTotal from "../utils/getstoragetotal";
+import getStorageTotal, { getGroundTotal } from "../utils/getstoragetotal";
 import Campfire from "../nodes/buildables/campfire";
 
 type Target = Tree | BuildSpot | Item | WoodChest | Buildable | Stone | Plant | null;
@@ -142,6 +142,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     isDoing = false;
     isDead = false;
     target: Target = null;
+    buildTarget: Target = null;
     pickupTarget: Target = null;
     pickupQuery: string | null = null;
     inventory: InventoryItem[] = [];
@@ -411,14 +412,15 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         this.graphics.clear();
         this.cancelBuild();
         this.target = null;
+        this.buildTarget = null;
         this.pickupTarget = null;
         this.isDoing = false;
     }
 
     cancelBuild() {
-        if(!(this.target instanceof BuildSpot)) return;
-        this.target.selfDestruct();
-        this.target = null;
+        if(!(this.buildTarget instanceof BuildSpot)) return;
+        this.buildTarget.selfDestruct();
+        this.buildTarget = null;
         for(const buildItem of this.buildQueue) {
             buildItem.selfDestruct();
         }
@@ -450,10 +452,10 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
     }
 
     build(item: BuildSpot) {
-        this.target = item;
+        this.buildTarget = item;
         if(this.currentAction !== 'BUILD') return;
         if(Math.ceil(item.builtPercentage) < 100) item.buildMe();
-        else this.target = null;
+        else this.buildTarget = null;
     }
 
     storeItems() {
@@ -573,9 +575,9 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             this.currentAction = nextAction ?? null;
             this.updateCharacters();
         } 
-        if(!this.target && this.buildQueue.length) {
+        if(!this.buildTarget && this.buildQueue.length) {
             const nextTarget = this.buildQueue.pop();
-            this.target = nextTarget ?? null;
+            this.buildTarget = nextTarget ?? null;
             this.actionQueue.unshift("BUILD");
             this.updateCharacters();
         }
@@ -623,8 +625,8 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
                 }
             } else {
                 this.currentAction = null;
-                const resourceType = this.target instanceof BuildSpot
-                    ? this.target.getNeededResources()
+                const resourceType = this.buildTarget instanceof BuildSpot
+                    ? this.buildTarget.getNeededResources()
                     : this.target instanceof Campfire
                         ? this.pickupQuery
                         : '';
@@ -642,39 +644,48 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
         if(this.currentAction === 'DESTROY') this.deconstruct();
 
         if(this.currentAction === 'BUILD'
-        && this.target) {
-            if(!(this.target instanceof BuildSpot)) return;
-            if(!this.target.checkCanBuild(this.inventory)
+        && this.buildTarget) {
+            if(!(this.buildTarget instanceof BuildSpot)) return;
+            if(!this.buildTarget.checkCanBuild(this.inventory)
             && !this.checkInventoryIfFull()) {
                 const storage = this.scene.registry.get("storage");
                 const groundItems = this.scene.registry.get("groundItems");
-                const neededResource = this.target.getNeededResources();
-                let storageContains = false;
-                storage.children.iterate((store: WoodChest) => {
-                    if(store.getItem(neededResource)) return storageContains = true;
-                });
-                this.getResources(neededResource, storageContains);
-                if(!groundItems.children.size
+                const neededResource = this.buildTarget.getNeededResources();
+                const storageContains = getStorageTotal(this.scene, neededResource ?? 'ANYTHING') ? true : false;
+                // storage.children.iterate((store: WoodChest) => {
+                //     if(store.getItem(neededResource)) return storageContains = true;
+                // });
+                console.log(getGroundTotal(this.scene, neededResource ?? 'any'))
+                this.getResources(neededResource, );
+                if(!getGroundTotal(this.scene, neededResource ?? 'ANYTHING')
                 && !storageContains) {
-                    this.target.selfDestruct();
-                    this.target = null; 
+                    this.buildTarget.selfDestruct();
+                    this.buildTarget = null; 
                 }
                 this.currentAction = null;
                 this.actionQueue.unshift("BUILD");
-            } else if(!this.checkIfArrived(this, this.target)) {
-                this.getPath({worldX: this.target.x, worldY: this.target.y});
+            } else if(this.checkInventoryIfFull()
+                   && !this.checkInventoryForItem([this.buildTarget.getNeededResources() ?? 'ANYTHING'])) {
                 this.currentAction = null;
                 this.actionQueue.unshift("BUILD");
-            } else if(this.checkIfArrived(this, this.target)
-                   && !this.target.checkCanBuild()) {
-                this.placeItem(this.target.getNeededResources(), this.target);
+                this.storeItems();
+            } else if(!this.checkIfArrived(this, this.buildTarget)) {
+                this.getPath({worldX: this.buildTarget.x, worldY: this.buildTarget.y});
                 this.currentAction = null;
                 this.actionQueue.unshift("BUILD");
-            } else if(this.checkIfArrived(this, this.target)) {
-                this.build(this.target);
+            } else if(this.checkIfArrived(this, this.buildTarget)
+                   && !this.buildTarget.checkCanBuild()) {
+                const neededResource = this.buildTarget.getNeededResources();
+                if(this.checkInventoryForItem([neededResource ?? 'ANYTHING'])) {
+                    this.placeItem(this.buildTarget.getNeededResources(), this.buildTarget);
+                }
+                this.currentAction = null;
+                this.actionQueue.unshift("BUILD");
+            } else if(this.checkIfArrived(this, this.buildTarget)) {
+                this.build(this.buildTarget);
             }
         } else if(this.currentAction === 'BUILD'
-               && !this.target) {
+               && !this.buildTarget) {
             this.currentAction = null;
         }
 

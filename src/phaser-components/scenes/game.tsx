@@ -86,7 +86,7 @@ export default class Game extends Phaser.Scene {
     isCameraLocked = true;
 
     gameTime = {
-        hour: 0,
+        hour: 8,
         day: 1,
     }
 
@@ -116,6 +116,7 @@ export default class Game extends Phaser.Scene {
         this.map = {
             chunk1: this.make.tilemap( {key: 'forest_chunk_1'} ),
             chunk2: this.make.tilemap( {key: 'forest_chunk_2'} ),
+            night: this.add.graphics(),
             full: this.make.tilemap({ key: 'full_forest_1' }),
         };
         this.map.full.addTilesetImage('forest_tileset', 'forest_tileset');
@@ -126,7 +127,15 @@ export default class Game extends Phaser.Scene {
         this.registry.set('map', {map: this.map.full, layers: [fullMap]});
 
         const updateTime = () => {
+            const { width, height } = fullMap;
             this.gameTime.hour++;
+            if(this.gameTime.hour < 7 || this.gameTime.hour > 18) {
+                this.map.night.clear();
+                this.map.night.fillStyle(0x111111, 0.3);
+                this.map.night.fillRect(0, 0, width, height);
+            } else {
+                this.map.night.clear();
+            }
             if(this.gameTime.hour >= 24) {
                 this.gameTime.hour = 0;
                 this.gameTime.day++;
@@ -275,7 +284,7 @@ export default class Game extends Phaser.Scene {
             Phaser.Math.Between(64, 400),
             Phaser.Math.Between(100, 400),
         ));
-        chest.storage.push({type: 'crayfish', amount: 1});
+        chest.storage.push({type: 'stew', amount: 10});
     }
 
     update() {

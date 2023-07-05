@@ -482,6 +482,7 @@ export default class Ui extends Phaser.Scene {
         this.currentCharacter.actionQueue = [];
         this.currentCharacter.graphics.clear();
         this.currentCharacter.cancelBuild();
+        this.currentCharacter.buildTarget = null;
         this.currentCharacter.target = null;
         this.currentCharacter.pickupTarget = null;
         this.currentCharacter.isDoing = false;

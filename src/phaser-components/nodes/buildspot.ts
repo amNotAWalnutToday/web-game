@@ -99,7 +99,7 @@ export default class BuildSpot extends Phaser.Physics.Arcade.Sprite {
 
     addToBuildersQueue() {
         this.builder = this.scene.registry.get("selectedCharacter");
-        if(this.builder.target) {
+        if(this.builder.buildTarget) {
             this.builder.buildQueue.unshift(this);
         } else {
             this.builder.build(this);

@@ -54,6 +54,7 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
             console.log(this.actionQueue);
             console.log(this.destroyQueue);
             console.log(this.currentAction);
+            console.log(this.buildQueue, 'buildqueue');
         });
 
         this.scene.registry.events.on("changedata", (a: any, key: string) => {
@@ -702,9 +703,9 @@ export class Character extends Phaser.Physics.Arcade.Sprite implements Phaser.Ph
                 this.actionQueue.unshift("BUILD");
             } else if(this.checkInventoryIfFull()
                    && !this.checkInventoryForItem([this.buildTarget.getNeededResources() ?? 'ANYTHING'])) {
+                this.storeItems();
                 this.currentAction = null;
                 this.actionQueue.unshift("BUILD");
-                this.storeItems();
             } else if(!this.checkIfArrived(this, this.buildTarget)) {
                 this.getPath({worldX: this.buildTarget.x, worldY: this.buildTarget.y});
                 this.currentAction = null;
